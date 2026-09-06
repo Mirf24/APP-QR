@@ -1,5 +1,5 @@
 /* Guarda la app en el móvil para que abra al instante y funcione sin cobertura. */
-const CACHE = 'nexo-qr-v3';
+const CACHE = 'nexo-qr-v4';
 const ARCHIVOS = [
   './',
   './index.html',
