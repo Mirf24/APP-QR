@@ -24,10 +24,10 @@ const HOJA_LLAVES   = 'Llaves';
 const HOJA_REGISTRO = 'Registro';
 const HOJA_PERSONAS = 'Personas';
 const ZONA_HORARIA  = 'Europe/Madrid';
-const VERSION_API   = 9;
+const VERSION_API   = 10;
 
 /** Dirección de la app del móvil. Al vivir aquí, puedes cambiarla sin tocar a los clientes. */
-const APP_MOVIL     = 'https://fabulous-puppy-c80564.netlify.app';   // debe coincidir con la del generador de QR y la app del móvil
+const APP_MOVIL     = 'https://mirf24.github.io/APP-QR';   // debe coincidir con la del generador de QR y la app del móvil
 
 // ---------------------------------------------------------------- WEB APP
 
@@ -114,6 +114,18 @@ function apiGenerador_(p) {
     return ContentService.createTextOutput('').setMimeType(ContentService.MimeType.JAVASCRIPT);
   }
 
+  let r = procesar_(p);
+
+  r.v = VERSION_API;
+  return ContentService.createTextOutput(cb + '(' + JSON.stringify(r) + ');')
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+}
+
+/**
+ * El trabajo de verdad, independiente de si la peticion llego por GET
+ * (navegador y movil) o por POST (programa de escritorio).
+ */
+function procesar_(p) {
   let r;
   try {
     if (String(p.clave || '').trim().toUpperCase() !== getClaveSync()) {
@@ -135,10 +147,7 @@ function apiGenerador_(p) {
   } catch (err) {
     r = { ok: false, error: String(err.message || err) };
   }
-
-  r.v = VERSION_API;
-  return ContentService.createTextOutput(cb + '(' + JSON.stringify(r) + ');')
-    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+  return r;
 }
 
 function recibirLote_(p) {
@@ -186,26 +195,21 @@ function aplicarLotes_(p) {
   return res;
 }
 
-/** Recibe las peticiones del generador de escritorio. */
+/**
+ * Peticiones del programa de escritorio. Al no ser un navegador puede usar
+ * POST, asi que el listado viaja entero y no hace falta trocearlo.
+ */
 function n_doPost(e) {
   let datos;
   try {
     datos = JSON.parse(e.postData.contents);
   } catch (err) {
-    return respuesta_({ ok: false, error: 'Petición ilegible.' });
+    return respuesta_({ ok: false, error: 'Petición ilegible.', v: VERSION_API });
   }
 
-  if (String(datos.clave || '').trim().toUpperCase() !== getClaveSync()) {
-    return respuesta_({ ok: false, error: 'Clave de sincronización incorrecta.' });
-  }
-
-  try {
-    if (datos.accion === 'leer')        return respuesta_({ ok: true, llaves: leerCatalogo_() });
-    if (datos.accion === 'sincronizar') return respuesta_(sincronizarLlaves_(datos.llaves || [], datos.borrar || []));
-    return respuesta_({ ok: false, error: 'Acción desconocida.' });
-  } catch (err) {
-    return respuesta_({ ok: false, error: String(err.message || err) });
-  }
+  const r = procesar_(datos);
+  r.v = VERSION_API;
+  return respuesta_(r);
 }
 
 function leerCatalogo_() {
