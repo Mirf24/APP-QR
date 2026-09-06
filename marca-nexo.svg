@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title id="title">Nexo QR</title>
+  <defs>
+    <linearGradient id="bg" x1="52" x2="460" y1="38" y2="480" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6A5AF4"/>
+      <stop offset="1" stop-color="#3523B4"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="126" fill="url(#bg)"/>
+  <path d="M133 231v-52c0-25 21-46 46-46h52M379 231v-52c0-25-21-46-46-46h-52M133 281v52c0 25 21 46 46 46h52M379 281v52c0 25-21 46-46 46h-52" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="25"/>
+  <path d="m212 191 88 65-88 65V191Z" fill="#BDF8EA"/>
+  <circle cx="316" cy="346" r="25" fill="#FFBC85"/>
+</svg>

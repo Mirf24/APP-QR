@@ -1,0 +1,688 @@
+/**
+ * NUCLEO del Control de Llaves.
+ *
+ * Este archivo NO se pega en la cuenta de nadie: se sube a tu web y el cargador
+ * instalado en cada cliente lo descarga y lo ejecuta. Asi puedes corregir y
+ * ampliar el sistema de todos los clientes desde tu ordenador, sin volver a
+ * tocar sus cuentas de Google.
+ *
+ * Los nombres n_* los invoca el cargador. Los menu_* viven en el cargador.
+ * Para publicar cambios ejecuta "Publicar nucleo.bat".
+ */
+
+/**
+ * CONTROL DE LLAVES POR QR
+ * Backend Google Apps Script — escribe directamente en Google Sheets.
+ *
+ * Hojas que utiliza:
+ *   Llaves    -> catálogo de llaves y su estado actual
+ *   Registro  -> histórico de cada entrada/salida
+ *   Personas  -> lista de personas para el desplegable
+ */
+
+const HOJA_LLAVES   = 'Llaves';
+const HOJA_REGISTRO = 'Registro';
+const HOJA_PERSONAS = 'Personas';
+const ZONA_HORARIA  = 'Europe/Madrid';
+const VERSION_API   = 9;
+
+/** Dirección de la app del móvil. Al vivir aquí, puedes cambiarla sin tocar a los clientes. */
+const APP_MOVIL     = 'https://fabulous-puppy-c80564.netlify.app';   // debe coincidir con la del generador de QR y la app del móvil
+
+// ---------------------------------------------------------------- WEB APP
+
+function n_doGet(e) {
+  const params = (e && e.parameter) || {};
+
+  // Peticiones del generador de escritorio (no usan POST para evitar el bloqueo del navegador).
+  if (params.callback) return apiGenerador_(params);
+
+  // Alguien ha escaneado un QR con la cámara normal del móvil: lo mandamos a la app.
+  return paginaPuente_(String(params.id || ''));
+}
+
+/**
+ * Página que aparece al escanear un QR con la cámara del móvil.
+ * Se limita a llevar a la app, pasándole la llave escaneada.
+ */
+function paginaPuente_(id) {
+  const destino = APP_MOVIL + (id ? '/?id=' + encodeURIComponent(id) : '/');
+  const html =
+    '<!DOCTYPE html><html lang="es"><head><meta charset="utf-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1">' +
+    '<meta http-equiv="refresh" content="0; url=' + destino + '">' +
+    '<style>body{font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;' +
+    'margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;' +
+    'background:#f6f7f9;color:#202124;text-align:center;padding:24px}' +
+    'a{display:inline-block;margin-top:18px;background:#1a73e8;color:#fff;text-decoration:none;' +
+    'padding:15px 26px;border-radius:12px;font-weight:600}</style></head><body><div>' +
+    '<div style="font-size:44px">🔑</div><p>Abriendo el control de llaves…</p>' +
+    '<a href="' + destino + '">Continuar</a></div>' +
+    '<script>location.replace(' + JSON.stringify(destino) + ');<\/script>' +
+    '</body></html>';
+
+  return HtmlService.createHtmlOutput(html)
+    .setTitle('Control de Llaves')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+function getUrlApp() {
+  return ScriptApp.getService().getUrl();
+}
+
+// ------------------------------------------- SINCRONIZACIÓN CON EL GENERADOR
+
+/** Clave que protege la escritura desde el generador de QR. */
+function getClaveSync() {
+  const props = PropertiesService.getScriptProperties();
+  let c = props.getProperty('CLAVE_SYNC');
+  if (!c) {
+    c = Utilities.getUuid().replace(/-/g, '').substring(0, 12).toUpperCase();
+    props.setProperty('CLAVE_SYNC', c);
+  }
+  return c;
+}
+
+function n_mostrarClave() {
+  const clave = getClaveSync();
+  const url = getUrlApp() || '(publica primero la app)';
+  const html = HtmlService.createHtmlOutput(
+    '<div style="font-family:sans-serif;font-size:13px">' +
+    '<p>Pega estos dos datos en el <b>Generador de QR de llaves</b> (paso 1). Solo hay que hacerlo una vez.</p>' +
+    '<p><b>Enlace:</b></p><p style="font-family:monospace;word-break:break-all;background:#f1f3f4;padding:9px;border-radius:6px">' + url + '</p>' +
+    '<p><b>Clave de sincronización:</b></p><p style="font-family:monospace;font-size:19px;letter-spacing:2px;background:#e8f0fe;padding:9px;border-radius:6px;text-align:center">' + clave + '</p>' +
+    '<p style="color:#5f6368">No la compartas: es lo que permite modificar el listado de llaves desde el ordenador.</p></div>'
+  ).setWidth(480).setHeight(360);
+  SpreadsheetApp.getUi().showModalDialog(html, 'Datos para el generador');
+}
+
+function respuesta_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * API que usa el generador de escritorio.
+ * Va por GET con "callback" porque un archivo .html abierto desde el disco
+ * no puede hacer peticiones POST a Google (el navegador las bloquea).
+ * Como una URL no admite listas largas, el listado llega troceado en lotes.
+ */
+function apiGenerador_(p) {
+  const cb = String(p.callback || '');
+  if (!/^[A-Za-z0-9_$]{1,60}$/.test(cb)) {
+    return ContentService.createTextOutput('').setMimeType(ContentService.MimeType.JAVASCRIPT);
+  }
+
+  let r;
+  try {
+    if (String(p.clave || '').trim().toUpperCase() !== getClaveSync()) {
+      r = { ok: false, error: 'Clave de sincronización incorrecta. Cópiala otra vez desde el menú 🔑 → opción 3.' };
+    // --- usadas por la app del móvil ---
+    } else if (p.accion === 'consultar') { r = consultarLlave(p.codigo); }
+      else if (p.accion === 'registrar') { r = registrarMovimiento({ codigo: p.codigo, persona: p.persona,
+                                                                     notas: p.notas, accion: p.mov }); }
+      else if (p.accion === 'personas')  { r = { ok: true, personas: getPersonas(),
+                                                 frecuentes: getPersonasFrecuentes() }; }
+      else if (p.accion === 'fuera')     { r = { ok: true, llaves: getLlavesFuera() }; }
+      else if (p.accion === 'corregir')  { r = corregirPersona_(p.codigo, p.persona, p.notas); }
+    // --- usadas por el generador de QR ---
+      else if (p.accion === 'leer')    { r = { ok: true, llaves: leerCatalogo_() }; }
+      else if (p.accion === 'guardar') { r = sincronizarLlaves_(parsearLote_(p.datos), parsearIds_(p.borrar)); }
+      else if (p.accion === 'lote')    { r = recibirLote_(p); }
+      else if (p.accion === 'fin')     { r = aplicarLotes_(p); }
+      else { r = { ok: false, error: 'Acción desconocida.' }; }
+  } catch (err) {
+    r = { ok: false, error: String(err.message || err) };
+  }
+
+  r.v = VERSION_API;
+  return ContentService.createTextOutput(cb + '(' + JSON.stringify(r) + ');')
+    .setMimeType(ContentService.MimeType.JAVASCRIPT);
+}
+
+function recibirLote_(p) {
+  CacheService.getScriptCache().put('SYNC_' + p.sid + '_' + p.i, String(p.datos || ''), 1800);
+  return { ok: true, i: Number(p.i) };
+}
+
+/**
+ * Formato compacto: filas separadas por "|" y campos por "~".
+ * Se evitan tabuladores y saltos de línea porque viajan dentro de una dirección web.
+ *   id ~ comunidad ~ descripción ~ copias ~ id anterior ~ referencia
+ */
+function parsearLote_(txt) {
+  return String(txt || '').split('|')
+    .filter(function (l) { return l.trim(); })
+    .map(function (l) {
+      const c = l.split('~');
+      return { id: c[0], com: c[1] || '', des: c[2] || '', cop: parseInt(c[3], 10) || 1,
+               ant: (c[4] || '').trim(),     // ID que tenía antes, si se ha renombrado
+               ref: c[5] || '' };            // referencia de búsqueda (puede repetirse)
+    });
+}
+
+function parsearIds_(txt) {
+  return String(txt || '').split('|').filter(function (x) { return x.trim(); });
+}
+
+function aplicarLotes_(p) {
+  const cache = CacheService.getScriptCache();
+  const n = Number(p.n) || 0;
+  let entrada = [];
+
+  for (let i = 0; i < n; i++) {
+    const raw = cache.get('SYNC_' + p.sid + '_' + i);
+    if (raw === null) {
+      return { ok: false, error: 'Se ha perdido parte del envío (bloque ' + (i + 1) + ' de ' + n + '). Vuelve a pulsar Guardar.' };
+    }
+    entrada = entrada.concat(parsearLote_(raw));
+  }
+
+  const borrar = parsearIds_(p.borrar);
+  const res = sincronizarLlaves_(entrada, borrar);
+
+  for (let i = 0; i < n; i++) cache.remove('SYNC_' + p.sid + '_' + i);
+  return res;
+}
+
+/** Recibe las peticiones del generador de escritorio. */
+function n_doPost(e) {
+  let datos;
+  try {
+    datos = JSON.parse(e.postData.contents);
+  } catch (err) {
+    return respuesta_({ ok: false, error: 'Petición ilegible.' });
+  }
+
+  if (String(datos.clave || '').trim().toUpperCase() !== getClaveSync()) {
+    return respuesta_({ ok: false, error: 'Clave de sincronización incorrecta.' });
+  }
+
+  try {
+    if (datos.accion === 'leer')        return respuesta_({ ok: true, llaves: leerCatalogo_() });
+    if (datos.accion === 'sincronizar') return respuesta_(sincronizarLlaves_(datos.llaves || [], datos.borrar || []));
+    return respuesta_({ ok: false, error: 'Acción desconocida.' });
+  } catch (err) {
+    return respuesta_({ ok: false, error: String(err.message || err) });
+  }
+}
+
+function leerCatalogo_() {
+  const h = hoja_(HOJA_LLAVES);
+  if (h.getLastRow() < 2) return [];
+  return h.getRange(2, 1, h.getLastRow() - 1, 9).getValues()
+    .filter(function (f) { return String(f[0]).trim(); })
+    .map(function (f) {
+      const cop = parseInt(f[6], 10);
+      return {
+        id: String(f[0]).trim(),
+        com: String(f[1] || ''),
+        des: String(f[2] || ''),
+        cop: (cop > 0 ? cop : 1),
+        ref: String(f[7] || ''),
+        estado: String(f[3] || 'DISPONIBLE').trim().toUpperCase(),
+        persona: String(f[4] || ''),
+        desde: fmt_(f[5]),
+        devuelta: fmt_(f[8])
+      };
+    });
+}
+
+/** Borra llaves de la hoja. Se niega a borrar las que están fuera. */
+function borrarLlaves_(ids) {
+  const h = hoja_(HOJA_LLAVES);
+  if (h.getLastRow() < 2 || !ids.length) return { borradas: 0, rechazadas: [] };
+
+  const objetivo = {};
+  ids.forEach(function (i) { objetivo[String(i).trim().toUpperCase()] = true; });
+
+  const datos = h.getRange(2, 1, h.getLastRow() - 1, 9).getValues();
+  const rechazadas = [];
+  const filasABorrar = [];
+
+  datos.forEach(function (f, i) {
+    const id = String(f[0]).trim();
+    if (!objetivo[id.toUpperCase()]) return;
+    if (String(f[3]).trim().toUpperCase() === 'FUERA') { rechazadas.push(id); return; }
+    filasABorrar.push(i + 2);
+  });
+
+  filasABorrar.reverse().forEach(function (fila) { h.deleteRow(fila); });
+  return { borradas: filasABorrar.length, rechazadas: rechazadas };
+}
+
+/**
+ * Fusiona el listado del generador con la hoja:
+ *  - las llaves nuevas se añaden
+ *  - las existentes actualizan comunidad, descripción y copias
+ *  - NUNCA se toca Estado / En poder de / Fecha salida
+ *  - nada se borra: solo se avisa de las que sobran en la hoja
+ */
+function sincronizarLlaves_(entrada, aBorrar) {
+  const lock = LockService.getScriptLock();
+  try { lock.waitLock(20000); }
+  catch (err) { return { ok: false, error: 'La hoja está ocupada. Inténtalo de nuevo.' }; }
+
+  try {
+    const borrado = borrarLlaves_(aBorrar || []);
+
+    const h = hoja_(HOJA_LLAVES);
+    const ultima = h.getLastRow();
+    const actuales = (ultima >= 2) ? h.getRange(2, 1, ultima - 1, 9).getValues() : [];
+
+    const indice = {};
+    actuales.forEach(function (f, i) {
+      const id = String(f[0]).trim().toUpperCase();
+      if (id) indice[id] = i;
+    });
+
+    let añadidas = 0, actualizadas = 0, renombradas = 0;
+    const duplicados = [];
+    const vistas = {};
+    const nuevas = [];
+
+    entrada.forEach(function (k) {
+      const id = String(k.id || '').trim();
+      if (!id) return;
+      const clave = id.toUpperCase();
+      if (vistas[clave]) { duplicados.push(id); return; }   // el mismo código dos veces
+      vistas[clave] = true;
+
+      const com = String(k.com || '');
+      const des = String(k.des || '');
+      const cop = (parseInt(k.cop, 10) > 0) ? parseInt(k.cop, 10) : 1;
+      const ant = String(k.ant || '').trim().toUpperCase();
+      const ref = String(k.ref || '');
+
+      // Renombrado: la fila existe con el ID viejo, se actualiza en lugar de duplicarla.
+      if (indice[clave] === undefined && ant && indice[ant] !== undefined) {
+        const fa = actuales[indice[ant]];
+        fa[0] = id; fa[1] = com; fa[2] = des; fa[6] = cop; fa[7] = ref;
+        indice[clave] = indice[ant];
+        vistas[ant] = true;
+        renombradas++;
+        return;
+      }
+
+      if (indice[clave] !== undefined) {
+        const f = actuales[indice[clave]];
+        if (String(f[1]) !== com || String(f[2]) !== des ||
+            Number(f[6]) !== cop || String(f[7] || '') !== ref) {
+          f[1] = com; f[2] = des; f[6] = cop; f[7] = ref;
+          actualizadas++;
+        }
+      } else {
+        nuevas.push([id, com, des, 'DISPONIBLE', '', '', cop, ref, '']);
+        añadidas++;
+      }
+    });
+
+    if (actualizadas && actuales.length) {
+      h.getRange(2, 1, actuales.length, 9).setValues(actuales);
+    }
+    if (nuevas.length) {
+      h.getRange(h.getLastRow() + 1, 1, nuevas.length, 9).setValues(nuevas);
+    }
+
+    const sobran = actuales
+      .filter(function (f) { return String(f[0]).trim() && !vistas[String(f[0]).trim().toUpperCase()]; })
+      .map(function (f) { return String(f[0]).trim(); });
+
+    SpreadsheetApp.flush();
+    return { ok: true, anadidas: añadidas, actualizadas: actualizadas, renombradas: renombradas,
+             duplicados: duplicados, sobran: sobran,
+             borradas: borrado.borradas, noBorradas: borrado.rechazadas,
+             total: actuales.length + nuevas.length,
+             llaves: leerCatalogo_() };
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+// ---------------------------------------------------------------- MENÚ
+
+function n_onOpen() {
+  SpreadsheetApp.getUi()
+    .createMenu('🔑 Control de Llaves')
+    .addItem('1. Crear / reparar estructura', 'menu_crearEstructura')
+    .addItem('2. Ver enlace de la app del móvil', 'menu_mostrarUrl')
+    .addItem('3. Ver datos para el generador de QR', 'menu_mostrarClave')
+    .addSeparator()
+    .addItem('Ver llaves fuera ahora mismo', 'menu_mostrarPendientes')
+    .addToUi();
+}
+
+function n_crearEstructura() {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  ss.setSpreadsheetTimeZone(ZONA_HORARIA);
+
+  // --- Llaves
+  let hl = ss.getSheetByName(HOJA_LLAVES);
+  if (!hl) {
+    hl = ss.insertSheet(HOJA_LLAVES);
+    hl.getRange('A1:I1').setValues([[
+      'ID Llave', 'Comunidad', 'Descripción', 'Estado', 'En poder de', 'Fecha salida',
+      'Nº copias', 'Referencia', 'Última devolución'
+    ]]);
+    hl.getRange('A2:I4').setValues([
+      ['LL-001', 'Comunidad Ejemplo 1', 'Portal',            'DISPONIBLE', '', '', 1, '1', ''],
+      ['LL-002', 'Comunidad Ejemplo 1', 'Cuarto contadores', 'DISPONIBLE', '', '', 1, '1', ''],
+      ['LL-003', 'Comunidad Ejemplo 2', 'Garaje',            'DISPONIBLE', '', '', 1, '2', '']
+    ]);
+    hl.setFrozenRows(1);
+    hl.setColumnWidths(1, 9, 150);
+  }
+  // Migración de hojas creadas antes de existir estas columnas
+  if (String(hl.getRange('H1').getValue()).trim() !== 'Referencia') {
+    hl.getRange('H1').setValue('Referencia');
+    hl.setColumnWidth(8, 150);
+  }
+  if (String(hl.getRange('I1').getValue()).trim() !== 'Última devolución') {
+    hl.getRange('I1').setValue('Última devolución');
+    hl.setColumnWidth(9, 160);
+  }
+  hl.getRange('A1:I1').setFontWeight('bold').setBackground('#1a73e8').setFontColor('#ffffff');
+
+  // --- Registro
+  let hr = ss.getSheetByName(HOJA_REGISTRO);
+  if (!hr) {
+    hr = ss.insertSheet(HOJA_REGISTRO);
+    hr.getRange('A1:J1').setValues([[
+      'Fecha y hora', 'Movimiento', 'ID Llave', 'Comunidad', 'Descripción',
+      'Persona', 'Notas', 'Registrado por', 'Días fuera', 'Referencia'
+    ]]);
+    hr.setFrozenRows(1);
+    hr.setColumnWidth(1, 160);
+    hr.setColumnWidths(2, 9, 150);
+  }
+  if (String(hr.getRange('J1').getValue()).trim() !== 'Referencia') {
+    hr.getRange('J1').setValue('Referencia');
+    hr.setColumnWidth(10, 150);
+  }
+  hr.getRange('A1:J1').setFontWeight('bold').setBackground('#1a73e8').setFontColor('#ffffff');
+
+  // --- Personas
+  let hp = ss.getSheetByName(HOJA_PERSONAS);
+  if (!hp) {
+    hp = ss.insertSheet(HOJA_PERSONAS);
+    hp.getRange('A1').setValue('Persona');
+    hp.getRange('A2:A4').setValues([['Juan Pérez'], ['María López'], ['Fontanero - Aquafix']]);
+    hp.setFrozenRows(1);
+    hp.setColumnWidth(1, 220);
+  }
+  hp.getRange('A1').setFontWeight('bold').setBackground('#1a73e8').setFontColor('#ffffff');
+
+  aplicarColores_(hl);
+  SpreadsheetApp.getUi().alert('Estructura creada correctamente.\n\nRellena la hoja "Llaves" con tus llaves reales y luego usa el menú para imprimir los QR.');
+}
+
+function aplicarColores_(hoja) {
+  const rango = hoja.getRange('D2:D1000');
+  hoja.setConditionalFormatRules([
+    SpreadsheetApp.newConditionalFormatRule()
+      .whenTextEqualTo('FUERA').setBackground('#fce8e6').setFontColor('#c5221f')
+      .setRanges([rango]).build(),
+    SpreadsheetApp.newConditionalFormatRule()
+      .whenTextEqualTo('DISPONIBLE').setBackground('#e6f4ea').setFontColor('#137333')
+      .setRanges([rango]).build()
+  ]);
+}
+
+function n_mostrarUrl() {
+  const url = getUrlApp() || '(aún no has publicado la app: Implementar → Nueva implementación)';
+  const html = HtmlService.createHtmlOutput(
+    '<div style="font-family:sans-serif;font-size:13px">' +
+    '<p>Este es el enlace de la <b>app de escaneo</b>:</p>' +
+    '<p style="font-family:monospace;word-break:break-all;background:#f1f3f4;padding:10px;border-radius:6px">' +
+      url + '</p>' +
+    '<p>1. Ábrelo en el iPhone y añádelo a la pantalla de inicio.<br>' +
+       '2. Pégalo también en el <b>Generador de QR de llaves</b> del ordenador.</p></div>'
+  ).setWidth(480).setHeight(240);
+  SpreadsheetApp.getUi().showModalDialog(html, 'Enlace de la app');
+}
+
+function n_mostrarPendientes() {
+  const fuera = getLlavesFuera();
+  let txt = fuera.length ? '' : 'No hay ninguna llave fuera. 👍';
+  fuera.forEach(function (f) {
+    txt += '• ' + f.id + ' (' + f.comunidad + ' – ' + f.descripcion + ')\n   → ' +
+           f.persona + '  desde ' + f.fechaSalida + '  [' + f.dias + ' días]\n\n';
+  });
+  SpreadsheetApp.getUi().alert('Llaves fuera ahora mismo', txt, SpreadsheetApp.getUi().ButtonSet.OK);
+}
+
+// ---------------------------------------------------------------- LECTURA
+
+/** Normaliza el texto leído del QR y devuelve el ID de llave. */
+function extraerId_(codigo) {
+  let c = String(codigo || '').trim();
+  if (!c) return '';
+  // Acepta "LLAVE:LL-001", "LLAVE|LL-001|Comunidad", una URL con ?id=, o el ID pelado.
+  const m = c.match(/[?&]id=([^&\s]+)/i);
+  if (m) return decodeURIComponent(m[1]).trim().toUpperCase();
+  c = c.replace(/^LLAVE\s*[:|]\s*/i, '');
+  c = c.split('|')[0];
+  return c.trim().toUpperCase();
+}
+
+function hoja_(nombre) {
+  const h = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(nombre);
+  if (!h) throw new Error('Falta la hoja "' + nombre + '". Usa el menú → Crear / reparar estructura.');
+  return h;
+}
+
+function buscarFilaLlave_(id) {
+  const h = hoja_(HOJA_LLAVES);
+  const ultima = h.getLastRow();
+  if (ultima < 2) return null;
+  const datos = h.getRange(2, 1, ultima - 1, 9).getValues();
+  for (let i = 0; i < datos.length; i++) {
+    if (String(datos[i][0]).trim().toUpperCase() === id) {
+      return { fila: i + 2, datos: datos[i] };
+    }
+  }
+  return null;
+}
+
+function fmt_(fecha) {
+  if (!fecha) return '';
+  if (Object.prototype.toString.call(fecha) !== '[object Date]') return String(fecha);
+  return Utilities.formatDate(fecha, ZONA_HORARIA, 'dd/MM/yyyy HH:mm');
+}
+
+/** Llamada desde la app: devuelve los datos de la llave escaneada. */
+function consultarLlave(codigo) {
+  const id = extraerId_(codigo);
+  if (!id) return { ok: false, error: 'QR vacío o ilegible.' };
+
+  const r = buscarFilaLlave_(id);
+  if (!r) return { ok: false, error: 'La llave "' + id + '" no está dada de alta en la hoja Llaves.', id: id };
+
+  const d = r.datos;
+  const estado = String(d[3] || 'DISPONIBLE').trim().toUpperCase();
+  return {
+    ok: true,
+    id: String(d[0]).trim(),
+    comunidad: String(d[1] || ''),
+    descripcion: String(d[2] || ''),
+    referencia: String(d[7] || ''),
+    estado: estado,
+    persona: String(d[4] || ''),
+    fechaSalida: fmt_(d[5]),
+    ultimaDevolucion: fmt_(d[8]),
+    accion: (estado === 'FUERA') ? 'ENTRADA' : 'SALIDA'
+  };
+}
+
+function getPersonas() {
+  const h = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_PERSONAS);
+  if (!h || h.getLastRow() < 2) return [];
+  return h.getRange(2, 1, h.getLastRow() - 1, 1).getValues()
+    .map(function (f) { return String(f[0]).trim(); })
+    .filter(function (v) { return v; })
+    .sort();
+}
+
+/** Devuelve los nombres más utilizados últimamente, para los botones de acceso rápido. */
+function getPersonasFrecuentes() {
+  const h = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_REGISTRO);
+  if (!h || h.getLastRow() < 2) return [];
+  const total = h.getLastRow() - 1;
+  const desde = Math.max(2, h.getLastRow() - 299);
+  const filas = h.getRange(desde, 2, Math.min(300, total), 5).getValues(); // B..F
+  const cuenta = {};
+  filas.forEach(function (f) {
+    if (String(f[0]).toUpperCase() !== 'SALIDA') return;
+    const p = String(f[4] || '').trim();
+    if (p) cuenta[p] = (cuenta[p] || 0) + 1;
+  });
+  return Object.keys(cuenta)
+    .sort(function (a, b) { return cuenta[b] - cuenta[a]; })
+    .slice(0, 6);
+}
+
+function getLlavesFuera() {
+  const h = hoja_(HOJA_LLAVES);
+  if (h.getLastRow() < 2) return [];
+  const hoy = new Date();
+  return h.getRange(2, 1, h.getLastRow() - 1, 9).getValues()
+    .filter(function (f) { return String(f[3]).trim().toUpperCase() === 'FUERA'; })
+    .map(function (f) {
+      let dias = '';
+      if (Object.prototype.toString.call(f[5]) === '[object Date]') {
+        dias = Math.floor((hoy - f[5]) / 86400000);
+      }
+      return {
+        id: String(f[0]), comunidad: String(f[1]), descripcion: String(f[2]),
+        referencia: String(f[7] || ''),
+        persona: String(f[4]), fechaSalida: fmt_(f[5]), dias: dias
+      };
+    });
+}
+
+/**
+ * Corrige a nombre de quién figura una llave que está fuera, sin registrar
+ * una salida nueva. Queda constancia en el histórico como corrección.
+ */
+function corregirPersona_(codigo, persona, notas) {
+  const id = extraerId_(codigo);
+  const r = buscarFilaLlave_(id);
+  if (!r) return { ok: false, error: 'La llave "' + id + '" no existe.' };
+
+  const d = r.datos;
+  if (String(d[3]).trim().toUpperCase() !== 'FUERA')
+    return { ok: false, error: 'Esa llave no está fuera: no hay a quién corregir.' };
+
+  const nuevo = String(persona || '').trim();
+  if (!nuevo) return { ok: false, error: 'Indica el nombre correcto.' };
+
+  const antes = String(d[4] || '');
+  hoja_(HOJA_LLAVES).getRange(r.fila, 5).setValue(nuevo);
+
+  hoja_(HOJA_REGISTRO).appendRow([
+    new Date(), 'CORRECCIÓN', String(d[0]).trim(), String(d[1] || ''), String(d[2] || ''),
+    nuevo, 'Antes figuraba: ' + (antes || '(vacío)') + (notas ? '. ' + notas : ''),
+    quienRegistra_(), '', String(d[7] || '')
+  ]);
+
+  SpreadsheetApp.flush();
+  return { ok: true, id: String(d[0]).trim(), persona: nuevo, antes: antes };
+}
+
+// ---------------------------------------------------------------- ESCRITURA
+
+/** Con la app publicada sin login no hay email; devolvemos 'app'. */
+function quienRegistra_() {
+  try {
+    return Session.getActiveUser().getEmail() || 'app';
+  } catch (err) {
+    return 'app';
+  }
+}
+
+/**
+ * Registra el movimiento.
+ * datos = { codigo, persona, notas, accion }
+ */
+function registrarMovimiento(datos) {
+  const lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+  } catch (err) {
+    return { ok: false, error: 'Otro registro se está guardando. Inténtalo de nuevo.' };
+  }
+
+  try {
+    const id = extraerId_(datos.codigo);
+    const r = buscarFilaLlave_(id);
+    if (!r) return { ok: false, error: 'La llave "' + id + '" no existe en la hoja Llaves.' };
+
+    const d = r.datos;
+    const estadoActual = String(d[3] || 'DISPONIBLE').trim().toUpperCase();
+    const accion = (datos.accion || (estadoActual === 'FUERA' ? 'ENTRADA' : 'SALIDA')).toUpperCase();
+
+    if (accion === 'SALIDA' && estadoActual === 'FUERA') {
+      return { ok: false, error: 'Esa llave ya está fuera, en poder de ' + d[4] + '. Regístrala como devolución.' };
+    }
+    if (accion === 'ENTRADA' && estadoActual !== 'FUERA') {
+      return { ok: false, error: 'Esa llave ya figura como disponible. No hay devolución pendiente.' };
+    }
+
+    const persona = String(datos.persona || '').trim();
+    if (accion === 'SALIDA' && !persona) {
+      return { ok: false, error: 'Indica quién se lleva la llave.' };
+    }
+
+    const ahora = new Date();
+    const personaFinal = (accion === 'SALIDA') ? persona : (persona || String(d[4] || ''));
+
+    let diasFuera = '';
+    if (accion === 'ENTRADA' && Object.prototype.toString.call(d[5]) === '[object Date]') {
+      diasFuera = Math.round((ahora - d[5]) / 86400000 * 10) / 10;
+    }
+
+    // 1) Histórico
+    hoja_(HOJA_REGISTRO).appendRow([
+      ahora, accion, String(d[0]).trim(), String(d[1] || ''), String(d[2] || ''),
+      personaFinal, String(datos.notas || ''), quienRegistra_(), diasFuera, String(d[7] || '')
+    ]);
+
+    // 2) Estado de la llave
+    const hl = hoja_(HOJA_LLAVES);
+    if (accion === 'SALIDA') {
+      hl.getRange(r.fila, 4, 1, 3).setValues([['FUERA', personaFinal, ahora]]);
+    } else {
+      hl.getRange(r.fila, 4, 1, 3).setValues([['DISPONIBLE', '', '']]);
+      hl.getRange(r.fila, 9).setValue(ahora);          // última devolución
+    }
+
+    // 3) Alta automática de la persona
+    if (accion === 'SALIDA' && persona) {
+      const hp = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(HOJA_PERSONAS);
+      if (hp) {
+        const existentes = getPersonas().map(function (p) { return p.toLowerCase(); });
+        if (existentes.indexOf(persona.toLowerCase()) === -1) hp.appendRow([persona]);
+      }
+    }
+
+    SpreadsheetApp.flush();
+
+    return {
+      ok: true,
+      accion: accion,
+      id: String(d[0]).trim(),
+      comunidad: String(d[1] || ''),
+      descripcion: String(d[2] || ''),
+      referencia: String(d[7] || ''),
+      persona: personaFinal,
+      hora: Utilities.formatDate(ahora, ZONA_HORARIA, 'dd/MM/yyyy HH:mm'),
+      notas: String(datos.notas || ''),
+      diasFuera: diasFuera
+    };
+  } catch (err) {
+    return { ok: false, error: String(err.message || err) };
+  } finally {
+    lock.releaseLock();
+  }
+}

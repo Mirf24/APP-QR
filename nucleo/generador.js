@@ -1,0 +1,1 @@
+window.GENERADOR_PUBLICADO = { version: "2026.08.04.1621" };

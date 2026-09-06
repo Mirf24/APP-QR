@@ -1,0 +1,3973 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Control de Llaves — Generador de QR</title>
+<link rel="icon" href="data:image/png;base64,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">
+<style>
+  :root{
+    --azul:#1a73e8; --azul-osc:#174ea6; --verde:#137333; --rojo:#c5221f; --ambar:#b06000;
+    --gris:#5f6368; --borde:#dadce0; --fondo:#f6f7f9; --panel:#fff;
+    --texto:#202124; --entrada:#fff; --hover:#f1f3f4; --cabecera:#fafbfc;
+    --linea:#eef0f2; --fila:#f8fafd; --pie:#eef0f3; --editado:#fff8e1;
+    --t-libre-f:#e6f4ea; --t-libre-t:#0d652d; --t-libre-b:#a8d5b5;
+    --t-fuera-f:#fce8e6; --t-fuera-t:#b3261e; --t-fuera-b:#f0b4b0;
+    --t-nueva-f:#e8f0fe; --t-nueva-t:#174ea6; --t-nueva-b:#b7d0f8;
+    --t-aviso-f:#fef7e0; --t-aviso-t:#6b4b00; --t-aviso-b:#f9ab00;
+    --t-ok-f:#e6f4ea;    --t-ok-t:#0d652d;    --t-ok-b:#137333;
+    --r-azul:#1a73e8; --r-azul-h:#1b66c9;
+    --barra:#1f2430; --barra2:#2b3140;
+    --sombra:0 1px 2px rgba(60,64,67,.15), 0 2px 8px rgba(60,64,67,.08);
+  }
+
+  /* ----- modo oscuro: automático según el sistema, o forzado desde la barra ----- */
+  :root[data-tema="oscuro"]{
+    --azul:#8ab4f8; --verde:#81c995; --rojo:#f28b82; --ambar:#fdd663;
+    --gris:#9aa0a6; --borde:#3c4250; --fondo:#14161b; --panel:#1e2128;
+    --texto:#e8eaed; --entrada:#262a33; --hover:#2c313c; --cabecera:#232730;
+    --linea:#2c313c; --fila:#252a34; --pie:#1a1d24; --editado:#3a3320;
+    --t-libre-f:rgba(129,201,149,.14); --t-libre-t:#81c995; --t-libre-b:rgba(129,201,149,.45);
+    --t-fuera-f:rgba(242,139,130,.15); --t-fuera-t:#f28b82; --t-fuera-b:rgba(242,139,130,.45);
+    --t-nueva-f:rgba(138,180,248,.15); --t-nueva-t:#8ab4f8; --t-nueva-b:rgba(138,180,248,.45);
+    --t-aviso-f:rgba(253,214,99,.11);  --t-aviso-t:#fdd663; --t-aviso-b:#fdd663;
+    --t-ok-f:rgba(129,201,149,.11);    --t-ok-t:#81c995;    --t-ok-b:#81c995;
+    --r-azul:#1a73e8; --r-azul-h:#3b86ec;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.3);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-tema="claro"]){
+      --azul:#8ab4f8; --verde:#81c995; --rojo:#f28b82; --ambar:#fdd663;
+      --gris:#9aa0a6; --borde:#3c4250; --fondo:#14161b; --panel:#1e2128;
+      --texto:#e8eaed; --entrada:#262a33; --hover:#2c313c; --cabecera:#232730;
+      --linea:#2c313c; --fila:#252a34; --pie:#1a1d24; --editado:#3a3320;
+      --t-libre-f:rgba(129,201,149,.14); --t-libre-t:#81c995; --t-libre-b:rgba(129,201,149,.45);
+      --t-fuera-f:rgba(242,139,130,.15); --t-fuera-t:#f28b82; --t-fuera-b:rgba(242,139,130,.45);
+      --t-nueva-f:rgba(138,180,248,.15); --t-nueva-t:#8ab4f8; --t-nueva-b:rgba(138,180,248,.45);
+      --t-aviso-f:rgba(253,214,99,.11);  --t-aviso-t:#fdd663; --t-aviso-b:#fdd663;
+      --t-ok-f:rgba(129,201,149,.11);      --t-ok-t:#81c995;      --t-ok-b:#81c995;
+      --r-azul:#1a73e8; --r-azul-h:#3b86ec;
+      --sombra:0 1px 2px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.3);
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%; margin:0}
+  body{
+    font:14px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI Variable Text','Segoe UI',Roboto,Arial,sans-serif;
+    background:var(--fondo); color:var(--texto); overflow:hidden;
+  }
+  .app{display:flex; flex-direction:column; height:100%}
+
+  /* ---------- barra de título ---------- */
+  .titulo{
+    display:flex; align-items:center; gap:12px; flex:0 0 auto;
+    background:linear-gradient(180deg,var(--barra2),var(--barra)); color:#fff;
+    padding:0 14px; height:52px; -webkit-app-region:drag; user-select:none;
+  }
+  .titulo .marca{display:flex; align-items:center; gap:10px; min-width:200px}
+  .titulo .logo{width:28px; height:28px; border-radius:8px; display:block; flex:0 0 auto}
+  .titulo h1{font-size:14.5px; font-weight:600; margin:0; letter-spacing:.2px}
+  .titulo .sub{font-size:11.5px; color:#9aa3b2; margin-top:1px}
+  .aviso-version{margin-left:auto; display:none; align-items:center; gap:9px; font-size:12.5px;
+                 background:rgba(253,214,99,.16); border:1px solid rgba(253,214,99,.5);
+                 color:#fdd663; border-radius:20px; padding:5px 6px 5px 14px; margin-right:10px}
+  .aviso-version.visible{display:flex}
+  .aviso-version button{background:#fdd663; border:0; color:#1f2430; border-radius:16px;
+                        padding:5px 13px; font:600 12.5px inherit; cursor:pointer}
+  .acciones{display:flex; gap:6px; -webkit-app-region:no-drag}
+  .acciones button{
+    background:rgba(255,255,255,.08); color:#e8eaed; border:1px solid rgba(255,255,255,.12);
+    border-radius:8px; padding:8px 13px; font:600 13px inherit; cursor:pointer; white-space:nowrap;
+  }
+  .acciones button:hover{background:rgba(255,255,255,.17)}
+  .acciones button.destacado{background:var(--r-azul); border-color:var(--r-azul); color:#fff}
+  .acciones button.destacado:hover{background:var(--r-azul-h)}
+  .acciones button:disabled{opacity:.45; cursor:default}
+  .punto{width:8px; height:8px; border-radius:50%; background:#9aa3b2; display:inline-block;
+         margin-right:7px; vertical-align:1px}
+  .punto.on{background:#37d67a} .punto.off{background:#ff6b6b}
+
+  /* ---------- cuerpo ---------- */
+  .cuerpo{flex:1; display:grid; grid-template-columns:1fr 400px; gap:14px; padding:14px; min-height:0}
+  @media (max-width:1080px){ .cuerpo{grid-template-columns:1fr} }
+  .col{display:flex; flex-direction:column; min-height:0; gap:12px}
+  .panel{background:var(--panel); border:1px solid var(--borde); border-radius:12px;
+         box-shadow:var(--sombra); display:flex; flex-direction:column; min-height:0}
+  .panel > header{display:flex; align-items:center; gap:10px; padding:11px 14px;
+                  border-bottom:1px solid var(--borde); flex:0 0 auto}
+  .panel > header h2{font-size:12px; text-transform:uppercase; letter-spacing:.6px;
+                     color:var(--gris); margin:0; font-weight:700}
+  .panel .interior{padding:14px; overflow:auto; flex:1; min-height:0}
+  .panel .pie{border-top:1px solid var(--borde); padding:10px 14px; display:flex;
+              gap:7px; flex-wrap:wrap; align-items:center; flex:0 0 auto}
+
+  /* ---------- controles ---------- */
+  input,select,textarea{font:14px inherit; padding:8px 10px; border:1px solid var(--borde);
+        border-radius:8px; background:var(--entrada); width:100%; color:inherit}
+  input:focus,select:focus,textarea:focus{outline:2px solid #a8c7fa; outline-offset:-1px; border-color:var(--azul)}
+  textarea{min-height:100px; font-family:ui-monospace,Consolas,monospace; font-size:12.5px}
+  button{font:600 13px inherit; border:1px solid var(--borde); background:var(--entrada); color:var(--texto);
+         border-radius:8px; padding:8px 13px; cursor:pointer}
+  button:hover{background:var(--hover)}
+  button.pri{background:var(--r-azul); border-color:var(--r-azul); color:#fff}
+  button.pri:hover{background:var(--r-azul-h)}
+  button.peligro{color:var(--rojo); border-color:#f3c2c0}
+  button.plano{border-color:transparent; background:none}
+  button.plano:hover{background:var(--hover)}
+  label{display:block; font-size:12px; font-weight:600; color:var(--gris); margin-bottom:5px}
+  .campo{flex:1; min-width:150px}
+  .fila-controles{display:flex; gap:12px; flex-wrap:wrap; align-items:flex-end}
+
+  /* ---------- tabla ---------- */
+  table{width:100%; border-collapse:separate; border-spacing:0}
+  thead th{position:sticky; top:0; z-index:2; background:var(--cabecera); font-size:11px;
+     text-transform:uppercase; letter-spacing:.5px; color:var(--gris); text-align:left;
+     padding:8px 6px; border-bottom:1px solid var(--borde)}
+  td{padding:2px 4px; border-bottom:1px solid var(--linea)}
+  tbody tr:hover td{background:var(--fila)}
+  td input{padding:7px 8px; border-color:transparent; background:transparent}
+  td input:hover{border-color:var(--borde)}
+  td input:focus{background:var(--entrada)}
+  .del{border:0; background:none; color:var(--rojo); font-size:17px; padding:4px 7px; line-height:1}
+  .del:hover{background:var(--hover); border-radius:6px}
+  tr.mod td input{background:var(--editado)}
+  tr.repe td{background:var(--t-fuera-f)}
+  tr.repe td input{background:transparent; color:var(--t-fuera-t); font-weight:600}
+  tr.repe td:first-child{box-shadow:inset 3px 0 0 var(--rojo); position:relative}
+  td.col-qr{position:relative}
+  .celda-qr{display:flex; align-items:center; gap:4px}
+  .celda-qr input{flex:1; min-width:0}
+  .ver-qr{border:1px solid var(--borde); background:var(--entrada); color:var(--gris);
+          border-radius:7px; padding:5px 8px; font-size:13px; line-height:1; cursor:pointer; flex:0 0 auto}
+  .ver-qr:hover{color:var(--azul); border-color:var(--azul)}
+  td.col-qr input.qr{font-family:ui-monospace,Consolas,monospace; font-size:12px; color:var(--gris)}
+  th.col-qr{color:var(--gris); opacity:.75}
+  .marca-repe{position:absolute; right:8px; top:50%; transform:translateY(-50%);
+              font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.4px;
+              color:var(--t-fuera-t); pointer-events:none}
+  .b-repe{background:var(--t-fuera-f); color:var(--t-fuera-t); border:1px solid var(--t-fuera-b)}
+  tr.mod td:first-child{box-shadow:inset 3px 0 0 var(--t-aviso-b)}
+  tr.borrada{opacity:.45}
+  tr.borrada td input{text-decoration:line-through}
+  .est{font-size:11px; font-weight:700; padding:3px 10px 3px 8px; border-radius:20px;
+       white-space:nowrap; border:1px solid transparent; display:inline-flex; align-items:center; gap:6px}
+  .est::before{content:''; width:6px; height:6px; border-radius:50%; background:currentColor; flex:0 0 auto}
+  .e-libre{background:var(--t-libre-f); color:var(--t-libre-t); border-color:var(--t-libre-b)}
+  .e-fuera{background:var(--t-fuera-f); color:var(--t-fuera-t); border-color:var(--t-fuera-b)}
+  .e-nueva{background:var(--t-nueva-f); color:var(--t-nueva-t); border-color:var(--t-nueva-b)}
+  .est small{display:block; font-weight:400; color:var(--gris); font-size:10.5px; margin-top:2px}
+
+  /* ---------- avisos ---------- */
+  .aviso{background:var(--t-aviso-f); border-left:4px solid var(--t-aviso-b); padding:11px 13px;
+         border-radius:8px; font-size:13px; margin-top:10px; color:var(--t-aviso-t)}
+  .okmsg{background:var(--t-ok-f); border-left:4px solid var(--t-ok-b); padding:11px 13px;
+         border-radius:8px; font-size:13px; margin-top:10px; color:var(--t-ok-t)}
+  .aviso b, .okmsg b{color:inherit}
+  .badge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; letter-spacing:0}
+  .b-sin{background:var(--t-aviso-f); color:var(--t-aviso-t); border:1px solid var(--t-aviso-b)}
+  .b-ok{background:var(--t-ok-f); color:var(--t-ok-t); border:1px solid var(--t-ok-b)}
+  .mini{font-size:12px; color:var(--gris)}
+
+  /* ---------- etiquetas ---------- */
+  .hoja{display:grid; gap:6px}
+  .et{border:1px dashed #b6bcc4; border-radius:8px; padding:7px 5px; text-align:center;
+      background:#fff; break-inside:avoid; page-break-inside:avoid}
+  .et img{display:block; margin:0 auto; image-rendering:pixelated}
+  .et .id{font-weight:700; margin-top:4px; line-height:1.1}
+  .et .com{color:var(--azul); font-weight:600; line-height:1.15}
+  .et .des{color:var(--gris); line-height:1.15}
+
+  /* ---------- barra de estado ---------- */
+  .estado{flex:0 0 auto; display:flex; align-items:center; gap:16px; padding:7px 16px;
+          background:var(--pie); border-top:1px solid var(--borde); font-size:12px; color:var(--gris)}
+  .estado .sep{margin-left:auto}
+
+  .caja-num{border:1px solid var(--borde); border-radius:8px; max-height:150px; overflow:auto;
+            background:var(--cabecera)}
+  .fila-num{padding:7px 11px; border-bottom:1px solid var(--linea); font-size:13px}
+  .fila-num:last-child{border:0}
+  .fila-num b{display:inline-block; min-width:20px; color:var(--azul)}
+  .celda-est{display:flex; align-items:center; gap:8px}
+  .accion-est{font-size:11.5px; font-weight:600; padding:4px 11px; border-radius:16px;
+              border:1px solid var(--borde); background:var(--entrada); color:var(--texto);
+              cursor:pointer; opacity:0; transition:opacity .12s}
+  .accion-est.verde{border-color:var(--t-libre-b); color:var(--verde)}
+  tr:hover .accion-est, .accion-est:focus{opacity:1}
+  @media (hover:none){ .accion-est{opacity:1} }
+  .quien{display:block; color:var(--gris); font-size:10.5px; margin-top:3px}
+  .ficha-llave{background:var(--cabecera); border:1px solid var(--borde); border-radius:10px;
+               padding:12px; margin-bottom:14px}
+  .ficha-llave .id{font-size:19px; font-weight:700}
+  .ficha-llave .com{color:var(--azul); font-weight:600; font-size:14px}
+  .ficha-llave .des{color:var(--gris); font-size:13px}
+
+  /* ---------- ajustes ---------- */
+  .velo{position:fixed; inset:0; background:rgba(32,33,36,.5); display:none;
+        align-items:center; justify-content:center; z-index:60; padding:20px}
+  .velo.abierto{display:flex}
+  .dialogo{background:var(--panel); border-radius:14px; width:min(620px,100%); max-height:90vh; overflow:auto;
+           box-shadow:0 12px 40px rgba(0,0,0,.3)}
+  .dialogo header{display:flex; align-items:center; padding:15px 18px; border-bottom:1px solid var(--borde)}
+  .dialogo header h2{margin:0; font-size:16px; flex:1}
+  .dialogo .interior{padding:18px}
+  .dialogo .pie{padding:13px 18px; border-top:1px solid var(--borde); display:flex; gap:8px;
+                justify-content:flex-end; background:var(--cabecera); border-radius:0 0 14px 14px}
+
+  @media print{
+    :root{--panel:#fff; --fondo:#fff; --texto:#000; --gris:#555; --borde:#ccc}
+    body{background:#fff; color:#000; overflow:visible}
+    .titulo,.estado,.col-izq,.panel>header,.panel .pie,.velo,.noprint{display:none!important}
+    .app,.cuerpo{display:block; height:auto; padding:0}
+    .panel{border:0; box-shadow:none}
+    .panel .interior{padding:0; overflow:visible}
+    .et{border:1px solid #ccc}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ================= BARRA DE TÍTULO ================= -->
+  <div class="titulo">
+    <div class="marca">
+      <img class="logo" src="data:image/png;base64,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" alt="">
+      <div>
+        <h1>Control de Llaves</h1>
+        <div class="sub">Generador de etiquetas QR</div>
+      </div>
+    </div>
+    <div class="aviso-version" id="avisoVersion"></div>
+    <div class="acciones">
+      <button onclick="traerDeLaHoja()" title="Volver a leer el listado de la hoja">🔄 Recargar</button>
+      <button class="destacado" id="btnGuardar" onclick="sincronizar()">💾 Guardar cambios</button>
+      <button onclick="window.print()" title="Imprimir las etiquetas">🖨️ Imprimir</button>
+      <button onclick="cambiarTema()" id="btnTema" title="Cambiar entre claro y oscuro">🌙</button>
+      <button onclick="abrirAjustes()" title="Conexión con la hoja">⚙️ Ajustes</button>
+    </div>
+  </div>
+
+  <!-- ================= CUERPO ================= -->
+  <div class="cuerpo">
+
+    <!-- ---------- listado ---------- -->
+    <div class="col col-izq">
+      <div class="panel" style="flex:1">
+        <header>
+          <h2>Llaves</h2>
+          <span id="badge"></span>
+          <div style="margin-left:auto; display:flex; gap:8px; align-items:center">
+            <input id="filtro" placeholder="Referencia, comunidad, descripción…" style="width:230px"
+                   oninput="pintarTabla();pintarConRetardo()">
+            <select id="filtroCom" style="width:180px" onchange="pintarTabla();pintarConRetardo()">
+              <option value="">Todas las comunidades</option>
+            </select>
+          </div>
+        </header>
+
+        <div class="interior" style="padding:0 14px">
+          <table>
+            <thead><tr>
+              <th style="width:15%">ID llave</th><th style="width:25%">Comunidad</th>
+              <th style="width:26%">Descripción</th><th style="width:9%">Copias</th>
+              <th style="width:21%">Estado / préstamo</th><th style="width:4%"></th>
+            </tr></thead>
+            <tbody id="cuerpo"></tbody>
+          </table>
+          <div id="vacio"></div>
+          <div id="estadoSync"></div>
+
+          <div id="zonaPegar" style="display:none; margin:14px 0">
+            <label>Pega desde Google Sheets o Excel las columnas
+              <b>Referencia · Comunidad · Descripción · Copias</b>.
+              El código del QR se genera solo:</label>
+            <textarea id="pegado" placeholder="1&#9;CP Ronda Sur 12&#9;Portal&#9;1&#10;1&#9;CP Ronda Sur 12&#9;Contadores&#9;2"></textarea>
+            <div style="margin-top:8px">
+              <button class="pri" onclick="procesarPegado()">Importar</button>
+              <button onclick="document.getElementById('zonaPegar').style.display='none'">Cancelar</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pie">
+          <button onclick="anadirFila()">+ Añadir llave</button>
+          <button onclick="autoIds()">Renumerar códigos QR</button>
+          <button onclick="deshacer()">↩︎ Descartar cambios</button>
+          <span style="margin-left:auto"></span>
+          <button class="plano" onclick="copiarParaSheets()" title="Copiar para pegar a mano en la hoja">📤</button>
+          <button class="plano" onclick="abrirPegar()" title="Pegar un listado">📋</button>
+          <button class="plano" onclick="exportarCSV()" title="Descargar CSV">⬇️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- etiquetas ---------- -->
+    <div class="col">
+      <div class="panel">
+        <header><h2>Formato de las etiquetas</h2></header>
+        <div class="interior" style="overflow:visible">
+          <div class="fila-controles">
+            <div class="campo"><label>Tamaño del QR</label>
+              <select id="tam" onchange="guardar();pintar()">
+                <option value="4">Pequeño (~2,5 cm)</option>
+                <option value="6" selected>Mediano (~3,5 cm)</option>
+                <option value="8">Grande (~4,5 cm)</option>
+              </select></div>
+            <div class="campo"><label>Columnas al imprimir</label>
+              <input type="number" id="cols" value="5" min="2" max="10" onchange="guardar();pintar()"></div>
+          </div>
+          <div class="fila-controles" style="margin-top:12px">
+            <div class="campo"><label>Contenido del QR</label>
+              <select id="modo" onchange="guardar();pintar()">
+                <option value="url">Enlace a la app (cámara del móvil)</option>
+                <option value="id">Solo el código de la llave</option>
+              </select></div>
+            <div class="campo"><label>Texto bajo el QR</label>
+              <select id="txt" onchange="guardar();pintar()">
+                <option value="todo" selected>Referencia + comunidad + descripción</option>
+                <option value="corto">Referencia y comunidad</option>
+                <option value="id">Solo la referencia</option>
+                <option value="codigo">Solo el código del QR</option>
+                <option value="no">Sin texto</option>
+              </select></div>
+          </div>
+          <div id="avisoUrl"></div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:1">
+        <header><h2>Vista previa</h2><span class="mini" id="contador" style="margin-left:auto"></span></header>
+        <div class="interior"><div class="hoja" id="hoja"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= BARRA DE ESTADO ================= -->
+  <div class="estado">
+    <span><span class="punto" id="punto"></span><span id="estConexion">Sin comprobar</span></span>
+    <span id="estLlaves">—</span>
+    <span class="sep"></span>
+    <span id="estGuardado">Listo</span>
+  </div>
+</div>
+
+<!-- ================= DIÁLOGO GENÉRICO ================= -->
+<div class="velo" id="velo2" onclick="if(event.target===this) cerrarDialogo()">
+  <div class="dialogo" style="width:min(520px,100%)">
+    <header>
+      <h2 id="dlgTitulo"></h2>
+      <button class="plano" onclick="cerrarDialogo()" style="font-size:19px">✕</button>
+    </header>
+    <div class="interior" id="dlgCuerpo"></div>
+    <div class="pie" id="dlgPie"></div>
+  </div>
+</div>
+
+<!-- ================= AJUSTES ================= -->
+<div class="velo" id="velo" onclick="if(event.target===this) cerrarAjustes()">
+  <div class="dialogo">
+    <header>
+      <h2>⚙️ Conexión con tu hoja de Google</h2>
+      <button class="plano" onclick="cerrarAjustes()" style="font-size:19px">✕</button>
+    </header>
+    <div class="interior">
+      <p class="mini" style="margin-top:0">
+        Los dos datos están en la hoja de cálculo:
+        menú <b>🔑 Control de Llaves → 3. Ver datos para el generador de QR</b>.
+        Se guardan en este ordenador y no hay que volver a ponerlos.
+      </p>
+      <label>Enlace de la app (acaba en /exec)</label>
+      <input id="urlApp" placeholder="https://script.google.com/macros/s/AKfy…/exec"
+             spellcheck="false" oninput="guardar()">
+      <label style="margin-top:14px">Clave de sincronización</label>
+      <input id="clave" placeholder="A1B2C3D4E5F6" spellcheck="false" oninput="guardar()">
+      <div id="estadoAjustes"></div>
+
+      <hr style="border:0; border-top:1px solid var(--borde); margin:18px 0">
+      <label>Copia de seguridad de estos ajustes</label>
+      <p class="mini" style="margin-top:0">
+        Por si cambias de ordenador o reinstalas: guarda un archivo con el enlace, la clave y tu listado.
+      </p>
+      <button onclick="exportarAjustes()">⬇️ Guardar copia</button>
+      <button onclick="document.getElementById('ficheroAjustes').click()">⬆️ Restaurar copia</button>
+      <hr style="border:0; border-top:1px solid var(--borde); margin:16px 0">
+      <label>Que no se te olviden nunca</label>
+      <p class="mini" style="margin-top:0">
+        Edge borra a veces lo que guardan los archivos abiertos desde el disco. Esto lo deja fijado:
+        descarga el archivo, doble clic, y listo. No hay que moverlo de sitio.
+      </p>
+      <div id="avisoConfig"></div>
+      <button class="pri" onclick="guardarConfigPermanente()">⬇️ Fijar configuración en el ordenador</button>
+      <button onclick="generarConfig()">config.js suelto</button>
+      <div id="rutaConfig"></div>
+
+      <hr style="border:0; border-top:1px solid var(--borde); margin:16px 0">
+      <label>Comprobar que funciona</label>
+      <p class="mini" style="margin-top:0">
+        Borra lo que el navegador tiene guardado y recarga, igual que si Edge lo hubiera hecho por su cuenta.
+        Si la configuración está bien fijada, la aplicación volverá sola con todo puesto.
+        Tus llaves no corren peligro: viven en la hoja de Google.
+      </p>
+      <button class="peligro" onclick="borrarGuardado()">🧪 Vaciar lo guardado y recargar</button>
+      <input type="file" id="ficheroAjustes" accept=".json" style="display:none" onchange="importarAjustes(this)">
+    </div>
+    <div class="pie">
+      <button onclick="probarConexion()">🔎 Probar conexión</button>
+      <button class="pri" onclick="cerrarAjustes()">Hecho</button>
+    </div>
+  </div>
+</div>
+
+<script src="config.js" onerror="void 0"></script>
+<script>
+//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(row * cellSize, col * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      define([], factory);
+  } else if (typeof exports === 'object') {
+      module.exports = factory();
+  }
+}(function () {
+    return qrcode;
+}));
+
+</script>
+<script>
+var CLAVE = 'llavesQR.v1';
+var llaves = [];        // {id, com, des, cop, estado, persona, desde, orig, nueva, borrar}
+var visibles = [];      // índices mostrados según el filtro
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ---------- persistencia local ----------
+function guardar(){
+  leerTabla();
+  try{
+    localStorage.setItem(CLAVE, JSON.stringify({
+      url: $('urlApp').value.trim(), clave: $('clave').value.trim(), llaves: llaves,
+      tam: $('tam').value, cols: $('cols').value, modo: $('modo').value, txt: $('txt').value
+    }));
+  }catch(e){}
+  actualizarBadge();
+  actualizarEstado();
+  if ($('velo').classList.contains('abierto')) revisarConfig();
+  pintarConRetardo();
+}
+
+// Redibujar los QR es costoso: se agrupa mientras se escribe.
+var tempo = null;
+function pintarConRetardo(){
+  clearTimeout(tempo);
+  tempo = setTimeout(pintar, 350);
+}
+
+function cargar(){
+  var d = null;
+  try{ d = JSON.parse(localStorage.getItem(CLAVE) || 'null'); }catch(e){}
+  if (d){
+    $('urlApp').value = d.url || '';
+    $('clave').value  = d.clave || '';
+    if (d.tam)  $('tam').value  = d.tam;
+    if (d.cols) $('cols').value = d.cols;
+    if (d.modo) $('modo').value = d.modo;
+    if (d.txt)  $('txt').value  = d.txt;
+    llaves = (d.llaves || []).map(normalizar);
+  }
+  // Si el navegador ha perdido lo guardado, se recupera de config.js o del acceso directo.
+  var q = new URLSearchParams(location.search);
+  var deFuera = (typeof CONFIG_LLAVES === 'object' && CONFIG_LLAVES) ? CONFIG_LLAVES : {};
+  var rescatado = false;
+
+  if (!$('urlApp').value.trim()){
+    var u = q.get('u') || deFuera.url || '';
+    if (u){ $('urlApp').value = u; rescatado = true; }
+  }
+  if (!$('clave').value.trim()){
+    var c = q.get('k') || deFuera.clave || '';
+    if (c){ $('clave').value = c; rescatado = true; }
+  }
+  if (rescatado) guardar();
+
+  // Si el navegador perdió los datos y hubo que rescatarlos, dejarlo dicho.
+  if (rescatado && deFuera.url){
+    setTimeout(function(){
+      msg('Se han recuperado el enlace y la clave del archivo de configuración de este ordenador.');
+    }, 400);
+  }
+
+  pintarTabla(); pintar(); actualizarEstado();
+
+  // Si ya está configurado, trae el listado real de la hoja al abrir.
+  if ($('urlApp').value.trim() && $('clave').value.trim()){
+    traerDeLaHoja(true);
+  } else {
+    abrirAjustes();
+    msg('Pon el enlace y la clave de tu hoja para empezar.', 'aviso');
+  }
+}
+
+function normalizar(k){
+  var cop = (parseInt(k.cop,10) > 0) ? parseInt(k.cop,10) : 1;
+  return { id:k.id||'', com:k.com||'', des:k.des||'', cop:cop, ref:k.ref||'',
+           estado:k.estado||'', persona:k.persona||'', desde:k.desde||'', devuelta:k.devuelta||'',
+           nueva:!!k.nueva, borrar:!!k.borrar,
+           idHoja: k.idHoja !== undefined ? k.idHoja : (k.estado ? (k.id||'') : ''),
+           orig: k.orig || (k.estado ? { id:k.id||'', com:k.com||'', des:k.des||'',
+                                         cop:cop, ref:k.ref||'' } : null) };
+}
+
+// ---------- estado de los cambios ----------
+function modificada(k){
+  if (k.nueva || k.borrar) return true;
+  if (!k.orig) return true;
+  return k.id !== k.orig.id || k.com !== k.orig.com || k.des !== k.orig.des ||
+         Number(k.cop) !== Number(k.orig.cop) || (k.ref || '') !== (k.orig.ref || '');
+}
+function pendientes(){ return llaves.filter(function(k){ return k.id && modificada(k); }); }
+
+/** Devuelve los códigos que están puestos en más de una llave. */
+function repetidos(){
+  var cuenta = {}, salen = [];
+  llaves.forEach(function(k){
+    if (!k.id || k.borrar) return;
+    var c = k.id.trim().toUpperCase();
+    cuenta[c] = (cuenta[c] || 0) + 1;
+  });
+  for (var c in cuenta) if (cuenta[c] > 1) salen.push(c);
+  return salen;
+}
+function esRepetido(k){
+  if (!k.id || k.borrar) return false;
+  return repetidos().indexOf(k.id.trim().toUpperCase()) !== -1;
+}
+
+function actualizarBadge(){
+  var n = pendientes().length;
+  var r = repetidos().length;
+  var h = '';
+  if (r) h += '<span class="badge b-repe">' + r + ' código' + (r===1?'':'s') + ' repetido' + (r===1?'':'s') + '</span> ';
+  h += n ? '<span class="badge b-sin">' + n + ' sin guardar</span>'
+         : (llaves.length ? '<span class="badge b-ok">todo guardado</span>' : '');
+  $('badge').innerHTML = h;
+}
+
+// ---------- tabla ----------
+/** Devuelve un código interno libre. El usuario no tiene que teclearlo nunca. */
+function nuevoCodigo(){
+  var usados = {};
+  llaves.forEach(function(k){ if (k.id) usados[k.id.trim().toUpperCase()] = 1; });
+  var n = llaves.length + 1, c;
+  do {
+    c = 'K-' + String(n).padStart(4, '0');
+    n++;
+  } while (usados[c]);
+  return c;
+}
+
+/** Rellena los códigos que falten. Devuelve cuántos ha puesto. */
+function completarCodigos(){
+  var puestos = 0;
+  llaves.forEach(function(k){
+    if (!k.id && !k.borrar && (k.com || k.des || k.ref)){
+      k.id = nuevoCodigo();
+      puestos++;
+    }
+  });
+  return puestos;
+}
+
+function referencias(){
+  var s = {}; llaves.forEach(function(k){ if (k.ref) s[k.ref] = 1; });
+  return Object.keys(s).sort(function(a,b){
+    return a.localeCompare(b, 'es', { numeric:true });
+  });
+}
+
+function comunidades(){
+  var s = {}; llaves.forEach(function(k){ if (k.com) s[k.com] = 1; });
+  return Object.keys(s).sort();
+}
+
+/**
+ * Busca por referencia, comunidad, descripción y por quién tiene la llave.
+ * A propósito NO busca por el código del QR: ese es interno.
+ * Si lo escrito coincide exactamente con una referencia, manda esa referencia:
+ * así buscar «1» devuelve las llaves de la referencia 1 y no «Ronda Sur 12».
+ */
+function pasaFiltro(k){
+  var f = ($('filtro').value || '').trim().toLowerCase();
+  var c = $('filtroCom').value;
+  if (c && k.com !== c) return false;
+  if (!f) return true;
+
+  if (hayRefExacta(f)) return (k.ref || '').trim().toLowerCase() === f;
+
+  return (k.ref + ' ' + k.com + ' ' + k.des + ' ' + (k.persona || ''))
+           .toLowerCase().indexOf(f) !== -1;
+}
+
+var cacheRef = { texto:null, hay:false };
+function hayRefExacta(f){
+  if (cacheRef.texto === f) return cacheRef.hay;
+  cacheRef.texto = f;
+  cacheRef.hay = llaves.some(function(k){
+    return (k.ref || '').trim().toLowerCase() === f;
+  });
+  return cacheRef.hay;
+}
+
+function pintarTabla(){
+  // selector de comunidades
+  var sel = $('filtroCom'), previo = sel.value;
+  sel.innerHTML = '<option value="">Todas</option>' +
+    comunidades().map(function(c){ return '<option value="' + esc(c) + '">' + esc(c) + '</option>'; }).join('');
+  sel.value = previo;
+
+  visibles = [];
+  var repes = repetidos();
+  var h = '';
+  llaves.forEach(function(k, i){
+    if (!pasaFiltro(k)) return;
+    visibles.push(i);
+
+    var est;
+    if (k.borrar){
+      est = '<span class="est e-fuera">se borrará</span>';
+    } else if (!k.estado){
+      est = '<span class="est e-nueva">nueva</span>';
+    } else if (k.estado === 'FUERA'){
+      est = '<div class="celda-est">' +
+              '<span class="est e-fuera">fuera</span>' +
+              '<button class="accion-est verde" onclick="abrirPrestamo(' + i + ')">Devolver</button>' +
+            '</div><small class="quien">' + esc(k.persona) +
+            (k.desde ? ' · ' + esc(k.desde) : '') + '</small>';
+    } else {
+      est = '<div class="celda-est">' +
+              '<span class="est e-libre">disponible</span>' +
+              '<button class="accion-est" onclick="abrirPrestamo(' + i + ')">Prestar</button>' +
+            '</div>' +
+            (k.devuelta ? '<small class="quien">devuelta ' + esc(k.devuelta) + '</small>' : '');
+    }
+
+    var dup = repes.indexOf((k.id||'').trim().toUpperCase()) !== -1 && k.id && !k.borrar;
+
+    h += '<tr class="' + (k.borrar ? 'borrada' : (dup ? 'repe' : (modificada(k) ? 'mod' : ''))) + '">' +
+      '<td><input value="' + esc(k.ref) + '" oninput="editar(' + i + ',4,this.value)" list="lref" ' +
+        'placeholder="—"></td>' +
+      '<td><input value="' + esc(k.com) + '" oninput="editar(' + i + ',1,this.value)" list="lcom"></td>' +
+      '<td><input value="' + esc(k.des) + '" oninput="editar(' + i + ',2,this.value)"></td>' +
+      '<td><input type="number" min="1" value="' + k.cop + '" oninput="editar(' + i + ',3,this.value)"></td>' +
+      '<td>' + est + '</td>' +
+      '<td class="col-qr"><div class="celda-qr">' +
+        '<input class="qr" value="' + esc(k.id) + '" oninput="editar(' + i + ',0,this.value)"' +
+          (dup ? ' title="Este código está repetido en otra llave"' : '') + '>' +
+        '<button class="ver-qr" onclick="verQR(' + i + ')" title="Ver el QR de esta llave">' +
+          '<span>▦</span></button>' +
+        (dup ? '<span class="marca-repe">repe</span>' : '') + '</div></td>' +
+      '<td><button class="del" onclick="quitar(' + i + ')" title="' +
+          (k.borrar ? 'Recuperar' : 'Eliminar') + '">' + (k.borrar ? '↩' : '×') + '</button></td></tr>';
+  });
+
+  $('cuerpo').innerHTML = h +
+    '<datalist id="lcom">' + comunidades().map(function(c){ return '<option value="' + esc(c) + '">'; }).join('') + '</datalist>' +
+    '<datalist id="lref">' + referencias().map(function(c){ return '<option value="' + esc(c) + '">'; }).join('') + '</datalist>';
+
+  $('vacio').innerHTML = visibles.length ? ''
+    : '<p class="mini" style="padding:14px 0">' +
+      (llaves.length ? 'Ninguna llave coincide con el filtro.' : 'Todavía no hay llaves.') + '</p>';
+
+  actualizarBadge();
+}
+
+function editar(i, campo, valor){
+  var k = llaves[i];
+  if (campo === 0) k.id  = valor.trim();
+  if (campo === 1) k.com = valor;
+  if (campo === 2) k.des = valor;
+  if (campo === 3) k.cop = (parseInt(valor,10) > 0) ? parseInt(valor,10) : 1;
+  if (campo === 4){ k.ref = valor.trim(); cacheRef.texto = null; }
+  guardar();
+  var fila = document.querySelectorAll('#cuerpo tr')[visibles.indexOf(i)];
+  if (fila && !k.borrar) fila.className = modificada(k) ? 'mod' : '';
+}
+
+function leerTabla(){ /* la edición ya es directa sobre el modelo */ }
+
+function anadirFila(){
+  var ult = llaves.length ? llaves[llaves.length-1] : {com:''};
+  var com = $('filtroCom').value || ult.com;
+  var hermana = llaves.filter(function(k){ return k.com === com && k.ref; })[0];
+  llaves.push(normalizar({ id:nuevoCodigo(), com:com, des:'', cop:1,
+                           ref: hermana ? hermana.ref : '', nueva:true }));
+  $('filtro').value = '';
+  pintarTabla(); guardar();
+  var inputs = $('cuerpo').querySelectorAll('tr:last-of-type input');
+  if (inputs.length) inputs[0].focus();   // la primera casilla es la Referencia
+}
+
+function quitar(i){
+  var k = llaves[i];
+  if (k.borrar){ k.borrar = false; pintarTabla(); guardar(); return; }
+  if (!k.estado){ llaves.splice(i,1); pintarTabla(); guardar(); return; }   // nunca llegó a la hoja
+  if (k.estado === 'FUERA'){
+    alert('No puedes eliminar «' + k.id + '»: ahora mismo la tiene ' + k.persona +
+          '.\n\nRegistra primero la devolución desde el móvil.');
+    return;
+  }
+  if (!confirm('¿Eliminar «' + k.id + '» de la hoja?\n\nSe borrará al guardar. El histórico de la pestaña Registro no se toca.')) return;
+  k.borrar = true;
+  pintarTabla(); guardar();
+}
+
+function deshacer(){
+  if (!pendientes().length){ msg('No hay cambios pendientes.'); return; }
+  if (!confirm('¿Descartar todos los cambios sin guardar y volver a lo que hay en la hoja?')) return;
+  traerDeLaHoja(true);
+}
+
+function autoIds(){ abrirDialogo(dialogoNumerar()); }
+
+function dialogoNumerar(){
+  var coms = comunidades();
+  var conEstado = llaves.filter(function(k){ return k.idHoja; }).length;
+  var lista = coms.map(function(c,i){
+    var n = llaves.filter(function(k){ return k.com === c && k.id; }).length;
+    return '<div class="fila-num"><b>' + (i+1) + '</b> ' + esc(c) +
+           ' <span class="mini">· ' + n + ' llave' + (n===1?'':'s') + '</span></div>';
+  }).join('');
+
+  return {
+    titulo:'Numerar los códigos de las llaves',
+    cuerpo:
+      '<p class="mini" style="margin-top:0">Los códigos se rellenan solos al crear una llave, ' +
+      'así que esto solo hace falta si quieres que sigan un orden concreto. ' +
+      'Cada comunidad recibe un número y sus llaves se numeran dentro, por orden alfabético:</p>' +
+      '<div class="caja-num">' + (lista || '<span class="mini">Aún no hay comunidades.</span>') + '</div>' +
+      '<label style="margin-top:14px">Formato</label>' +
+      '<select id="numFormato">' +
+        '<option value="guion">1-01, 1-02, 2-01…</option>' +
+        '<option value="punto">1.01, 1.02, 2.01…</option>' +
+        '<option value="letra">C1-01, C1-02, C2-01…</option>' +
+      '</select>' +
+      '<label style="margin-top:14px">¿A qué llaves?</label>' +
+      '<select id="numAlcance">' +
+        '<option value="vacias">Solo a las que no tienen código</option>' +
+        '<option value="todas">A todas (renumerar de cero)</option>' +
+      '</select>' +
+      (conEstado ? '<div class="aviso">Renumerar cambia el código de llaves que ya están en la hoja. ' +
+        'La hoja se actualiza sola sin perder el historial, pero <b>los QR que ya tengas impresos ' +
+        'de esas llaves dejarán de servir</b> y habrá que reimprimirlos.</div>' : ''),
+    accion:'Numerar',
+    hacer: function(){
+      var fmt = $('numFormato').value, todas = ($('numAlcance').value === 'todas');
+      var coms = comunidades();
+      var contador = {};
+      llaves.forEach(function(k){
+        if (!todas && k.id) return;
+        var ic = coms.indexOf(k.com) + 1;
+        if (ic === 0) ic = coms.length + 1;
+        contador[ic] = (contador[ic] || 0) + 1;
+        var nk = String(contador[ic]).padStart(2,'0');
+        k.id = fmt === 'punto' ? ic + '.' + nk
+             : fmt === 'letra' ? 'C' + ic + '-' + nk
+             : ic + '-' + nk;
+      });
+      pintarTabla(); guardar();
+      var r = repetidos();
+      msg(r.length
+        ? 'Códigos asignados, pero han salido repetidos: <b>' + esc(r.join(', ')) + '</b>. ' +
+          'Suele pasar si numeras solo las vacías y ya usabas ese formato. Prueba con «renumerar de cero».'
+        : 'Códigos asignados. Revísalos y pulsa <b>Guardar cambios en la hoja</b>.',
+        r.length ? 'aviso' : 'okmsg');
+    }
+  };
+}
+
+// ---------- sincronización con Google Sheets ----------
+function msg(html, tipo){
+  var destino = $('velo').classList.contains('abierto') ? 'estadoAjustes' : 'estadoSync';
+  $('estadoSync').innerHTML = ''; $('estadoAjustes').innerHTML = '';
+  $(destino).innerHTML = html ? '<div class="' + (tipo || 'okmsg') + '">' + html + '</div>' : '';
+}
+
+// ---------- claro / oscuro ----------
+// Tres estados: 'auto' sigue al sistema, 'claro' y 'oscuro' mandan sobre él.
+var TEMAS = ['auto','claro','oscuro'];
+var ICONOS = { auto:'🌗', claro:'☀️', oscuro:'🌙' };
+var NOMBRES = { auto:'Automático (según Windows)', claro:'Modo claro', oscuro:'Modo oscuro' };
+
+function aplicarTema(t){
+  if (t === 'auto') document.documentElement.removeAttribute('data-tema');
+  else document.documentElement.setAttribute('data-tema', t);
+  var b = $('btnTema');
+  if (b){ b.textContent = ICONOS[t]; b.title = NOMBRES[t] + ' — pulsa para cambiar'; }
+  try{ localStorage.setItem('llavesQR.tema', t); }catch(e){}
+  tema = t;
+}
+
+function cambiarTema(){
+  aplicarTema(TEMAS[(TEMAS.indexOf(tema) + 1) % TEMAS.length]);
+}
+
+var tema = 'auto';
+try{ tema = localStorage.getItem('llavesQR.tema') || 'auto'; }catch(e){}
+aplicarTema(tema);
+
+// ---------- diálogo genérico ----------
+var dlgActual = null;
+
+function abrirDialogo(cfg){
+  dlgActual = cfg;
+  $('dlgTitulo').textContent = cfg.titulo;
+  $('dlgCuerpo').innerHTML = cfg.cuerpo;
+  $('dlgPie').innerHTML =
+    (cfg.extra || '') +
+    '<button onclick="cerrarDialogo()">Cancelar</button>' +
+    (cfg.accion ? '<button class="pri" onclick="confirmarDialogo()">' + cfg.accion + '</button>' : '');
+  $('velo2').classList.add('abierto');
+  if (cfg.foco) setTimeout(function(){ var e = $(cfg.foco); if (e) e.focus(); }, 60);
+}
+
+function cerrarDialogo(){ $('velo2').classList.remove('abierto'); dlgActual = null; }
+
+function confirmarDialogo(){
+  var cfg = dlgActual;
+  if (!cfg || !cfg.hacer) return;
+  if (cfg.hacer() === false) return;   // el propio diálogo puede cancelar el cierre
+  cerrarDialogo();
+}
+
+function dlgError(txt){
+  var c = $('dlgCuerpo');
+  var antiguo = c.querySelector('.aviso');
+  if (antiguo) antiguo.remove();
+  c.insertAdjacentHTML('beforeend', '<div class="aviso">' + esc(txt) + '</div>');
+}
+
+// ---------- préstamos: salida, devolución y correcciones ----------
+function abrirPrestamo(i){
+  var k = llaves[i];
+  if (!k.idHoja){
+    alert('Esta llave todavía no está en la hoja.\n\nPulsa «Guardar cambios en la hoja» y vuelve a intentarlo.');
+    return;
+  }
+
+  var ficha = '<div class="ficha-llave"><div class="id">' + esc(k.id) + '</div>' +
+              '<div class="com">' + esc(k.com) + '</div>' +
+              '<div class="des">' + esc(k.des) + '</div></div>';
+  var fuera = (k.estado === 'FUERA');
+
+  if (!fuera){
+    abrirDialogo({
+      titulo:'Registrar salida',
+      cuerpo: ficha +
+        '<label>¿Quién se lleva la llave?</label>' +
+        '<input id="prsPersona" list="lpers" autocomplete="off" placeholder="Nombre y apellidos o empresa">' +
+        '<datalist id="lpers">' + (personasHoja||[]).map(function(p){
+            return '<option value="' + esc(p) + '">'; }).join('') + '</datalist>' +
+        '<label style="margin-top:12px">Notas (opcional)</label>' +
+        '<input id="prsNotas" placeholder="Motivo, teléfono, fecha prevista…">',
+      accion:'Registrar salida', foco:'prsPersona',
+      hacer: function(){
+        var p = $('prsPersona').value.trim();
+        if (!p){ dlgError('Escribe quién se lleva la llave.'); return false; }
+        movimiento(i, 'SALIDA', p, $('prsNotas').value.trim());
+        return false;   // se cierra cuando responda la hoja
+      }
+    });
+  } else {
+    abrirDialogo({
+      titulo:'Llave prestada',
+      cuerpo: ficha +
+        '<div class="aviso" style="margin-top:0">La tiene <b>' + esc(k.persona) + '</b>' +
+        (k.desde ? ' desde el ' + esc(k.desde) : '') + '.</div>' +
+        '<label style="margin-top:14px">Nota de la devolución (opcional)</label>' +
+        '<input id="prsNotas" placeholder="Ej. devuelve el juego completo, entregada en portería…">' +
+        '<button class="pri" style="width:100%; margin-top:12px; padding:14px; font-size:15px; ' +
+          'background:var(--verde); border-color:var(--verde); color:#fff" ' +
+          'onclick="devolver(' + i + ')">✅ Registrar devolución</button>' +
+        '<hr style="border:0; border-top:1px solid var(--borde); margin:18px 0">' +
+        '<label>¿No la tiene esa persona?</label>' +
+        '<div style="display:flex; gap:8px">' +
+          '<input id="prsPersona" value="' + esc(k.persona) + '" autocomplete="off">' +
+          '<button onclick="corregir(' + i + ')" style="white-space:nowrap">Corregir nombre</button>' +
+        '</div>' +
+        '<p class="mini">Solo cambia a nombre de quién figura, sin registrar ninguna devolución. ' +
+        'Queda anotado en el histórico.</p>',
+      foco:'prsNotas'
+    });
+  }
+}
+
+/** Devolución con su nota, tomada del propio diálogo. */
+function devolver(i){
+  movimiento(i, 'ENTRADA', '', $('prsNotas') ? $('prsNotas').value.trim() : '');
+}
+
+function movimiento(i, mov, persona, notas){
+  var k = llaves[i];
+  $('dlgCuerpo').insertAdjacentHTML('beforeend', '<div class="okmsg" id="dlgEsperando">Enviando a la hoja…</div>');
+  llamar('registrar', { codigo:k.idHoja, persona:persona || '', notas:notas || '', mov:mov })
+    .then(function(r){
+      if (desfasado(r)){ cerrarDialogo(); return; }
+      if (!r.ok){ $('dlgEsperando').remove(); dlgError(r.error); return; }
+      k.estado  = (mov === 'SALIDA') ? 'FUERA' : 'DISPONIBLE';
+      k.persona = (mov === 'SALIDA') ? r.persona : '';
+      k.desde   = (mov === 'SALIDA') ? r.hora : '';
+      if (mov === 'ENTRADA') k.devuelta = r.hora;
+      if (persona && personasHoja.indexOf(persona) === -1) personasHoja.push(persona);
+      pintarTabla(); guardar(); cerrarDialogo();
+      msg(mov === 'SALIDA'
+        ? '📤 Salida registrada: <b>' + esc(k.id) + '</b> → ' + esc(r.persona)
+        : '✅ Devuelta <b>' + esc(k.ref || k.id) + '</b> el ' + esc(r.hora) +
+          (r.diasFuera !== '' && r.diasFuera != null ? ' · estuvo fuera ' + esc(r.diasFuera) + ' días' : '') +
+          (r.notas ? '<br><span class="mini">Nota: ' + esc(r.notas) + '</span>' : ''));
+    })
+    .catch(function(e){ var x = $('dlgEsperando'); if (x) x.remove(); dlgError(explicar(e).replace(/<[^>]+>/g,'')); });
+}
+
+function corregir(i){
+  var k = llaves[i];
+  var nuevo = $('prsPersona').value.trim();
+  if (!nuevo){ dlgError('Escribe el nombre correcto.'); return; }
+  llamar('corregir', { codigo:k.idHoja, persona:nuevo })
+    .then(function(r){
+      if (desfasado(r)) { cerrarDialogo(); return; }
+      if (!r.ok){ dlgError(r.error); return; }
+      k.persona = nuevo;
+      pintarTabla(); guardar(); cerrarDialogo();
+      msg('Corregido: <b>' + esc(k.id) + '</b> figura ahora a nombre de ' + esc(nuevo) +
+          (r.antes ? ' (antes: ' + esc(r.antes) + ')' : '') + '.');
+    })
+    .catch(function(e){ dlgError(explicar(e).replace(/<[^>]+>/g,'')); });
+}
+
+// ---------- ventana de ajustes ----------
+function abrirAjustes(){
+  $('velo').classList.add('abierto');
+  revisarConfig();
+  setTimeout(function(){ $('urlApp').focus(); }, 60);
+}
+
+/** Avisa si la configuración fijada en el ordenador no existe o no coincide. */
+function revisarConfig(){
+  var caja = $('avisoConfig');
+  if (!caja) return;
+  var url = $('urlApp').value.trim(), clave = $('clave').value.trim().toUpperCase();
+  if (!url || !clave){ caja.innerHTML = ''; return; }
+
+  var fijada = (typeof CONFIG_LLAVES === 'object' && CONFIG_LLAVES) ? CONFIG_LLAVES : null;
+
+  if (!fijada){
+    caja.innerHTML = '<div class="aviso">Todavía no está fijada en este ordenador. ' +
+      'Si Edge borra sus datos, tendrás que volver a escribirla.</div>';
+  } else if ((fijada.url || '').trim() !== url ||
+             (fijada.clave || '').trim().toUpperCase() !== clave){
+    caja.innerHTML = '<div class="aviso">Has cambiado los datos: la configuración fijada ' +
+      'todavía tiene los antiguos. Vuelve a pulsar el botón de abajo.</div>';
+  } else {
+    caja.innerHTML = '<div class="okmsg">Configuración fijada en este ordenador. ' +
+      'Aunque Edge borre sus datos, la aplicación la recupera sola.</div>';
+  }
+}
+function cerrarAjustes(){ $('velo').classList.remove('abierto'); $('estadoAjustes').innerHTML = ''; }
+document.addEventListener('keydown', function(e){
+  if (e.key === 'Escape'){ cerrarAjustes(); cerrarDialogo(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's'){ e.preventDefault(); sincronizar(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'p'){ /* imprimir: lo maneja el navegador */ }
+});
+
+// ---------- barra de estado ----------
+var conectado = null;
+var personasHoja = [];
+function actualizarEstado(){
+  var n = llaves.filter(function(k){ return k.id; }).length;
+  var sinGuardar = pendientes().length;
+  var fuera = llaves.filter(function(k){ return k.estado === 'FUERA'; }).length;
+
+  $('estLlaves').textContent = n + ' llave' + (n===1?'':'s') +
+    (fuera ? ' · ' + fuera + ' fuera' : '');
+  var repes = repetidos().length;
+  if (repes){
+    $('estGuardado').textContent = '● ' + repes + ' código' + (repes===1?'':'s') + ' repetido' + (repes===1?'':'s');
+    $('estGuardado').style.color = 'var(--rojo)';
+  } else {
+    $('estGuardado').textContent = sinGuardar
+      ? '● ' + sinGuardar + ' cambio' + (sinGuardar===1?'':'s') + ' sin guardar'
+      : 'Todo guardado';
+    $('estGuardado').style.color = sinGuardar ? 'var(--ambar)' : 'var(--verde)';
+  }
+  $('btnGuardar').disabled = !sinGuardar || !!repes;
+
+  var p = $('punto');
+  p.className = 'punto' + (conectado === true ? ' on' : conectado === false ? ' off' : '');
+  $('estConexion').textContent = conectado === true ? 'Conectado con la hoja'
+                               : conectado === false ? 'Sin conexión con la hoja'
+                               : 'Sin comprobar';
+}
+
+// ---------- copia de seguridad de los ajustes ----------
+function exportarAjustes(){
+  var datos = { url: $('urlApp').value.trim(), clave: $('clave').value.trim(),
+                llaves: llaves.map(function(k){ return { id:k.id, com:k.com, des:k.des, cop:k.cop }; }),
+                guardado: new Date().toISOString() };
+  var blob = new Blob([JSON.stringify(datos, null, 2)], { type:'application/json' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ajustes-control-llaves.json';
+  a.click();
+}
+
+/**
+ * Borra lo que el navegador guarda de esta aplicación y recarga sin parámetros,
+ * para comprobar que se recupera del archivo de configuración del ordenador.
+ */
+function borrarGuardado(){
+  var fijada = (typeof CONFIG_LLAVES === 'object' && CONFIG_LLAVES) ? CONFIG_LLAVES : null;
+
+  var aviso = 'Se va a borrar lo que el navegador tiene guardado (enlace, clave y la copia ' +
+              'local del listado) y se recargará la aplicación.\n\n';
+  aviso += fijada
+    ? 'Debería volver sola con el enlace ' + (fijada.url || '').slice(0, 45) + '…\n\n¿Seguimos?'
+    : 'AVISO: no hay ninguna configuración fijada en este ordenador, así que tendrás que ' +
+      'volver a escribir el enlace y la clave a mano.\n\n¿Aun así quieres continuar?';
+
+  if (!confirm(aviso)) return;
+
+  try { localStorage.removeItem(CLAVE); } catch(e){}
+  // Sin los parámetros del acceso directo, para que la prueba sea del archivo de configuración.
+  location.replace(location.pathname);
+}
+
+/** Escapa un texto para que sobreviva a un ECHO de Windows. */
+function paraBat(t){
+  return String(t).replace(/%/g, '%%').replace(/[&|<>^()]/g, function(m){ return '^' + m; });
+}
+
+/**
+ * Genera un pequeño instalador que coloca config.js en la carpeta de la aplicación.
+ * El navegador no puede escribir ahí por seguridad, así que lo hace este archivo
+ * con un doble clic desde la carpeta de Descargas.
+ */
+function guardarConfigPermanente(){
+  var url = $('urlApp').value.trim(), clave = $('clave').value.trim().toUpperCase();
+  if (!url || !clave){ msg('Rellena antes el enlace y la clave.', 'aviso'); return; }
+
+  var bat = [
+    '@echo off',
+    'chcp 65001 >nul',
+    'title Guardar configuracion del Generador de llaves',
+    'set "D=%LOCALAPPDATA%\\ControlLlaves"',
+    'if not exist "%D%" mkdir "%D%" >nul 2>&1',
+    '> "%D%\\config.js" echo // Configuracion del Generador de QR de llaves.',
+    '>>"%D%\\config.js" echo // Generado desde la propia aplicacion. No hace falta tocarlo.',
+    '>>"%D%\\config.js" echo var CONFIG_LLAVES = {',
+    '>>"%D%\\config.js" echo   url:   ' + "'" + paraBat(url) + "',",
+    '>>"%D%\\config.js" echo   clave: ' + "'" + paraBat(clave) + "'",
+    '>>"%D%\\config.js" echo };',
+    'echo.',
+    'echo   Configuracion guardada en:',
+    'echo   %D%\\config.js',
+    'echo.',
+    'echo   Ya puedes cerrar esta ventana y abrir el Generador de llaves.',
+    'echo   Puedes borrar este archivo.',
+    'echo.',
+    'pause'
+  ].join('\r\n') + '\r\n';
+
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([bat], { type:'application/octet-stream' }));
+  a.download = 'Guardar configuracion de llaves.bat';
+  a.click();
+
+  $('rutaConfig').innerHTML =
+    '<div class="okmsg"><b>Descargado.</b> Ábrelo con doble clic desde tu carpeta de Descargas ' +
+    'y la configuración quedará fijada. Es un archivo de texto: puedes verlo con el Bloc de notas antes.<br>' +
+    '<span class="mini">Si Windows avisa de que viene de internet: Más información → Ejecutar de todas formas.</span></div>';
+}
+
+/** Misma configuración en formato archivo suelto, por si prefieres moverlo a mano. */
+function generarConfig(){
+  var url = $('urlApp').value.trim(), clave = $('clave').value.trim();
+  if (!url || !clave){ msg('Rellena antes el enlace y la clave.', 'aviso'); return; }
+
+  var contenido =
+    '// Configuración del Generador de QR de llaves.\n' +
+    '// Deja este archivo en la misma carpeta que la aplicación.\n' +
+    'var CONFIG_LLAVES = {\n' +
+    '  url:   ' + JSON.stringify(url) + ',\n' +
+    '  clave: ' + JSON.stringify(clave) + '\n' +
+    '};\n';
+
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([contenido], { type:'text/javascript' }));
+  a.download = 'config.js';
+  a.click();
+
+  $('rutaConfig').innerHTML =
+    '<div class="okmsg">Descargado. Muévelo a la carpeta donde está la aplicación:<br>' +
+    '<code style="font-size:12px; word-break:break-all">' +
+    esc(decodeURIComponent(location.pathname.replace(/\/[^\/]*$/, '')).replace(/^\//,'')) +
+    '</code></div>';
+}
+
+function importarAjustes(input){
+  var f = input.files && input.files[0];
+  if (!f) return;
+  var lector = new FileReader();
+  lector.onload = function(){
+    try{
+      var d = JSON.parse(lector.result);
+      if (d.url)   $('urlApp').value = d.url;
+      if (d.clave) $('clave').value  = d.clave;
+      if (d.llaves && d.llaves.length && confirm('¿Restaurar también el listado de ' + d.llaves.length + ' llaves?'))
+        llaves = d.llaves.map(normalizar);
+      pintarTabla(); guardar();
+      msg('✅ Ajustes restaurados. Pulsa «Probar conexión» para comprobarlos.');
+    }catch(e){ msg('❌ Ese archivo no es una copia de ajustes válida.', 'aviso'); }
+    input.value = '';
+  };
+  lector.readAsText(f);
+}
+
+/**
+ * Al abrir este archivo desde el disco, el navegador bloquea las peticiones normales
+ * a Google. Se usa una etiqueta <script>, que sí está permitida.
+ */
+function jsonp(params){
+  return new Promise(function(resolver, rechazar){
+    var url = $('urlApp').value.trim();
+    var nombre = 'cbLlaves' + Date.now() + Math.floor(Math.random() * 10000);
+    var etiqueta = document.createElement('script');
+
+    var reloj = setTimeout(function(){ limpiar(); rechazar(new Error('tiempo')); }, 30000);
+    function limpiar(){
+      clearTimeout(reloj);
+      try { delete window[nombre]; } catch(e){ window[nombre] = undefined; }
+      if (etiqueta.parentNode) etiqueta.parentNode.removeChild(etiqueta);
+    }
+
+    var q = ['callback=' + nombre, '_=' + Date.now()];
+    for (var k in params) q.push(k + '=' + encodeURIComponent(params[k]));
+    var direccion = url + '?' + q.join('&');
+    ultimaDireccion = direccion;
+
+    function fallo(motivo){
+      var e = new Error(motivo);
+      e.direccion = direccion;
+      limpiar(); rechazar(e);
+    }
+
+    window[nombre] = function(datos){ limpiar(); resolver(datos); };
+    etiqueta.onerror = function(){ fallo('red'); };
+    // Si carga pero nunca llama de vuelta, Google ha devuelto otra cosa (una página de error).
+    etiqueta.onload = function(){ setTimeout(function(){ if (window[nombre]) fallo('respuesta'); }, 400); };
+
+    etiqueta.src = direccion;
+    document.head.appendChild(etiqueta);
+  });
+}
+
+var ultimaDireccion = '';
+
+// ---------------------------------------------------------------------------
+// ACTUALIZACIONES. Cambia esta dirección por la de tu web antes de repartirlo.
+// ---------------------------------------------------------------------------
+var SERVIDOR_ACTUALIZACIONES = 'https://mirf24.github.io/APP-QR/nucleo';
+var VERSION_GENERADOR = '2026.08.04.1621';   // la reescribe "Publicar nucleo.bat" al publicar
+
+/** Pregunta a tu web si hay una versión más nueva. Si falla, no molesta. */
+function buscarActualizacion(){
+  if (!/^https?:\/\//.test(SERVIDOR_ACTUALIZACIONES)) return;
+  var s = document.createElement('script');
+  s.src = SERVIDOR_ACTUALIZACIONES + '/generador.js?t=' + Date.now();
+  s.onload = function(){
+    s.remove();
+    var pub = window.GENERADOR_PUBLICADO;
+    if (pub && pub.version && pub.version > VERSION_GENERADOR) avisarActualizacion(pub);
+  };
+  s.onerror = function(){ s.remove(); };
+  document.head.appendChild(s);
+}
+
+function avisarActualizacion(pub){
+  var b = $('avisoVersion');
+  b.innerHTML = '<span>Versión nueva disponible</span>' +
+                '<button onclick="descargarActualizacion()">Actualizar</button>';
+  b.classList.add('visible');
+  window.__pubNueva = pub;
+}
+
+/**
+ * El navegador no puede sobrescribir la aplicación instalada, así que descarga
+ * un archivo que lo hace con un doble clic.
+ */
+function descargarActualizacion(){
+  var pub = window.__pubNueva;
+  if (!pub) return;
+  var origen = pub.url || (SERVIDOR_ACTUALIZACIONES + '/generador.html');
+
+  var bat = [
+    '@echo off',
+    'chcp 65001 >nul',
+    'title Actualizar el Generador de llaves',
+    'set "D=%LOCALAPPDATA%\\ControlLlaves"',
+    'echo.',
+    'echo   Descargando la version ' + pub.version + '...',
+    'powershell -NoProfile -Command "try { Invoke-WebRequest -Uri \'' + origen + '\' ' +
+      '-OutFile (Join-Path $env:LOCALAPPDATA \'ControlLlaves\generador.html\') -UseBasicParsing; exit 0 } catch { exit 1 }"',
+    'if errorlevel 1 goto :error',
+    'echo.',
+    'echo   Actualizado. Abre el Generador de llaves normalmente.',
+    'echo   Puedes borrar este archivo.',
+    'echo.',
+    'pause',
+    'exit /b 0',
+    ':error',
+    'echo.',
+    'echo   No he podido descargarlo. Comprueba la conexion.',
+    'echo.',
+    'pause'
+  ].join('\r\n') + '\r\n';
+
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([bat], { type:'application/octet-stream' }));
+  a.download = 'Actualizar Generador de llaves.bat';
+  a.click();
+
+  $('avisoVersion').innerHTML =
+    '<span>Descargado: ábrelo con doble clic y vuelve a abrir la aplicación</span>';
+}
+var VERSION_APP = 9;   // debe coincidir con VERSION_API de Codigo.gs
+
+/** Detecta si el código publicado en Apps Script se ha quedado atrás. */
+function versionVieja(r){
+  if (!r || r.v === VERSION_APP) return '';
+  return '<b>El código de Apps Script está desactualizado</b> ' +
+    '(tiene la versión ' + (r.v || 'antigua') + ' y el generador espera la ' + VERSION_APP + ').<br><br>' +
+    'Arréglalo así:<br>' +
+    '1. Abre la hoja → <b>Extensiones → Apps Script</b>.<br>' +
+    '2. En <code>Código.gs</code>: <b>Ctrl+A</b> y pega encima el archivo <code>Codigo.gs</code> nuevo. Guarda 💾.<br>' +
+    '3. <b>Implementar → Gestionar implementaciones</b>.<br>' +
+    '4. Pulsa el <b>lápiz ✏</b> de la implementación que ya tienes.<br>' +
+    '5. En «Versión» elige <b>Nueva versión</b> y pulsa <b>Implementar</b>.<br><br>' +
+    'El paso 5 es el que se suele saltar: sin él Google sigue ejecutando el código viejo.';
+}
+
+/**
+ * La comprobación de versión está desactivada a propósito: bloqueaba el trabajo
+ * cuando el código de Apps Script no coincidía exactamente. Si algo falla,
+ * el número de versión sigue viéndose en «Probar conexión».
+ */
+function desfasado(r){ return false; }
+
+function verRespuesta(){
+  return ultimaDireccion
+    ? '<br><br>Para ver qué ha contestado Google, <a href="' + esc(ultimaDireccion) +
+      '" target="_blank">abre esta dirección</a> en otra pestaña.' +
+      '<br><span class="mini">Si sale la pantalla de escanear llaves, el <b>Código.gs</b> de Apps Script no está ' +
+      'actualizado o no has vuelto a implementar tras pegarlo.</span>'
+    : '';
+}
+
+/** Direccion de prueba, para verla en el navegador y saber qué contesta Google. */
+function urlPrueba(){
+  return $('urlApp').value.trim() + '?callback=prueba&accion=leer&clave=' +
+         encodeURIComponent($('clave').value.trim());
+}
+
+function probarConexion(){
+  var url = $('urlApp').value.trim();
+
+  // Si han pegado la dirección sin el final, se lo añadimos.
+  if (/^https:\/\/script\.google\.com\/macros\/s\/[^\/]+$/.test(url)){
+    $('urlApp').value = url + '/exec';
+    msg('Le faltaba <b>/exec</b> al final. Lo he añadido. Probando otra vez…');
+    guardar();
+  }
+  if (!configurado()) return;
+
+  msg('Probando…');
+  jsonp({ accion:'leer', clave: $('clave').value.trim() }).then(function(r){
+    if (desfasado(r)) return;
+    if (r && r.ok){
+      conectado = true; actualizarEstado();
+      var nota = (r.v !== VERSION_APP)
+        ? '<br><span class="mini">El código de Apps Script es la versión ' + (r.v || '?') +
+          ' y este generador la ' + VERSION_APP + '. No pasa nada: solo si algo no funciona, ' +
+          'actualiza el Codigo.gs.</span>'
+        : '';
+      msg('✅ Conexión correcta. La hoja tiene ' + r.llaves.length + ' llaves.' + nota);
+    }
+    else if (r)     msg('⚠️ Google responde, pero: ' + esc(r.error) +
+                        '<br>Copia otra vez la clave desde la hoja (menú 🔑 → opción 3).', 'aviso');
+  }).catch(function(){
+    msg('❌ Google no ha devuelto lo que esperaba.<br><br>' +
+        '<b>Haz esto para ver qué pasa:</b> abre <a href="' + esc(urlPrueba()) + '" target="_blank">' +
+        'esta dirección de prueba</a> en una pestaña nueva y mira qué sale:<br><br>' +
+        '• Sale un texto tipo <code>prueba({"ok":true,…})</code> o se descarga un archivo → ' +
+        'el código está bien; avísame.<br>' +
+        '• Sale la <b>pantalla de escanear llaves</b> → el código de <code>Código.gs</code> no está actualizado. ' +
+        'Pega el nuevo, guarda y vuelve a implementar.<br>' +
+        '• Te pide <b>iniciar sesión en Google</b> → el acceso no está en «Cualquier usuario».<br>' +
+        '• Sale <b>error 404</b> → esa implementación ya no existe: copia la URL desde ' +
+        '<i>Implementar → Gestionar implementaciones</i>.', 'aviso');
+  });
+}
+
+function configurado(){
+  var url = $('urlApp').value.trim();
+  if (!/^https?:\/\/.+\/exec$/.test(url)){
+    msg('Falta el enlace de la app (tiene que terminar en <b>/exec</b>). Lo tienes en la hoja: menú 🔑 → opción 3.', 'aviso');
+    return false;
+  }
+  if (!$('clave').value.trim()){
+    msg('Falta la clave de sincronización. La tienes en la hoja: menú 🔑 → opción 3.', 'aviso');
+    return false;
+  }
+  return true;
+}
+
+function llamar(accion, extra){
+  if (!configurado()) return Promise.reject();
+  var cuerpo = { accion: accion, clave: $('clave').value.trim() };
+  for (var k in extra) cuerpo[k] = extra[k];
+  return jsonp(cuerpo);
+}
+
+/**
+ * Trocea el listado: los datos viajan dentro de la dirección web y Google
+ * rechaza las direcciones largas. Formato compacto: id ⇥ comunidad ⇥ descripción ⇥ copias.
+ */
+function limpio(s){ return String(s == null ? '' : s).replace(/[~|\t\n\r]+/g, ' ').trim(); }
+
+function trocear(filas){
+  var lotes = [], actual = [];
+  filas.forEach(function(k){
+    var linea = [limpio(k.id), limpio(k.com), limpio(k.des), (k.cop || 1),
+                 limpio(k.idHoja || ''), limpio(k.ref || '')].join('~');
+    var prueba = actual.concat([linea]).join('|');
+    if (actual.length && encodeURIComponent(prueba).length > 900){
+      lotes.push(actual.join('|'));
+      actual = [];
+    }
+    actual.push(linea);
+  });
+  if (actual.length) lotes.push(actual.join('|'));
+  return lotes;
+}
+
+function aplicarCatalogo(lista){
+  cacheRef.texto = null;
+  llaves = lista.map(function(k){
+    return normalizar({ id:k.id, com:k.com, des:k.des, cop:k.cop, ref:k.ref, idHoja:k.id,
+                        estado:k.estado || 'DISPONIBLE', persona:k.persona, desde:k.desde,
+                        devuelta:k.devuelta });
+  });
+  pintarTabla(); guardar();
+}
+
+function sincronizar(){
+  var filas = llaves.filter(function(k){ return k.id && !k.borrar; });
+  var borrar = llaves.filter(function(k){ return k.borrar && k.id; }).map(function(k){ return k.id; });
+  var auto = completarCodigos();
+  if (auto){
+    pintarTabla();
+    filas = llaves.filter(function(k){ return k.id && !k.borrar; });
+  }
+
+  var repes = repetidos();
+  if (repes.length){
+    msg('No puedo guardar: cada llave necesita un código distinto.<br>' +
+        'Repetidos: <b>' + esc(repes.join(', ')) + '</b>.<br>' +
+        'Están marcados en rojo en la tabla. Cámbialos o usa <b>Renumerar códigos QR</b>.', 'aviso');
+    return;
+  }
+  if (!filas.length && !borrar.length){ msg('No hay nada que guardar.', 'aviso'); return; }
+  if (!configurado()) return;
+
+  var lotes = trocear(filas);
+  var clave = $('clave').value.trim();
+  var listaBorrar = borrar.map(limpio).join('|');
+  var envio;
+
+  if (lotes.length <= 1){
+    // Caso normal: todo en una sola petición.
+    msg('Guardando en la hoja…');
+    envio = jsonp({ accion:'guardar', clave:clave, datos:(lotes[0] || ''), borrar:listaBorrar });
+  } else {
+    // Listados grandes: se manda por bloques y se aplican todos juntos al final.
+    var sid = 'S' + Date.now() + Math.floor(Math.random() * 1000);
+    msg('Guardando en la hoja… (0 de ' + lotes.length + ')');
+    var cadena = Promise.resolve();
+    lotes.forEach(function(lote, i){
+      cadena = cadena.then(function(){
+        return jsonp({ accion:'lote', clave:clave, sid:sid, i:i, datos:lote }).then(function(r){
+          if (!r || !r.ok) throw new Error(r && r.error ? r.error : 'Fallo al enviar el bloque ' + (i+1) + '.');
+          msg('Guardando en la hoja… (' + (i+1) + ' de ' + lotes.length + ')');
+        });
+      });
+    });
+    envio = cadena.then(function(){
+      return jsonp({ accion:'fin', clave:clave, sid:sid, n:lotes.length, borrar:listaBorrar });
+    });
+  }
+
+  envio.then(function(r){
+    if (desfasado(r)) return;
+    if (!r.ok){ msg('❌ ' + esc(r.error), 'aviso'); return; }
+
+    var partes = [];
+    if (r.anadidas)     partes.push('<b>' + r.anadidas + '</b> añadidas');
+    if (r.actualizadas) partes.push('<b>' + r.actualizadas + '</b> modificadas');
+    if (r.renombradas)  partes.push('<b>' + r.renombradas + '</b> renumeradas');
+    if (r.borradas)     partes.push('<b>' + r.borradas + '</b> eliminadas');
+    var t = '✅ Hoja actualizada' + (partes.length ? ': ' + partes.join(', ') : ' (sin cambios)') +
+            '. Total: ' + (r.llaves ? r.llaves.length : r.total) + ' llaves.';
+    if (r.duplicados && r.duplicados.length)
+      t += '<br><span style="color:var(--rojo)">Se han ignorado códigos repetidos: ' +
+           esc(r.duplicados.join(', ')) + '</span>';
+    if (r.noBorradas && r.noBorradas.length)
+      t += '<br><span style="color:#b06000">No se han podido eliminar (están fuera): ' +
+           esc(r.noBorradas.join(', ')) + '</span>';
+
+    conectado = true;
+    if (r.llaves) aplicarCatalogo(r.llaves);
+    msg(t);
+  }).catch(function(e){ conectado = false; actualizarEstado(); if (e) msg(explicar(e), 'aviso'); });
+}
+
+function explicar(e){
+  var m = (e && e.message) || '';
+  if (m === 'red')
+    return '❌ No he podido conectar con la hoja.' + verRespuesta();
+  if (m === 'respuesta')
+    return '❌ Google ha respondido, pero no con lo que esperaba. Casi seguro que el ' +
+           '<b>Código.gs</b> de Apps Script no está actualizado, o lo pegaste pero no volviste a ' +
+           'implementar (<i>Implementar → Gestionar implementaciones → ✏ → Versión: Nueva</i>).' + verRespuesta();
+  if (m === 'tiempo')
+    return '❌ La hoja ha tardado demasiado en responder. Vuelve a intentarlo.' + verRespuesta();
+  return '❌ ' + esc(m || 'Error desconocido.') + verRespuesta();
+}
+
+function traerDeLaHoja(silencioso){
+  if (!silencioso && pendientes().length &&
+      !confirm('Tienes cambios sin guardar. Se perderán al recargar de la hoja. ¿Seguir?')) return;
+  msg('Leyendo la hoja…');
+  llamar('leer', {}).then(function(r){
+    if (desfasado(r)) return;
+    if (!r.ok){ msg('❌ ' + esc(r.error), 'aviso'); return; }
+    if (!r.llaves.length){ msg('La hoja todavía no tiene llaves. Añádelas aquí y pulsa Guardar.', 'aviso'); return; }
+    conectado = true;
+    aplicarCatalogo(r.llaves);
+    msg('✅ ' + llaves.length + ' llaves cargadas desde la hoja.');
+    llamar('personas', {}).then(function(pr){
+      if (pr && pr.ok) personasHoja = pr.personas || [];
+    }).catch(function(){});
+  }).catch(function(e){ if (e) msg(explicar(e), 'aviso'); });
+}
+
+// ---------- respaldo manual ----------
+function abrirPegar(){
+  var z = $('zonaPegar');
+  z.style.display = (z.style.display === 'none') ? 'block' : 'none';
+  if (z.style.display === 'block') $('pegado').focus();
+}
+
+/**
+ * Importa un listado pegado. Las columnas son:
+ *   Referencia · Comunidad · Descripción · Copias
+ * El código del QR no se pega nunca: se genera solo.
+ */
+function procesarPegado(){
+  var txt = $('pegado').value.trim();
+  if (!txt){ alert('Pega antes el contenido.'); return; }
+  var nuevas = [];
+  txt.split(/\r?\n/).forEach(function(linea){
+    if (!linea.trim()) return;
+    var c = linea.split(/\t|;|,(?=(?:[^"]*"[^"]*")*[^"]*$)/).map(function(x){
+      return x.trim().replace(/^"|"$/g,'');
+    });
+    if (/^(referencia|ref\.?|id)$/i.test(c[0])) return;   // fila de cabecera
+    if (!c[0] && !c[1] && !c[2]) return;                  // línea vacía
+    nuevas.push({ ref:c[0]||'', com:c[1]||'', des:c[2]||'',
+                  cop:(parseInt(c[3],10) > 0 ? parseInt(c[3],10) : 1) });
+  });
+  if (!nuevas.length){ alert('No he reconocido ninguna fila.'); return; }
+
+  // Es la misma llave si coinciden referencia, comunidad y descripción.
+  function huella(k){ return ((k.ref||'') + '|' + (k.com||'') + '|' + (k.des||'')).toLowerCase(); }
+  var existentes = {};
+  llaves.forEach(function(k){ existentes[huella(k)] = k; });
+
+  var add = 0, upd = 0;
+  nuevas.forEach(function(n){
+    var e = existentes[huella(n)];
+    if (e){ e.cop = n.cop; upd++; }
+    else {
+      llaves.push(normalizar({ id:nuevoCodigo(), ref:n.ref, com:n.com,
+                               des:n.des, cop:n.cop, nueva:true }));
+      add++;
+    }
+  });
+
+  var auto = completarCodigos();
+  $('pegado').value = ''; $('zonaPegar').style.display = 'none';
+  pintarTabla(); guardar();
+  msg(add + ' llaves añadidas y ' + upd + ' actualizadas en el listado' +
+      (auto ? ' (' + auto + ' con código asignado automáticamente)' : '') +
+      '. Pulsa <b>Guardar cambios en la hoja</b> para enviarlas.');
+}
+
+function copiarParaSheets(){
+  var filas = llaves.filter(function(k){ return k.id && !k.borrar; });
+  if (!filas.length){ alert('No hay llaves en el listado.'); return; }
+  var txt = filas.map(function(k){
+    return [k.id, k.com, k.des, k.estado || 'DISPONIBLE', k.persona || '', '', k.cop].join('\t');
+  }).join('\n');
+
+  var ta = document.createElement('textarea');
+  ta.value = txt; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  var ok = false;
+  try { ok = document.execCommand('copy'); } catch(e){}
+  document.body.removeChild(ta);
+
+  function hecho(){
+    alert('✅ ' + filas.length + ' llaves copiadas.\n\nEn Google Sheets:\n' +
+          '1. Pestaña «Llaves»\n2. Clic en la celda A2\n3. Ctrl+V');
+  }
+  if (ok){ hecho(); return; }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(hecho, function(){ mostrarParaCopiar(txt); });
+  } else { mostrarParaCopiar(txt); }
+}
+
+function mostrarParaCopiar(txt){
+  $('zonaPegar').style.display = 'block';
+  $('pegado').value = txt; $('pegado').select();
+  alert('Copia el texto del recuadro (Ctrl+C) y pégalo en la celda A2 de la pestaña «Llaves».');
+}
+
+function exportarCSV(){
+  var lineas = ['ID Llave,Comunidad,Descripción,Estado,En poder de,Fecha salida,Nº copias'];
+  llaves.forEach(function(k){
+    if (!k.id || k.borrar) return;
+    lineas.push(['"'+k.id+'"','"'+k.com+'"','"'+k.des+'"',(k.estado||'DISPONIBLE'),
+                 '"'+(k.persona||'')+'"','',k.cop].join(','));
+  });
+  var blob = new Blob(['﻿' + lineas.join('\n')], {type:'text/csv;charset=utf-8'});
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = 'llaves.csv'; a.click();
+}
+
+// ---------- etiquetas ----------
+/** Lo que va codificado dentro del QR de una llave. */
+function datoQR(k){
+  var url = $('urlApp').value.trim().replace(/\?.*$/,'');
+  return ($('modo').value === 'url' && /^https?:\/\//.test(url))
+    ? url + '?id=' + encodeURIComponent(k.id)
+    : 'LLAVE:' + k.id;
+}
+
+/** Ventana con el QR de una sola llave, para verlo, imprimirlo o guardarlo. */
+function verQR(i){
+  var k = llaves[i];
+  if (!k.id){
+    alert('Esta llave todavía no tiene código.\n\nPonle uno o pulsa «Numerar IDs».');
+    return;
+  }
+  var qr = qrcode(0, 'M'); qr.addData(datoQR(k)); qr.make();
+
+  abrirDialogo({
+    titulo:'Código QR de la llave',
+    cuerpo:
+      '<div style="text-align:center">' +
+        '<div id="qrGrande" style="display:inline-block; background:#fff; padding:14px; ' +
+             'border:1px solid var(--borde); border-radius:12px">' +
+          qr.createImgTag(8, 2) +
+        '</div>' +
+        '<div style="margin-top:14px; font-size:22px; font-weight:700">' + esc(k.ref || k.id) + '</div>' +
+        '<div style="color:var(--azul); font-weight:600">' + esc(k.com) + '</div>' +
+        '<div class="mini">' + esc(k.des) + '</div>' +
+        '<div class="mini" style="margin-top:10px; font-family:ui-monospace,Consolas,monospace">' +
+          'Código ' + esc(k.id) + (k.cop > 1 ? ' · ' + k.cop + ' copias' : '') + '</div>' +
+      '</div>',
+    extra:'<button onclick="descargarQR(' + i + ')">⬇️ Guardar PNG</button>' +
+          '<button onclick="imprimirUna(' + i + ')">🖨️ Imprimir esta</button>' +
+          '<span style="flex:1"></span>'
+  });
+}
+
+function descargarQR(i){
+  var k = llaves[i];
+  var img = $('qrGrande').querySelector('img');
+  var lienzo = document.createElement('canvas');
+  var lado = 600;
+  lienzo.width = lado; lienzo.height = lado;
+  var ctx = lienzo.getContext('2d');
+  ctx.imageSmoothingEnabled = false;
+  ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, lado, lado);
+  ctx.drawImage(img, 0, 0, lado, lado);
+  var a = document.createElement('a');
+  a.href = lienzo.toDataURL('image/png');
+  a.download = 'QR ' + (k.ref ? k.ref + ' ' : '') + k.id + '.png';
+  a.click();
+}
+
+var imprimirSolo = null;
+function imprimirUna(i){
+  imprimirSolo = i;
+  cerrarDialogo();
+  pintar();
+  setTimeout(function(){
+    window.print();
+    imprimirSolo = null;
+    pintar();
+  }, 150);
+}
+
+function pintar(){
+  var url  = $('urlApp').value.trim().replace(/\?.*$/,'');
+  var modo = $('modo').value;
+  var tam  = parseInt($('tam').value, 10);
+  var txt  = $('txt').value;
+  var cont = $('hoja');
+
+  cont.style.gridTemplateColumns = 'repeat(' + ($('cols').value || 5) + ',1fr)';
+
+  $('avisoUrl').innerHTML = (modo === 'url' && !/^https?:\/\//.test(url))
+    ? '<div class="aviso">Falta el enlace de la app: sin él los QR no pueden abrir la ficha al escanear.</div>'
+    : '';
+
+  cont.innerHTML = '';
+  var n = 0, filtradas = 0;
+  llaves.forEach(function(k, idx){
+    if (!k.id || k.borrar) return;
+    if (imprimirSolo !== null && idx !== imprimirSolo) return;
+    filtradas++;
+    if (imprimirSolo === null && !pasaFiltro(k)) return;
+    for (var c = 0; c < (k.cop||1); c++){
+      var dato = datoQR(k);
+
+      var qr = qrcode(0, 'M');
+      qr.addData(dato); qr.make();
+
+      var fuente = Math.max(9, tam + 4);
+      var pie = '';
+      if (txt !== 'no'){
+        var rotulo = (txt === 'codigo') ? k.id : (k.ref || k.id);
+        pie += '<div class="id" style="font-size:' + fuente + 'px">' + esc(rotulo) + '</div>';
+        if (txt === 'todo' || txt === 'corto')
+          pie += '<div class="com" style="font-size:' + (fuente-2) + 'px">' + esc(k.com) + '</div>';
+        if (txt === 'todo')
+          pie += '<div class="des" style="font-size:' + (fuente-3) + 'px">' + esc(k.des) +
+                 ((k.cop||1) > 1 ? ' (' + (c+1) + '/' + k.cop + ')' : '') + '</div>';
+      }
+
+      var d = document.createElement('div');
+      d.className = 'et';
+      d.innerHTML = qr.createImgTag(tam, 2) + pie;
+      cont.appendChild(d);
+      n++;
+    }
+  });
+
+  var filtrando = ($('filtro').value.trim() || $('filtroCom').value);
+  $('contador').textContent = n + ' etiqueta' + (n === 1 ? '' : 's') +
+    (filtrando ? ' (solo lo filtrado, de ' + filtradas + ' llaves)' : '');
+}
+
+cargar();
+buscarActualizacion();
+
+</script>
+</body>
+</html>

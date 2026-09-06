@@ -1,0 +1,15 @@
+{
+  "name": "Nexo QR",
+  "short_name": "Nexo QR",
+  "description": "Panel móvil para operaciones y control por código QR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f7fc",
+  "theme_color": "#111c36",
+  "lang": "es",
+  "icons": [
+    { "src": "marca-nexo.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

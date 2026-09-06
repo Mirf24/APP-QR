@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Nexo QR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Nexo QR">
+<meta name="theme-color" content="#111c36">
+<meta name="format-detection" content="telephone=no">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="marca-nexo.svg">
+<style>
+  /* Mismos tokens que el tema "Ocean Depths" que aplica escritorio.js en el
+     programa de escritorio — así la app se ve como la misma familia. */
+  :root{
+    --azul:#2d8b8b; --verde:#0d5c3c; --rojo:#8c2318; --ambar:#b06000;
+    --gris:#5a7070; --borde:#d5e3dd; --fondo:#f1faee; --panel:#fff;
+    --texto:#1a2332; --entrada:#fff; --hover:#e9f4ef; --linea:#e2eee8;
+    --barra:#1a2332; --barra2:#22303f;
+    --t-libre-f:#dcefe4; --t-libre-t:#0d5c3c; --t-libre-b:#a9d6c0;
+    --t-fuera-f:#fbe3e0; --t-fuera-t:#8c2318; --t-fuera-b:#f0bdb6;
+    --t-aviso-f:#fef7e0; --t-aviso-t:#6b4b00; --t-aviso-b:#f9ab00;
+    --t-ok-f:#dcefe4;    --t-ok-t:#0d5c3c;    --t-ok-b:#0d5c3c;
+    --r-azul:#2d8b8b; --r-verde:#0d5c3c; --r-rojo:#8c2318;
+    --sombra:0 1px 2px rgba(26,35,50,.10), 0 2px 8px rgba(26,35,50,.08);
+    --arriba:env(safe-area-inset-top); --abajo:env(safe-area-inset-bottom);
+  }
+  :root[data-tema="oscuro"], :root:not([data-tema="claro"]){}
+  @media (prefers-color-scheme: dark){
+    :root:not([data-tema="claro"]){
+      --azul:#5cc9c9; --verde:#7fd3a8; --rojo:#f0a49a; --ambar:#fdd663;
+      --gris:#8fa8a8; --borde:#2c3d4f; --fondo:#141d29; --panel:#1a2332;
+      --texto:#e8f1ee; --entrada:#22303f; --hover:#2a3a4b; --linea:#263444;
+      --t-libre-f:rgba(120,200,160,.15); --t-libre-t:#7fd3a8; --t-libre-b:rgba(120,200,160,.45);
+      --t-fuera-f:rgba(230,130,120,.15); --t-fuera-t:#f0a49a; --t-fuera-b:rgba(230,130,120,.45);
+      --t-aviso-f:rgba(253,214,99,.11);  --t-aviso-t:#fdd663; --t-aviso-b:#fdd663;
+      --t-ok-f:rgba(120,200,160,.11);    --t-ok-t:#7fd3a8;    --t-ok-b:#7fd3a8;
+      --r-azul:#2d8b8b; --r-verde:#1a7f3c; --r-rojo:#8c2318;
+      --sombra:0 1px 2px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-tema="oscuro"]{
+    --azul:#5cc9c9; --verde:#7fd3a8; --rojo:#f0a49a; --ambar:#fdd663;
+    --gris:#8fa8a8; --borde:#2c3d4f; --fondo:#141d29; --panel:#1a2332;
+    --texto:#e8f1ee; --entrada:#22303f; --hover:#2a3a4b; --linea:#263444;
+    --t-libre-f:rgba(120,200,160,.15); --t-libre-t:#7fd3a8; --t-libre-b:rgba(120,200,160,.45);
+    --t-fuera-f:rgba(230,130,120,.15); --t-fuera-t:#f0a49a; --t-fuera-b:rgba(230,130,120,.45);
+    --t-aviso-f:rgba(253,214,99,.11);  --t-aviso-t:#fdd663; --t-aviso-b:#fdd663;
+    --t-ok-f:rgba(120,200,160,.11);    --t-ok-t:#7fd3a8;    --t-ok-b:#7fd3a8;
+    --r-azul:#2d8b8b; --r-verde:#1a7f3c; --r-rojo:#8c2318;
+    --sombra:0 1px 2px rgba(0,0,0,.4), 0 2px 10px rgba(0,0,0,.3);
+  }
+
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--fondo); color:var(--texto); overflow:hidden;
+    font:16px/1.45 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    -webkit-user-select:none; user-select:none;
+  }
+  input,textarea{-webkit-user-select:text; user-select:text}
+
+  /* ---------- barra de título, igual que en el escritorio ---------- */
+  .barra{
+    position:fixed; top:0; left:0; right:0; z-index:30;
+    background:linear-gradient(180deg,var(--barra2),var(--barra)); color:#fff;
+    padding:calc(var(--arriba) + 10px) 12px 10px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .barra .logo{width:28px; height:28px; border-radius:8px; display:block; flex:0 0 auto}
+  .barra .txt{flex:1; min-width:0}
+  .barra h1{font-size:15px; margin:0; font-weight:600; letter-spacing:.2px}
+  .barra .sub{font-size:11.5px; color:#9aa3b2}
+  .barra button{
+    background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); color:#e8eaed;
+    border-radius:9px; width:38px; height:38px; font-size:17px; cursor:pointer; flex:0 0 auto;
+  }
+  .barra button:active{background:rgba(255,255,255,.2)}
+
+  .pantalla{
+    position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+    padding:calc(var(--arriba) + 70px) 13px calc(var(--abajo) + 24px);
+    display:none;
+  }
+  .pantalla.activa{display:block}
+
+  .tarjeta{background:var(--panel); border:1px solid var(--borde); border-radius:14px;
+           padding:16px; margin-bottom:11px; box-shadow:var(--sombra)}
+
+  button.b{display:block; width:100%; border:1px solid var(--borde); border-radius:13px; padding:16px;
+           font:600 16px/1 inherit; cursor:pointer; margin-top:9px;
+           background:var(--entrada); color:var(--texto)}
+  .b-azul{background:var(--r-azul);  border-color:var(--r-azul);  color:#fff}
+  .b-verde{background:var(--r-verde); border-color:var(--r-verde); color:#fff}
+  .b-rojo{background:var(--r-rojo);   border-color:var(--r-rojo);  color:#fff}
+  .b-gris{background:var(--entrada); color:var(--texto)}
+  .b-grande{padding:24px; font-size:20px; letter-spacing:.3px}
+  button:disabled{opacity:.5}
+
+  label{display:block; font-size:12px; font-weight:600; color:var(--gris); margin:15px 0 6px}
+  input,textarea{width:100%; font:16px inherit; padding:13px; border:1px solid var(--borde);
+                 border-radius:11px; background:var(--entrada); color:inherit}
+  textarea{min-height:70px; resize:vertical}
+
+  /* ---------- cámara ---------- */
+  #camara{position:absolute; inset:0; background:#000; display:none; z-index:40}
+  #camara.activa{display:block}
+  #video{width:100%; height:100%; object-fit:cover}
+  .marco{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+         pointer-events:none}
+  .marco div{width:72vw; max-width:330px; aspect-ratio:1; border:3px solid rgba(255,255,255,.9);
+             border-radius:26px; box-shadow:0 0 0 100vmax rgba(0,0,0,.45)}
+  .barra-cam{position:absolute; top:0; left:0; right:0; display:flex; align-items:center; gap:10px;
+             padding:calc(var(--arriba) + 10px) 12px 12px; z-index:5;
+             background:linear-gradient(180deg,rgba(0,0,0,.65),transparent)}
+  .barra-cam .atras{background:rgba(255,255,255,.16); border:1px solid rgba(255,255,255,.3);
+             color:#fff; border-radius:22px; padding:11px 18px 11px 14px; font:600 15px inherit;
+             cursor:pointer; display:flex; align-items:center; gap:7px}
+  .barra-cam .atras:active{background:rgba(255,255,255,.3)}
+  .barra-cam .titulo-cam{color:#fff; font-size:14px; font-weight:600; margin-left:auto;
+             margin-right:4px; text-shadow:0 1px 3px rgba(0,0,0,.6)}
+  .pie{position:absolute; left:0; right:0; bottom:calc(var(--abajo) + 24px); text-align:center;
+       padding:0 20px}
+  .pie p{margin:0 0 14px; font-size:15px; color:#fff; text-shadow:0 1px 4px rgba(0,0,0,.75)}
+  .pie button{background:rgba(255,255,255,.2); color:#fff; border:1px solid rgba(255,255,255,.45);
+              border-radius:24px; padding:12px 22px; font:600 15px inherit; margin:0 4px;
+              backdrop-filter:blur(8px); cursor:pointer}
+
+  /* ---------- piezas ---------- */
+  .id{font-size:29px; font-weight:700; letter-spacing:.5px; line-height:1.1}
+  .com{font-size:16px; color:var(--azul); font-weight:600; margin-top:3px}
+  .des{font-size:14px; color:var(--gris)}
+  .eti{display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:700;
+       padding:5px 12px 5px 10px; border-radius:20px; margin-top:12px; border:1px solid transparent}
+  .eti::before{content:''; width:6px; height:6px; border-radius:50%; background:currentColor}
+  .e-fuera{background:var(--t-fuera-f); color:var(--t-fuera-t); border-color:var(--t-fuera-b)}
+  .e-libre{background:var(--t-libre-f); color:var(--t-libre-t); border-color:var(--t-libre-b)}
+  .nota{border-left:4px solid var(--t-aviso-b); background:var(--t-aviso-f); color:var(--t-aviso-t);
+        padding:12px; border-radius:8px; font-size:14px; margin-top:12px}
+  .error{border-left:4px solid var(--rojo); background:var(--t-fuera-f); color:var(--t-fuera-t);
+         padding:12px; border-radius:8px; font-size:14px}
+  .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:10px}
+  .chip{background:var(--entrada); color:var(--azul); border:1px solid var(--borde); border-radius:22px;
+        padding:11px 15px; font:600 14px inherit; cursor:pointer; width:auto; margin:0}
+  .chip.sel{background:var(--r-azul); border-color:var(--r-azul); color:#fff}
+  .fila{border-bottom:1px solid var(--linea); padding:12px 0; font-size:14px}
+  .fila:last-child{border:0}
+  .fila b{display:block; font-size:15px}
+  .centro{text-align:center; padding:12px 0}
+  .icono{font-size:60px; line-height:1}
+  .mini{font-size:12.5px; color:var(--gris)}
+  .aviso-cola{background:var(--t-aviso-f); color:var(--t-aviso-t); border:1px solid var(--t-aviso-b);
+              text-align:center; padding:12px; font-size:14px; font-weight:600;
+              border-radius:12px; margin-bottom:11px}
+  .cargando{position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:50;
+            display:none; align-items:center; justify-content:center}
+  .cargando.activa{display:flex}
+  .rueda{width:40px; height:40px; border:4px solid rgba(255,255,255,.35); border-top-color:#fff;
+         border-radius:50%; animation:girar .8s linear infinite}
+  @keyframes girar{to{transform:rotate(360deg)}}
+</style>
+<style>
+  /* Nexo QR — identidad y aplicación móvil rediseñadas desde cero. */
+  :root{
+    --ink:#111c36; --ink-soft:#52607a; --canvas:#f5f7fc; --surface:#ffffff;
+    --primary:#5546e8; --primary-deep:#3d2dc8; --mint:#13b99b; --peach:#ffb37e;
+    --line:#e5e9f3; --danger:#e45a69; --shadow:0 14px 38px rgba(27,39,78,.10);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-tema="claro"]){
+      --ink:#f5f7ff; --ink-soft:#aab5d1; --canvas:#0d1427; --surface:#151f39;
+      --primary:#9389ff; --primary-deep:#776af5; --mint:#3dd5b6; --line:#293653;
+      --shadow:0 14px 38px rgba(0,0,0,.28);
+    }
+  }
+  body{background:var(--canvas); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+  .barra{height:auto; min-height:76px; padding:calc(var(--arriba) + 12px) 20px 12px; background:var(--canvas); color:var(--ink); border:0; box-shadow:none; gap:12px}
+  .barra .logo{width:42px;height:42px;border-radius:14px;box-shadow:0 7px 16px rgba(85,70,232,.25)}
+  .barra h1{font-size:16px;font-weight:750;letter-spacing:-.25px;color:var(--ink)}
+  .barra .sub{font-size:12px;color:var(--ink-soft);margin-top:1px}
+  .barra button{width:40px;height:40px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font-size:17px;box-shadow:none}
+  .barra button[onclick="verFuera()"]{display:none}
+  .pantalla{padding:calc(var(--arriba) + 89px) 20px calc(var(--abajo) + 98px);background:var(--canvas)}
+  .pantalla:not(#pInicio){padding-top:calc(var(--arriba) + 92px)}
+  .tarjeta{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:18px;margin-bottom:14px;box-shadow:none}
+  button.b{min-height:52px;border-radius:16px;padding:14px 17px;margin-top:10px;border:1px solid var(--line);font-size:15px;font-weight:700;letter-spacing:-.1px;background:var(--surface);color:var(--ink)}
+  .b-azul{background:var(--primary)!important;border-color:var(--primary)!important;color:#fff!important;box-shadow:0 10px 20px rgba(85,70,232,.22)}
+  .b-verde{background:var(--mint)!important;border-color:var(--mint)!important;color:#062d29!important}
+  .b-rojo{background:var(--danger)!important;border-color:var(--danger)!important;color:#fff!important}
+  .b-grande{font-size:17px;padding:17px}
+  label{color:var(--ink-soft);font-size:12px;letter-spacing:.05em;text-transform:uppercase}
+  input,textarea{background:var(--surface);border-color:var(--line);border-radius:14px;color:var(--ink)}
+  .mini{color:var(--ink-soft)} .id{font-size:28px;color:var(--ink)} .com{color:var(--primary)} .des{color:var(--ink-soft)}
+  .eti{border-radius:99px}.e-libre{background:#ddf8f1;color:#087a68;border-color:#b8ecdf}.e-fuera{background:#ffebe9;color:#bd4050;border-color:#f9c8c3}
+  .nota{border:0;border-radius:14px;background:#fff3df;color:#8a5919}.error{border:0;border-radius:14px}
+  .cargando{background:rgba(17,28,54,.32);backdrop-filter:blur(4px)}
+
+  /* Inicio: foco en una sola acción, con información que ayuda a decidir. */
+  .bienvenida{display:flex;align-items:flex-start;justify-content:space-between;margin:6px 2px 20px}
+  .bienvenida p{margin:0;color:var(--ink-soft);font-size:13px}.bienvenida h2{margin:2px 0 0;font-size:26px;line-height:1.1;letter-spacing:-.8px}
+  .estado-online{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:99px;background:#dcf8ef;color:#087a68;font-size:11px;font-weight:750}.estado-online:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+  .escaneo-principal{border-radius:26px;padding:22px;background:linear-gradient(135deg,#5b4bf2,#3323b1);color:#fff;box-shadow:0 18px 30px rgba(63,47,202,.24);overflow:hidden;position:relative}
+  .escaneo-principal:after{content:"";position:absolute;width:190px;height:190px;right:-70px;top:-74px;border:1px solid rgba(255,255,255,.2);border-radius:50%;box-shadow:0 0 0 26px rgba(255,255,255,.06),0 0 0 54px rgba(255,255,255,.04)}
+  .escaneo-principal > *{position:relative;z-index:1}.escaneo-kicker{display:flex;align-items:center;gap:8px;text-transform:uppercase;letter-spacing:.1em;font-size:11px;font-weight:750;color:#ddd9ff}.escaneo-kicker i{width:8px;height:8px;border-radius:2px;border:2px solid #fff;display:block}.escaneo-principal h3{font-size:25px;letter-spacing:-.7px;line-height:1.1;margin:14px 0 7px}.escaneo-principal p{margin:0;color:#e4e1ff;font-size:14px;max-width:240px}.escaneo-principal .b{margin:22px 0 0;background:#fff;color:#3323b1;border-color:#fff;box-shadow:none}.escaneo-principal .b:active{transform:scale(.985)}
+  .atajo-manual{width:100%;margin-top:11px;display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;border:0;color:var(--ink-soft);font:650 14px inherit;padding:11px}.atajo-manual span{font-size:18px;color:var(--primary)}
+  .seccion-cabecera{display:flex;align-items:end;justify-content:space-between;margin:26px 2px 11px}.seccion-cabecera h3{margin:0;font-size:16px;letter-spacing:-.25px}.seccion-cabecera button{background:transparent;border:0;color:var(--primary);font:700 13px inherit;padding:0}
+  .resumen{display:grid;grid-template-columns:1fr 1fr;gap:10px}.dato{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px}.dato small{color:var(--ink-soft);display:block;font-size:12px}.dato b{font-size:23px;letter-spacing:-.5px;display:block;margin-top:5px}.dato .dot{color:var(--mint);font-size:13px;margin-right:4px}.dato-alerta .dot{color:var(--peach)}
+  .pista{display:flex;gap:12px;padding:14px 2px 0;color:var(--ink-soft);font-size:12px;line-height:1.35}.pista span{display:grid;place-items:center;width:27px;height:27px;background:#ece9ff;color:var(--primary);border-radius:9px;flex:none;font-weight:800}
+
+  /* Módulos: espacios de producto para incorporar nuevas capacidades. */
+  .modulo-destacado{background:linear-gradient(135deg,#182646,#101a32);color:#fff;border-radius:24px;padding:20px;margin-bottom:12px}.modulo-destacado .eyebrow{font-size:11px;color:#bcb6ff;text-transform:uppercase;letter-spacing:.1em;font-weight:750}.modulo-destacado h2{font-size:22px;letter-spacing:-.5px;margin:9px 0 7px}.modulo-destacado p{font-size:13px;color:#c9d1e8;margin:0;line-height:1.5}.modulo-destacado .b{margin-bottom:0;background:var(--primary);border-color:var(--primary);color:#fff}
+  .modulo{display:flex;gap:14px;align-items:center;padding:16px 0;border-bottom:1px solid var(--line)}.modulo:last-child{border-bottom:0}.modulo-icono{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;font-size:20px;background:#eeecff}.modulo-icono.mint{background:#daf7ef}.modulo-icono.peach{background:#fff0e5}.modulo > div:nth-child(2){flex:1}.modulo h3{margin:0;font-size:15px}.modulo p{font-size:12px;color:var(--ink-soft);margin:2px 0 0}.etiqueta-prox{font-size:10px;color:var(--primary);background:#eeecff;border-radius:99px;padding:5px 8px;font-weight:750}
+  .navegacion{position:fixed;z-index:35;bottom:0;left:0;right:0;display:flex;align-items:end;justify-content:space-around;height:calc(var(--abajo) + 76px);padding:9px 12px calc(var(--abajo) + 8px);background:color-mix(in srgb,var(--surface) 92%,transparent);backdrop-filter:blur(18px);border-top:1px solid var(--line)}
+  .navegacion button{appearance:none;min-width:52px;border:0;background:transparent;color:var(--ink-soft);font:650 10px/1.2 inherit;padding:2px 4px;display:flex;flex-direction:column;align-items:center;gap:4px}.navegacion .nav-icono{font-size:19px;line-height:20px}.navegacion .nav-escaneo{transform:translateY(-23px);width:58px;height:58px;border-radius:19px;background:var(--primary);color:#fff;box-shadow:0 10px 22px rgba(85,70,232,.28);justify-content:center;font-size:23px}.navegacion .nav-escaneo span:last-child{display:none}.navegacion button.activo{color:var(--primary)}
+  #pLogin .tarjeta:first-child{padding:30px 18px}.centro .icono{font-size:50px}.fila{border-color:var(--line)}
+  @media (prefers-reduced-motion:no-preference){.escaneo-principal .b{transition:transform 140ms ease}.navegacion button{transition:color 140ms ease}}
+</style>
+</head>
+<body>
+
+<div class="barra" id="barra">
+  <img class="logo" src="marca-nexo.svg" alt="Logotipo de Nexo QR">
+  <div class="txt">
+    <h1 id="titulo">Nexo QR</h1>
+    <div class="sub" id="subtitulo">Panel operativo</div>
+  </div>
+  <button onclick="verFuera()" aria-label="Llaves fuera">📋</button>
+  <button onclick="irSolicitudes()" id="btnSolicitudes" aria-label="Solicitudes de acceso" hidden>📥</button>
+  <button onclick="ir('ajustes')" aria-label="Ajustes">⚙</button>
+</div>
+
+<!-- ============ ACCESO ============ -->
+<div class="pantalla" id="pLogin">
+  <div class="tarjeta centro">
+    <div class="icono">🔐</div>
+    <p class="mini" style="margin:10px 0 0">Identifícate para usar la app.</p>
+  </div>
+  <div class="tarjeta centro">
+    <div id="botonGoogle" style="display:flex; justify-content:center"></div>
+  </div>
+  <button class="b b-gris" onclick="mostrarSolicitudAcceso()" id="btnMostrarSolicitud">¿No tienes cuenta? Crear cuenta</button>
+
+  <div class="tarjeta" id="cajaSolicitud" style="display:none">
+    <label>Tu correo de Google</label>
+    <input type="email" id="accCorreo" placeholder="nombre@gmail.com" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <label>Cliente para el que trabajas</label>
+    <input id="accCliente" placeholder="eygconsultores" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <button class="b b-azul" onclick="enviarSolicitudAcceso()">Solicitar acceso</button>
+    <button class="b b-gris" onclick="ocultarSolicitudAcceso()">Cancelar</button>
+  </div>
+
+  <div id="accEstado"></div>
+</div>
+
+<!-- ============ SOLICITUDES (admin) ============ -->
+<div class="pantalla" id="pSolicitudes">
+  <div id="listaSolicitudes"></div>
+  <button class="b b-gris" onclick="ir('inicio')">← Volver</button>
+</div>
+
+<!-- ============ INICIO ============ -->
+<div class="pantalla activa" id="pInicio">
+  <div id="colaAviso"></div>
+  <section class="bienvenida" aria-labelledby="saludo">
+    <div><p>Operativa de hoy</p><h2 id="saludo">Todo bajo control</h2></div>
+    <span class="estado-online">Conectado</span>
+  </section>
+  <section class="escaneo-principal" aria-labelledby="tituloEscaneo">
+    <div class="escaneo-kicker"><i></i> Acción rápida</div>
+    <h3 id="tituloEscaneo">Escanea una llave</h3>
+    <p>Registra una salida o devolución en unos segundos.</p>
+    <button class="b" onclick="abrirCamara()">Abrir escáner QR</button>
+  </section>
+  <button class="atajo-manual" onclick="manual()"><span>⌕</span> Introducir código manualmente</button>
+  <section aria-labelledby="tituloResumen">
+    <div class="seccion-cabecera"><h3 id="tituloResumen">Resumen</h3><button onclick="verFuera()">Ver actividad</button></div>
+    <div class="resumen">
+      <article class="dato"><small><span class="dot">●</span>Disponibles</small><b id="contadorDisponibles">—</b></article>
+      <article class="dato dato-alerta"><small><span class="dot">●</span>Fuera ahora</small><b id="contadorFuera">—</b></article>
+    </div>
+  </section>
+  <div class="pista"><span>✦</span><div><b>Un único punto de trabajo.</b><br>Escanea, consulta el estado y registra el movimiento sin cambiar de contexto.</div></div>
+</div>
+
+<!-- ============ HERRAMIENTAS NUEVAS ============ -->
+<div class="pantalla" id="pHerramientas">
+  <section class="modulo-destacado">
+    <div class="eyebrow">Espacio para crecer</div>
+    <h2>Herramientas de operación</h2>
+    <p>Un área independiente del escaneo para activar nuevas capacidades sin añadir complejidad al flujo diario.</p>
+    <button class="b" onclick="ir('ajustes')">Configurar espacio</button>
+  </section>
+  <section class="tarjeta" aria-label="Módulos planificados">
+    <div class="modulo"><div class="modulo-icono mint">♧</div><div><h3>Visitas y proveedores</h3><p>Entrada, salida y registro de visitas.</p></div><span class="etiqueta-prox">PRÓX.</span></div>
+    <div class="modulo"><div class="modulo-icono">▦</div><div><h3>Inventario QR</h3><p>Ubicación y estado de activos del edificio.</p></div><span class="etiqueta-prox">PRÓX.</span></div>
+    <div class="modulo"><div class="modulo-icono peach">!</div><div><h3>Incidencias</h3><p>Alta y seguimiento desde el móvil.</p></div><span class="etiqueta-prox">PRÓX.</span></div>
+    <div class="modulo"><div class="modulo-icono mint">↗</div><div><h3>Automatizaciones</h3><p>Avisos y tareas programadas por estado.</p></div><span class="etiqueta-prox">PRÓX.</span></div>
+  </section>
+</div>
+
+<!-- ============ FICHA ============ -->
+<div class="pantalla" id="pFicha">
+  <div class="tarjeta" id="fichaDatos"></div>
+  <div id="fichaForm"></div>
+</div>
+
+<!-- ============ RESULTADO ============ -->
+<div class="pantalla" id="pResultado"><div id="resContenido"></div></div>
+
+<!-- ============ LLAVES FUERA ============ -->
+<div class="pantalla" id="pFuera">
+  <div class="tarjeta" id="listaFuera"></div>
+  <button class="b b-gris" onclick="ir('inicio')">← Volver</button>
+</div>
+
+<!-- ============ AJUSTES ============ -->
+<div class="pantalla" id="pAjustes">
+  <div class="tarjeta">
+    <p class="mini" style="margin-top:0">Datos de tu hoja de cálculo. En la hoja:
+       menú <b>🔑 Control de Llaves → 3. Ver datos para el generador de QR</b>.</p>
+    <label>Enlace de la app (acaba en /exec)</label>
+    <input id="cfgUrl" placeholder="https://script.google.com/…/exec" autocapitalize="off" autocorrect="off" spellcheck="false">
+    <label>Clave de sincronización</label>
+    <input id="cfgClave" placeholder="A1B2C3D4E5F6" autocapitalize="characters" autocorrect="off" spellcheck="false">
+    <button class="b b-azul" onclick="guardarAjustes()">Guardar y comprobar</button>
+    <div id="ajustesEstado"></div>
+  </div>
+  <div class="tarjeta">
+    <p class="mini" style="margin:0">Para que quede como una app: en Safari, botón Compartir →
+      <b>Añadir a pantalla de inicio</b>.</p>
+  </div>
+  <div class="tarjeta" id="cajaCuenta" style="display:none">
+    <p class="mini" style="margin:0 0 4px">Conectado como</p>
+    <p style="margin:0 0 12px; font-weight:600" id="cuentaCorreo"></p>
+    <button class="b b-gris" onclick="cerrarSesionYVolver()">Cerrar sesión</button>
+  </div>
+  <button class="b b-gris" onclick="ir('inicio')">← Volver</button>
+</div>
+
+<!-- ============ CÁMARA ============ -->
+<div id="camara">
+  <video id="video" playsinline muted autoplay></video>
+  <canvas id="lienzo" hidden></canvas>
+  <div class="marco"><div></div></div>
+  <div class="barra-cam">
+    <button class="atras" onclick="salirCamara()">‹ Atrás</button>
+    <span class="titulo-cam">Escanear QR</span>
+  </div>
+  <div class="pie">
+    <p id="camTexto">Buscando código…</p>
+    <button onclick="cambiarLinterna()" id="btnLuz" hidden>💡 Luz</button>
+    <button onclick="manual()">⌨️ Escribir código</button>
+  </div>
+</div>
+
+<div class="cargando" id="cargando"><div class="rueda"></div></div>
+
+<nav class="navegacion" aria-label="Navegación principal">
+  <button class="activo" data-nav="inicio" onclick="ir('inicio')"><span class="nav-icono">⌂</span><span>Inicio</span></button>
+  <button data-nav="fuera" onclick="verFuera()"><span class="nav-icono">◷</span><span>Actividad</span></button>
+  <button class="nav-escaneo" onclick="abrirCamara()" aria-label="Escanear una llave"><span class="nav-icono">⌗</span><span>Escanear</span></button>
+  <button data-nav="herramientas" onclick="ir('herramientas')"><span class="nav-icono">▦</span><span>Herramientas</span></button>
+  <button data-nav="ajustes" onclick="ir('ajustes')"><span class="nav-icono">◌</span><span>Perfil</span></button>
+</nav>
+
+<script src="jsQR.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script>
+'use strict';
+var VERSION_APP = 9;
+var LS = 'llavesMovil.v1';
+var LS_SESION = 'llavesMovil.sesion';
+
+// Control de acceso por correo (el mismo Portero que usa la app de escritorio).
+// Vacío = sin control de acceso, la app funciona como hasta ahora.
+// Para activarlo hacen falta LOS DOS: la URL del Portero y un client ID de
+// Google tipo "Aplicación web" (el de escritorio es de otro tipo y no sirve
+// aquí). Se crea en Google Cloud Console con el origen autorizado
+// https://mirf24.github.io/APP-QR, y tiene que ser el MISMO CLIENTE_ID_WEB
+// que pusiste en Portero.gs.
+var PORTERO_URL = 'https://script.google.com/macros/s/AKfycbx_llo_fbjjtrPNtH0OOgi6bIRILwJ8a9XJF3XJWaQ6bGWisv12CJKDHIl8BAr1q98n/exec';
+var CLIENTE_ID_WEB = '168232396325-gus8uncp0bchpbeui2a8c0qsk02n007k.apps.googleusercontent.com';
+var DIAS_PARA_RENOVAR = 2;
+
+var cfg = { url:'', clave:'' };
+var cache = { llaves:[], personas:[], frecuentes:[] };
+var cola = [];                 // registros pendientes de enviar
+var rechazados = [];           // los que la hoja no ha podido aplicar
+var llaveActual = null;
+var flujo = null, escaneando = false, pista = null;
+var pantallaActual = 'inicio', pantallaPrevia = 'inicio';
+
+function $(id){ return document.getElementById(id); }
+function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;')
+  .replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function cargando(v){ $('cargando').classList.toggle('activa', !!v); }
+
+// ------------------------------------------------ almacenamiento
+function guardar(){
+  try{ localStorage.setItem(LS, JSON.stringify(
+    { cfg:cfg, cache:cache, cola:cola, rechazados:rechazados })); }catch(e){}
+}
+function recuperar(){
+  try{
+    var d = JSON.parse(localStorage.getItem(LS) || 'null');
+    if (d){ cfg = d.cfg || cfg; cache = d.cache || cache;
+            cola = d.cola || []; rechazados = d.rechazados || []; }
+  }catch(e){}
+}
+
+// ------------------------------------------------ navegación
+function ir(p){
+  ['pInicio','pFicha','pResultado','pFuera','pAjustes','pLogin','pSolicitudes','pHerramientas'].forEach(function(id){
+    $(id).classList.toggle('activa', id === 'p' + p.charAt(0).toUpperCase() + p.slice(1));
+  });
+  var subtitulos = { inicio:'Escanear llaves', ficha:'Registrar movimiento',
+                     resultado:'Movimiento guardado', fuera:'Llaves fuera', ajustes:'Ajustes',
+                     login:'Identifícate', solicitudes:'Solicitudes de acceso', herramientas:'Herramientas' };
+  $('subtitulo').textContent = subtitulos[p] || '';
+  pantallaActual = p;
+  document.querySelectorAll('[data-nav]').forEach(function(b){
+    b.classList.toggle('activo', b.getAttribute('data-nav') === p);
+  });
+  if (p === 'inicio') pintarCola();
+  if (p === 'ajustes') pintarCuenta();
+  try{ window.scrollTo(0,0); }catch(e){}
+}
+
+// ------------------------------------------------ conexión
+function jsonp(params){
+  return new Promise(function(ok, mal){
+    if (!cfg.url){ mal(new Error('sin-config')); return; }
+    var nombre = 'cb' + Date.now() + Math.floor(Math.random()*10000);
+    var s = document.createElement('script');
+    var reloj = setTimeout(function(){ fin(); mal(new Error('tiempo')); }, 25000);
+    function fin(){
+      clearTimeout(reloj);
+      try{ delete window[nombre]; }catch(e){ window[nombre] = undefined; }
+      if (s.parentNode) s.parentNode.removeChild(s);
+    }
+    window[nombre] = function(d){ fin(); ok(d); };
+    s.onerror = function(){ fin(); mal(new Error('red')); };
+    var q = ['callback=' + nombre, '_=' + Date.now(), 'clave=' + encodeURIComponent(cfg.clave)];
+    for (var k in params) q.push(k + '=' + encodeURIComponent(params[k]));
+    s.src = cfg.url + '?' + q.join('&');
+    document.head.appendChild(s);
+  });
+}
+
+// Comprobación de versión desactivada a propósito: no debe impedir registrar llaves.
+function versionMal(r){ return ''; }
+
+// ------------------------------------------------ acceso (Portero)
+//
+// Habla con el Portero igual que jsonp() habla con la hoja del cliente: por
+// GET con "callback", porque el navegador bloquea el POST cross-origin a
+// Apps Script (por eso jsonp() existe también). Aparte porque no lleva
+// "clave" y apunta a otra URL, la del Portero.
+function pedirAlPortero(params){
+  return new Promise(function(ok, mal){
+    if (!PORTERO_URL){ mal(new Error('sin-portero')); return; }
+    var nombre = 'cbp' + Date.now() + Math.floor(Math.random()*10000);
+    var s = document.createElement('script');
+    var reloj = setTimeout(function(){ fin(); mal(new Error('tiempo')); }, 20000);
+    function fin(){
+      clearTimeout(reloj);
+      try{ delete window[nombre]; }catch(e){ window[nombre] = undefined; }
+      if (s.parentNode) s.parentNode.removeChild(s);
+    }
+    window[nombre] = function(d){ fin(); ok(d); };
+    s.onerror = function(){ fin(); mal(new Error('red')); };
+    var q = ['callback=' + nombre, '_=' + Date.now()];
+    for (var k in params) q.push(k + '=' + encodeURIComponent(params[k]));
+    s.src = PORTERO_URL + '?' + q.join('&');
+    document.head.appendChild(s);
+  });
+}
+
+// --- el pase guardado (igual que sesion.js en el programa de escritorio) ---
+function leerSesionAcceso(){
+  try{ return JSON.parse(localStorage.getItem(LS_SESION) || 'null'); }catch(e){ return null; }
+}
+function guardarSesionAcceso(s){ try{ localStorage.setItem(LS_SESION, JSON.stringify(s)); }catch(e){} }
+function cerrarSesionAcceso(){ try{ localStorage.removeItem(LS_SESION); }catch(e){} }
+
+/** El pase es correo|rol|cliente|caduca|firma: la firma no hace falta comprobarla aquí, solo leerlo. */
+function datosDelPase(pase){
+  var t = String(pase||'').split('|');
+  if (t.length !== 5) return null;
+  return { correo:t[0], rol:t[1], cliente:t[2], caduca:Number(t[3]) };
+}
+function diasQueQuedan(s){
+  var d = s && datosDelPase(s.pase);
+  return d ? (d.caduca - Date.now()) / 86400000 : -1;
+}
+function sesionValidaAcceso(){ return diasQueQuedan(leerSesionAcceso()) > 0; }
+function quienSoyAcceso(){
+  var s = leerSesionAcceso(), d = s && datosDelPase(s.pase);
+  return d ? { correo:d.correo, rol:d.rol, cliente:d.cliente } : null;
+}
+
+function renovarSiHaceFaltaAcceso(){
+  var s = leerSesionAcceso(), quedan = diasQueQuedan(s);
+  if (quedan <= 0 || quedan > DIAS_PARA_RENOVAR) return;
+  pedirAlPortero({ accion:'renovar', pase:s.pase }).then(function(r){
+    if (r && r.ok && r.pase) guardarSesionAcceso(Object.assign({}, s, { pase:r.pase }));
+    else if (r && r.ok === false) cerrarSesionAcceso();   // el Portero ha dicho que ya no vale
+  }).catch(function(){});   // sin conexión no se echa a nadie
+}
+
+function actualizarBotonSolicitudes(){
+  var b = document.getElementById('btnSolicitudes'), q = quienSoyAcceso();
+  if (b) b.hidden = !(PORTERO_URL && q && q.rol === 'admin');
+}
+
+// --- Google Identity Services: el botón oficial, sin tocar OAuth a mano ---
+function iniciarGoogle(intentos){
+  if (window.google && google.accounts && google.accounts.id){
+    google.accounts.id.initialize({ client_id: CLIENTE_ID_WEB, callback: alRecibirCredencialGoogle });
+    google.accounts.id.renderButton(document.getElementById('botonGoogle'),
+      { theme:'filled_blue', size:'large', text:'signin_with', locale:'es' });
+    return;
+  }
+  if ((intentos||0) < 40){ setTimeout(function(){ iniciarGoogle((intentos||0)+1); }, 250); return; }
+  $('accEstado').innerHTML = '<div class="error">No he podido cargar el acceso de Google. ' +
+    'Comprueba tu conexión y recarga.</div>';
+}
+
+function alRecibirCredencialGoogle(resp){
+  if (!resp || !resp.credential) return;
+  $('accEstado').innerHTML = '<div class="nota">Comprobando…</div>';
+  pedirAlPortero({ accion:'entrar', idToken:resp.credential }).then(function(r){
+    if (r && r.ok){
+      guardarSesionAcceso({ pase:r.pase, nombre:r.nombre||'', entrada:new Date().toISOString() });
+      $('accEstado').innerHTML = '';
+      actualizarBotonSolicitudes();
+      continuarTrasAcceso();
+    } else {
+      $('accEstado').innerHTML = '<div class="error">' + esc((r&&r.error)||'No se ha podido identificar.') + '</div>';
+    }
+  }).catch(function(){
+    $('accEstado').innerHTML = '<div class="error">No he podido hablar con el Portero. Revisa tu conexión.</div>';
+  });
+}
+
+// --- crear cuenta (solicitud, sin pasar por Google) ---
+function mostrarSolicitudAcceso(){
+  $('cajaSolicitud').style.display = 'block';
+  $('btnMostrarSolicitud').style.display = 'none';
+  $('accEstado').innerHTML = '';
+}
+function ocultarSolicitudAcceso(){
+  $('cajaSolicitud').style.display = 'none';
+  $('btnMostrarSolicitud').style.display = 'block';
+  $('accEstado').innerHTML = '';
+}
+function enviarSolicitudAcceso(){
+  var correo = $('accCorreo').value.trim(), cliente = $('accCliente').value.trim();
+  if (!correo || !cliente){
+    $('accEstado').innerHTML = '<div class="error">Rellena el correo y el cliente.</div>';
+    return;
+  }
+  $('accEstado').innerHTML = '<div class="nota">Enviando…</div>';
+  pedirAlPortero({ accion:'solicitar', correo:correo, cliente:cliente }).then(function(r){
+    if (r && r.ok){
+      $('cajaSolicitud').style.display = 'none';
+      $('accEstado').innerHTML = '<div class="nota">' + esc(r.mensaje||'Solicitud enviada.') + '</div>';
+    } else {
+      $('accEstado').innerHTML = '<div class="error">' + esc((r&&r.error)||'No se ha podido enviar.') + '</div>';
+    }
+  }).catch(function(){
+    $('accEstado').innerHTML = '<div class="error">No he podido hablar con el Portero. Revisa tu conexión.</div>';
+  });
+}
+
+// --- cuenta, en Ajustes ---
+function pintarCuenta(){
+  var caja = document.getElementById('cajaCuenta'), q = quienSoyAcceso();
+  if (!caja) return;
+  if (PORTERO_URL && q){
+    caja.style.display = 'block';
+    document.getElementById('cuentaCorreo').textContent = q.correo;
+  } else {
+    caja.style.display = 'none';
+  }
+}
+function cerrarSesionYVolver(){
+  if (!confirm('¿Cerrar sesión?')) return;
+  cerrarSesionAcceso();
+  ir('login');
+  iniciarGoogle();
+}
+
+// --- solicitudes pendientes (solo admin) ---
+function irSolicitudes(){
+  ir('solicitudes');
+  $('listaSolicitudes').innerHTML = '<p class="mini">Cargando…</p>';
+  var s = leerSesionAcceso();
+  if (!s){ ir('login'); return; }
+  pedirAlPortero({ accion:'listarSolicitudes', pase:s.pase }).then(function(r){
+    if (!r.ok){ $('listaSolicitudes').innerHTML = '<div class="error">' + esc(r.error) + '</div>'; return; }
+    pintarListaSolicitudes(r.solicitudes || []);
+  }).catch(function(){
+    $('listaSolicitudes').innerHTML = '<div class="error">Sin conexión con el Portero.</div>';
+  });
+}
+
+function pintarListaSolicitudes(lista){
+  if (!lista.length){
+    $('listaSolicitudes').innerHTML =
+      '<div class="tarjeta centro"><p class="mini" style="margin:0">No hay solicitudes pendientes.</p></div>';
+    return;
+  }
+  $('listaSolicitudes').innerHTML = lista.map(function(s){
+    return '<div class="tarjeta">' +
+      '<div style="font-weight:600">' + esc(s.correo) + '</div>' +
+      '<div class="mini" style="margin-bottom:10px">' + esc(s.cliente || '(sin cliente)') + '</div>' +
+      '<button class="b b-verde" onclick="resolverSolicitudMovil(' + s.fila + ',true)">✅ Aceptar</button>' +
+      '<button class="b b-rojo" onclick="resolverSolicitudMovil(' + s.fila + ',false)">❌ Rechazar</button>' +
+    '</div>';
+  }).join('');
+}
+
+function resolverSolicitudMovil(fila, aceptar){
+  if (!confirm(aceptar ? '¿Crear la cuenta de acceso?' : '¿Rechazar esta solicitud?')) return;
+  var s = leerSesionAcceso();
+  cargando(true);
+  pedirAlPortero({ accion:'resolverSolicitud', pase:s.pase, fila:fila, aceptar:aceptar }).then(function(r){
+    cargando(false);
+    alert(r.ok ? '✅ ' + r.mensaje : '❌ ' + r.error);
+    irSolicitudes();
+  }).catch(function(){
+    cargando(false);
+    alert('Sin conexión con el Portero.');
+  });
+}
+
+// ------------------------------------------------ arranque
+recuperar();
+$('cfgUrl').value = cfg.url;
+$('cfgClave').value = cfg.clave;
+
+// Si llegamos desde un QR escaneado con la cámara del móvil, viene la llave puesta.
+var llaveEntrante = new URLSearchParams(location.search).get('id') || '';
+
+/** Llega aquí solo cuando cfg está lista y (si hay Portero) el pase es válido. */
+function entrarEnLaApp(){
+  ir('inicio');
+  refrescarPersonas();
+  enviarCola();
+  if (PORTERO_URL){ renovarSiHaceFaltaAcceso(); actualizarBotonSolicitudes(); }
+  if (llaveEntrante){
+    history.replaceState(null, '', location.pathname);   // que no se repita al recargar
+    consultar(llaveEntrante);
+  }
+}
+
+/** Tras identificarse (o si no hace falta), sigue con el paso de siempre: la hoja. */
+function continuarTrasAcceso(){
+  if (!cfg.url || !cfg.clave){
+    ir('ajustes');
+    $('ajustesEstado').innerHTML = '<div class="nota">Primero pon el enlace y la clave de tu hoja.</div>';
+  } else {
+    entrarEnLaApp();
+  }
+}
+
+if (PORTERO_URL && !sesionValidaAcceso()){
+  ir('login');
+  iniciarGoogle();
+} else {
+  continuarTrasAcceso();
+}
+
+window.addEventListener('online', enviarCola);
+window.addEventListener('popstate', function(){ if (escaneando) salirCamara(); });
+
+function guardarAjustes(){
+  cfg.url = $('cfgUrl').value.trim().replace(/\s+/g,'');
+  cfg.clave = $('cfgClave').value.trim().toUpperCase();
+  if (/^https:\/\/script\.google\.com\/macros\/s\/[^\/]+$/.test(cfg.url)) cfg.url += '/exec';
+  $('cfgUrl').value = cfg.url;
+  guardar();
+
+  if (!/\/exec$/.test(cfg.url)){
+    $('ajustesEstado').innerHTML = '<div class="error">El enlace tiene que acabar en <b>/exec</b>.</div>';
+    return;
+  }
+  $('ajustesEstado').innerHTML = '<div class="nota">Comprobando…</div>';
+  jsonp({ accion:'personas' }).then(function(r){
+    var v = versionMal(r);
+    if (v){ $('ajustesEstado').innerHTML = '<div class="error">' + esc(v) + '</div>'; return; }
+    if (!r.ok){ $('ajustesEstado').innerHTML = '<div class="error">' + esc(r.error) + '</div>'; return; }
+    cache.personas = r.personas || []; cache.frecuentes = r.frecuentes || [];
+    guardar();
+    $('ajustesEstado').innerHTML = '<div class="nota">✅ Conectado. Ya puedes escanear.</div>';
+    setTimeout(function(){ ir('inicio'); }, 900);
+  }).catch(function(){
+    $('ajustesEstado').innerHTML = '<div class="error">No he podido conectar. Revisa el enlace y que ' +
+      'la app esté publicada para «Cualquier usuario».</div>';
+  });
+}
+
+function refrescarPersonas(){
+  jsonp({ accion:'personas' }).then(function(r){
+    if (r && r.ok){ cache.personas = r.personas || []; cache.frecuentes = r.frecuentes || []; guardar(); }
+  }).catch(function(){});
+}
+
+// ------------------------------------------------ cámara
+function abrirCamara(){
+  pantallaPrevia = pantallaActual;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    alert('Este navegador no permite usar la cámara. Escribe el código a mano.');
+    return;
+  }
+  $('camara').classList.add('activa');
+  $('camTexto').textContent = 'Abriendo cámara…';
+
+  navigator.mediaDevices.getUserMedia({
+    video: { facingMode:{ ideal:'environment' }, width:{ ideal:1280 }, height:{ ideal:720 } },
+    audio: false
+  }).then(function(s){
+    flujo = s; pista = s.getVideoTracks()[0];
+    var v = $('video');
+    v.srcObject = s; v.setAttribute('playsinline','');
+    var cap = pista.getCapabilities ? pista.getCapabilities() : {};
+    $('btnLuz').hidden = !cap.torch;
+    return v.play();
+  }).then(function(){
+    $('camTexto').textContent = 'Buscando código…';
+    escaneando = true;
+    requestAnimationFrame(mirar);
+  }).catch(function(err){
+    cerrarCamara();
+    alert(err && err.name === 'NotAllowedError'
+      ? 'Has bloqueado la cámara. Actívala en Ajustes → Safari → Cámara, o escribe el código a mano.'
+      : 'No he podido abrir la cámara. Escribe el código a mano.');
+  });
+}
+
+/** Botón «Atrás» de la cámara: apaga la cámara y vuelve a la pantalla anterior. */
+function salirCamara(){
+  cerrarCamara();
+  ir(pantallaPrevia || 'inicio');
+}
+
+function cerrarCamara(){
+  escaneando = false;
+  if (flujo){ flujo.getTracks().forEach(function(t){ t.stop(); }); flujo = null; }
+  pista = null;
+  $('video').srcObject = null;
+  $('camara').classList.remove('activa');
+}
+
+function cambiarLinterna(){
+  if (!pista || !pista.applyConstraints) return;
+  var encendida = pista.getSettings && pista.getSettings().torch;
+  pista.applyConstraints({ advanced:[{ torch: !encendida }] }).catch(function(){});
+}
+
+function mirar(){
+  if (!escaneando) return;
+  var v = $('video');
+  if (v.readyState === v.HAVE_ENOUGH_DATA && v.videoWidth){
+    var c = $('lienzo'), ctx = c.getContext('2d', { willReadFrequently:true });
+    var escala = Math.min(1, 640 / v.videoWidth);
+    c.width = Math.round(v.videoWidth * escala);
+    c.height = Math.round(v.videoHeight * escala);
+    ctx.drawImage(v, 0, 0, c.width, c.height);
+    var img = ctx.getImageData(0, 0, c.width, c.height);
+    var codigo = jsQR(img.data, img.width, img.height, { inversionAttempts:'dontInvert' });
+    if (codigo && codigo.data){
+      if (navigator.vibrate) navigator.vibrate(80);
+      cerrarCamara();
+      consultar(codigo.data);
+      return;
+    }
+  }
+  requestAnimationFrame(mirar);
+}
+
+function manual(){
+  cerrarCamara();
+  var c = prompt('Código de la llave (por ejemplo LL-001):');
+  if (c) consultar(c);
+}
+
+// ------------------------------------------------ consulta y registro
+function idDe(texto){
+  var t = String(texto || '').trim();
+  var m = t.match(/[?&]id=([^&\s]+)/i);
+  if (m) return decodeURIComponent(m[1]).trim();
+  return t.replace(/^LLAVE\s*[:|]\s*/i, '').split('|')[0].trim();
+}
+
+function consultar(texto){
+  var id = idDe(texto);
+  if (!id) return;
+  cargando(true);
+  jsonp({ accion:'consultar', codigo:id }).then(function(r){
+    cargando(false);
+    var v = versionMal(r);
+    if (v){ fichaError(v); return; }
+    pintarFicha(r, false);
+  }).catch(function(){
+    cargando(false);
+    // Sin conexión: tiramos de la última copia descargada.
+    var k = (cache.llaves || []).filter(function(x){
+      return String(x.id).toUpperCase() === id.toUpperCase(); })[0];
+    if (k) pintarFicha({ ok:true, id:k.id, comunidad:k.comunidad, descripcion:k.descripcion,
+                         estado:'?', persona:k.persona || '', fechaSalida:k.fechaSalida || '',
+                         accion:'' }, true);
+    else fichaError('Sin conexión y no tengo guardada la llave «' + id + '».');
+  });
+}
+
+function fichaError(txt){
+  $('fichaDatos').innerHTML = '<div class="error">' + esc(txt) + '</div>';
+  $('fichaForm').innerHTML = '<button class="b b-azul" onclick="ir(\'inicio\');abrirCamara()">📷 Escanear otra</button>' +
+                             '<button class="b b-gris" onclick="ir(\'inicio\')">Inicio</button>';
+  ir('ficha');
+}
+
+function pintarFicha(r, offline){
+  if (!r.ok){ fichaError(r.error); return; }
+  llaveActual = r;
+  var fuera = (r.accion === 'ENTRADA');
+
+  $('fichaDatos').innerHTML =
+    '<div class="id">' + esc(r.referencia || r.id) + '</div>' +
+    '<div class="com">' + esc(r.comunidad) + '</div>' +
+    '<div class="des">' + esc(r.descripcion) + '</div>' +
+    (r.referencia ? '<div class="mini" style="margin-top:4px">Código ' + esc(r.id) + '</div>' : '') +
+    (offline ? '<div class="nota">Sin conexión. Elige tú el movimiento; se enviará en cuanto vuelva.</div>'
+      : '<div><span class="eti ' + (fuera ? 'e-fuera' : 'e-libre') + '">' +
+        (fuera ? 'FUERA' : 'DISPONIBLE') + '</span></div>' +
+        (fuera ? '<div class="nota">La tiene <b>' + esc(r.persona) + '</b> desde el ' +
+                 esc(r.fechaSalida) + '.</div>' : ''));
+
+  if (offline)      formularioOffline();
+  else if (fuera)   formularioEntrada();
+  else              formularioSalida();
+
+  ir('ficha');
+}
+
+function formularioSalida(){
+  $('fichaForm').innerHTML =
+    '<div class="tarjeta">' +
+      '<label>¿Quién se lleva la llave?</label>' +
+      '<input id="persona" list="lp" autocomplete="off" autocapitalize="words" placeholder="Nombre o empresa">' +
+      '<datalist id="lp">' + (cache.personas||[]).map(function(p){
+          return '<option value="' + esc(p) + '">'; }).join('') + '</datalist>' +
+      '<div class="chips" id="chips"></div>' +
+      '<label>Notas (opcional)</label>' +
+      '<textarea id="notas" placeholder="Motivo, teléfono, cuándo la devuelve…"></textarea>' +
+    '</div>' +
+    '<button class="b b-rojo b-grande" onclick="registrar(\'SALIDA\')">📤 SE LA LLEVA</button>' +
+    '<button class="b b-gris" onclick="ir(\'inicio\')">Cancelar</button>';
+  pintarChips();
+}
+
+function formularioEntrada(){
+  $('fichaForm').innerHTML =
+    '<button class="b b-verde b-grande" onclick="registrar(\'ENTRADA\')">✅ DEVUELTA</button>' +
+    '<div class="tarjeta"><label>Nota de la devolución (opcional)</label>' +
+    '<textarea id="notas" placeholder="Ej. devuelve el juego completo, faltaba una copia…"></textarea></div>' +
+    '<button class="b b-gris" onclick="ir(\'inicio\')">Cancelar</button>';
+}
+
+function formularioOffline(){
+  $('fichaForm').innerHTML =
+    '<div class="tarjeta">' +
+      '<label>Si se la llevan, ¿quién?</label>' +
+      '<input id="persona" autocomplete="off" autocapitalize="words" placeholder="Nombre o empresa">' +
+      '<div class="chips" id="chips"></div>' +
+      '<label>Notas (opcional)</label><textarea id="notas"></textarea>' +
+    '</div>' +
+    '<button class="b b-rojo" onclick="registrar(\'SALIDA\')">📤 Se la llevan</button>' +
+    '<button class="b b-verde" onclick="registrar(\'ENTRADA\')">✅ La devuelven</button>' +
+    '<button class="b b-gris" onclick="ir(\'inicio\')">Cancelar</button>';
+  pintarChips();
+}
+
+function pintarChips(){
+  var c = $('chips'), lista = cache.frecuentes || [];
+  if (!c || !lista.length) return;
+  c.innerHTML = lista.map(function(p,i){
+    return '<button class="chip" onclick="elegir(this,' + i + ')">' + esc(p) + '</button>';
+  }).join('');
+}
+
+function elegir(btn, i){
+  $('persona').value = (cache.frecuentes || [])[i];
+  var t = $('chips').getElementsByTagName('button');
+  for (var j = 0; j < t.length; j++) t[j].classList.remove('sel');
+  btn.classList.add('sel');
+}
+
+function registrar(mov){
+  var persona = $('persona') ? $('persona').value.trim() : '';
+  var notas   = $('notas') ? $('notas').value.trim() : '';
+  if (mov === 'SALIDA' && !persona){ alert('Escribe quién se lleva la llave.'); return; }
+
+  var botones = $('fichaForm').getElementsByTagName('button');
+  for (var i = 0; i < botones.length; i++) botones[i].disabled = true;
+  cargando(true);
+
+  var envio = { codigo: llaveActual.id, persona: persona, notas: notas, mov: mov };
+
+  jsonp({ accion:'registrar', codigo:envio.codigo, persona:envio.persona,
+          notas:envio.notas, mov:envio.mov }).then(function(r){
+    cargando(false);
+    var v = versionMal(r);
+    if (v){ fichaError(v); return; }
+    if (!r.ok){
+      for (var i = 0; i < botones.length; i++) botones[i].disabled = false;
+      $('fichaForm').insertAdjacentHTML('afterbegin', '<div class="error">' + esc(r.error) + '</div>');
+      return;
+    }
+    if (persona && (cache.frecuentes||[]).indexOf(persona) === -1) cache.frecuentes.unshift(persona);
+    guardar();
+    pintarResultado(r, false);
+  }).catch(function(){
+    cargando(false);
+    cola.push(envio); guardar();
+    pintarResultado({ accion:mov, id:llaveActual.id, comunidad:llaveActual.comunidad,
+                      descripcion:llaveActual.descripcion, persona:persona, hora:'' }, true);
+  });
+}
+
+function pintarResultado(r, pendiente){
+  var salida = (r.accion === 'SALIDA');
+  $('resContenido').innerHTML =
+    '<div class="tarjeta centro">' +
+      '<div class="icono">' + (pendiente ? '📥' : (salida ? '📤' : '✅')) + '</div>' +
+      '<h2 style="margin:8px 0 4px">' +
+        (pendiente ? 'Guardado en el móvil' : (salida ? 'Salida registrada' : 'Devolución registrada')) + '</h2>' +
+      (pendiente ? '<p class="mini" style="margin:0 0 12px">Se enviará a la hoja en cuanto haya conexión.</p>' : '') +
+      '<div class="id">' + esc(r.referencia || r.id) + '</div>' +
+      '<div class="com">' + esc(r.comunidad) + '</div>' +
+      '<div class="des">' + esc(r.descripcion) + '</div>' +
+      (r.notas ? '<div class="nota" style="text-align:left">' + esc(r.notas) + '</div>' : '') +
+      (r.persona ? '<p style="margin:14px 0 0"><b>' + esc(r.persona) + '</b><br>' +
+        '<span class="mini">' + esc(r.hora || '') + '</span>' +
+        (r.diasFuera !== '' && r.diasFuera != null && !salida
+          ? '<br><span class="mini">Estuvo fuera ' + esc(r.diasFuera) + ' días</span>' : '') + '</p>' : '') +
+    '</div>' +
+    '<button class="b b-azul b-grande" onclick="ir(\'inicio\');abrirCamara()">📷 Escanear otra</button>' +
+    '<button class="b b-gris" onclick="ir(\'inicio\')">Inicio</button>';
+  ir('resultado');
+}
+
+// ------------------------------------------------ pendientes de enviar
+function pintarCola(){
+  var h = '';
+  if (cola.length)
+    h += '<div class="aviso-cola" onclick="enviarCola()">' + cola.length +
+         ' registro' + (cola.length===1?'':'s') + ' sin enviar · toca para reintentar</div>';
+  (rechazados || []).forEach(function(x, i){
+    h += '<div class="error" style="margin-bottom:12px">No se pudo aplicar el registro de <b>' +
+         esc(x.codigo) + '</b> (' + (x.mov === 'SALIDA' ? 'salida' : 'devolución') + '): ' +
+         esc(x.error) + '<br><button class="b b-gris" style="margin-top:10px" ' +
+         'onclick="descartar(' + i + ')">Entendido</button></div>';
+  });
+  $('colaAviso').innerHTML = h;
+}
+
+function descartar(i){ rechazados.splice(i,1); guardar(); pintarCola(); }
+
+function enviarCola(){
+  if (!cola.length || !cfg.url) return;
+  var siguiente = cola[0];
+  jsonp({ accion:'registrar', codigo:siguiente.codigo, persona:siguiente.persona,
+          notas:siguiente.notas, mov:siguiente.mov }).then(function(r){
+    if (!r) return;
+    if (r.ok){
+      cola.shift();
+    } else {
+      // La hoja lo rechaza (por ejemplo, otro ya registró ese movimiento). Avisamos en vez de perderlo.
+      siguiente.error = r.error || 'Rechazado por la hoja.';
+      rechazados.push(cola.shift());
+    }
+    guardar(); pintarCola();
+    if (cola.length) enviarCola();
+  }).catch(function(){});
+}
+
+// ------------------------------------------------ llaves fuera
+function verFuera(){
+  cargando(true);
+  jsonp({ accion:'fuera' }).then(function(r){
+    cargando(false);
+    if (!r.ok){ alert(r.error); return; }
+    cache.llaves = r.llaves || []; guardar();
+    var l = r.llaves || [];
+    var h = '<h2 style="font-size:18px;margin:0 0 8px">' + l.length + ' fuera</h2>';
+    if (!l.length) h += '<p class="mini">No falta ninguna llave. 👍</p>';
+    l.forEach(function(f){
+      h += '<div class="fila"><b>' + esc(f.referencia || f.id) + ' · ' + esc(f.comunidad) + '</b>' +
+           esc(f.descripcion) + '<br>→ <b>' + esc(f.persona) + '</b> desde ' + esc(f.fechaSalida) +
+           (f.dias !== '' ? ' <span class="eti e-fuera">' + esc(f.dias) + ' d</span>' : '') + '</div>';
+    });
+    $('listaFuera').innerHTML = h;
+    ir('fuera');
+  }).catch(function(){
+    cargando(false);
+    alert('Sin conexión con la hoja.');
+  });
+}
+
+// ------------------------------------------------ funcionar sin red
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>
