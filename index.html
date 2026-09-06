@@ -256,25 +256,37 @@
     .navegacion{height:calc(var(--abajo) + 64px);padding-top:5px;padding-bottom:calc(var(--abajo) + 5px)}.navegacion .nav-escaneo{transform:translateY(-14px);width:52px;height:52px}
   }
 
-  /* Acceso: una bienvenida propia para el inicio con Google. */
+  /* Acceso rediseñado: hero fotográfico a sangre con corte diagonal y logo circular. */
+  body.sin-sesion .barra{display:none}
   body.sin-sesion .navegacion{display:none}
-  body.sin-sesion .pantalla{padding-bottom:calc(var(--abajo) + 28px)}
-  #pLogin.activa{display:flex;flex-direction:column;justify-content:center;gap:14px;padding-top:calc(var(--arriba) + 88px)}
-  .acceso-intro{position:relative;overflow:hidden;padding:12px 8px 9px}.acceso-intro:before{content:"";position:absolute;inset:-70px -90px auto auto;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(139,128,255,.25),transparent 68%);pointer-events:none}
-  .acceso-foto{position:relative;isolation:isolate;height:112px;margin:0 0 17px;border:1px solid rgba(191,199,233,.2);border-radius:21px;overflow:hidden;background:#111c36;box-shadow:0 14px 28px rgba(0,0,0,.20)}.acceso-foto:after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(11,18,35,.38),rgba(11,18,35,.06) 58%,rgba(11,18,35,.28))}.acceso-foto img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 48%;filter:saturate(.82) contrast(1.06)}.acceso-foto figcaption{position:absolute;z-index:2;left:14px;bottom:11px;margin:0;color:#fff;font-size:11px;font-weight:750;letter-spacing:.03em;text-shadow:0 1px 3px rgba(0,0,0,.55)}
-  .acceso-marca{width:64px;height:64px;border-radius:21px;box-shadow:0 14px 30px rgba(85,70,232,.28);position:relative}.acceso-kicker{display:inline-flex;align-items:center;gap:7px;margin-top:22px;color:#afa7ff;font-size:11px;font-weight:800;letter-spacing:.1em}.acceso-kicker:before{content:"";width:7px;height:7px;border:2px solid currentColor;border-radius:50%}
-  .acceso-intro h2{max-width:320px;margin:9px 0 8px;font-size:clamp(27px,8vw,34px);line-height:1.08;letter-spacing:-1.1px}.acceso-intro p{max-width:330px;margin:0;color:var(--ink-soft);font-size:15px;line-height:1.5}
-  .acceso-beneficios{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.acceso-beneficios span{padding:7px 10px;border-radius:99px;background:rgba(139,128,255,.13);border:1px solid rgba(139,128,255,.18);color:var(--ink-soft);font-size:11px;font-weight:700}
-  .acceso-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:21px 19px;box-shadow:var(--shadow)}.acceso-card .eyebrow{margin:0 0 6px;color:var(--primary);font-size:10px;font-weight:800;letter-spacing:.11em}.acceso-card h3{margin:0;font-size:19px;letter-spacing:-.35px}.acceso-card > p:last-of-type{margin:5px 0 18px;color:var(--ink-soft);font-size:13px;line-height:1.45}
+  #pLogin{padding:0!important;background:var(--canvas)}
+  #pLogin.activa{display:block}
+  .acceso-hero{position:relative;height:46vh;min-height:262px;max-height:430px;background:#0d1427;overflow:hidden}
+  .acceso-hero>img{width:100%;height:100%;object-fit:cover;object-position:52% 40%;filter:saturate(.92) contrast(1.05)}
+  .acceso-hero:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(13,20,39,.20),rgba(13,20,39,.05) 42%,rgba(13,20,39,.34))}
+  .acceso-kick{position:absolute;left:22px;top:calc(var(--arriba) + 20px);z-index:3;display:inline-flex;align-items:center;gap:8px;color:#fff;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.55)}
+  .acceso-kick:before{content:"";width:8px;height:8px;border:2px solid currentColor;border-radius:50%}
+  .acceso-lamina{position:absolute;left:0;right:0;bottom:-1px;height:72px;background:var(--canvas);z-index:2;clip-path:polygon(0 46%,100% 0,100% 101%,0 101%)}
+  .acceso-marca{position:relative;z-index:4;display:block;width:82px;height:82px;margin:-46px auto 0;border-radius:27px;box-shadow:0 16px 34px rgba(85,70,232,.34);border:4px solid var(--canvas)}
+  .acceso-cuerpo{padding:14px 22px calc(var(--abajo) + 30px);text-align:center;max-width:520px;margin:0 auto}
+  .acceso-cuerpo h2{margin:6px 0 9px;font-size:clamp(24px,7.6vw,31px);letter-spacing:-.9px;line-height:1.08}
+  .acceso-lema{margin:0 auto 17px;max-width:300px;color:var(--ink-soft);font-size:14.5px;line-height:1.5}
+  .acceso-beneficios{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+  .acceso-beneficios span{padding:8px 13px;border-radius:99px;background:rgba(85,70,232,.08);border:1px solid rgba(85,70,232,.16);color:var(--primary-deep);font-size:11.5px;font-weight:750;display:inline-flex;align-items:center;gap:6px}
+  .acceso-beneficios span:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint)}
+  .acceso-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px 20px;box-shadow:var(--shadow);text-align:center}.acceso-card .eyebrow{margin:0 0 6px;color:var(--primary);font-size:10px;font-weight:800;letter-spacing:.12em}.acceso-card h3{margin:0;font-size:20px;letter-spacing:-.4px}.acceso-card > p{margin:6px 0 16px;color:var(--ink-soft);font-size:13px;line-height:1.45}
   .google-marco{min-height:52px;display:flex;align-items:center;justify-content:center;padding:5px;border-radius:16px;background:#f8f9ff;border:1px solid var(--line)}
-  .cuenta-secundaria{margin:0!important;background:transparent!important;border:0!important;box-shadow:none!important;color:var(--primary)!important;font-size:14px!important}.legal-acceso{margin:0 12px;text-align:center;color:var(--ink-soft);font-size:11px;line-height:1.45}
+  .cuenta-secundaria{margin:14px 0 0!important;background:transparent!important;border:0!important;box-shadow:none!important;color:var(--primary)!important;font-size:14px!important}.legal-acceso{margin:12px auto 0;max-width:320px;text-align:center;color:var(--ink-soft);font-size:11px;line-height:1.45}
+  #cajaSolicitud{text-align:left;margin-top:14px}
   .sin-sesion .barra button[onclick="verFuera()"],.sin-sesion #btnSolicitudes{display:none!important}
+  @media (max-width:359px){.acceso-hero{min-height:236px}.acceso-marca{width:74px;height:74px;margin-top:-42px}.acceso-cuerpo{padding-left:18px;padding-right:18px}}
+  @media (orientation:landscape) and (max-height:560px){.acceso-hero{height:40vh;min-height:172px}.acceso-marca{width:70px;height:70px;margin-top:-40px}.acceso-cuerpo{padding-top:8px}}
 
   /* Navegación posterior al acceso: dock compacto y elevado. */
   .navegacion{left:50%;right:auto;bottom:calc(var(--abajo) + 12px);width:min(calc(100% - 28px),560px);height:68px;transform:translateX(-50%);padding:7px 9px;background:rgba(25,37,69,.96);border:1px solid rgba(178,188,231,.15);border-radius:25px;box-shadow:0 16px 34px rgba(0,0,0,.26);backdrop-filter:blur(18px);align-items:center}
   .navegacion button{height:52px;min-width:0!important;padding:5px 2px;justify-content:center;gap:3px;color:#b6bfd8}.navegacion .nav-icono{width:21px;height:21px;font-size:0;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}.navegacion .nav-label{font-size:9px;line-height:1;font-weight:750;letter-spacing:.01em}.navegacion button.activo{color:#fff}.navegacion button.activo .nav-icono{stroke:#a79fff}
   .navegacion .nav-escaneo{flex:0 0 60px;width:60px;height:60px;transform:translateY(-18px);border-radius:21px;background:linear-gradient(145deg,#9a90ff,#6b59ee);color:#fff;box-shadow:0 12px 26px rgba(104,84,239,.45)}.navegacion .nav-escaneo .nav-icono{width:25px;height:25px;stroke:#fff}.navegacion .nav-escaneo .nav-label{display:none}
-  @media (max-width:359px){.acceso-foto{height:92px;margin-bottom:13px}.navegacion{width:calc(100% - 20px);height:64px;bottom:calc(var(--abajo) + 9px);padding:6px}.navegacion .nav-escaneo{width:56px;height:56px;flex-basis:56px;transform:translateY(-16px);border-radius:19px}.navegacion .nav-label{font-size:8px}}
+  @media (max-width:359px){.navegacion{width:calc(100% - 20px);height:64px;bottom:calc(var(--abajo) + 9px);padding:6px}.navegacion .nav-escaneo{width:56px;height:56px;flex-basis:56px;transform:translateY(-16px);border-radius:19px}.navegacion .nav-label{font-size:8px}}
   @media (max-width:279px){.navegacion button:not(.nav-escaneo) .nav-label{display:none}.navegacion button:not(.nav-escaneo){height:46px}.navegacion .nav-escaneo{width:50px;height:50px;flex-basis:50px;transform:translateY(-13px)}}
   @media (orientation:landscape) and (max-height:560px){.navegacion{height:58px;bottom:calc(var(--abajo) + 7px)}.navegacion .nav-escaneo{width:52px;height:52px;flex-basis:52px;transform:translateY(-14px);border-radius:18px}.navegacion .nav-label{display:none}}
 </style>
@@ -294,25 +306,24 @@
 
 <!-- ============ ACCESO ============ -->
 <div class="pantalla" id="pLogin">
-  <section class="acceso-intro" aria-labelledby="tituloAcceso">
-    <figure class="acceso-foto">
-      <img src="recursos/entrega-llaves.png" alt="Entrega de unas llaves entre dos personas">
-      <figcaption>El control empieza en la entrega.</figcaption>
-    </figure>
-    <img class="acceso-marca" src="marca-nexo.svg" alt="">
-    <div class="acceso-kicker">Acceso seguro</div>
+  <div class="acceso-hero">
+    <img src="recursos/acceso-llaves.jpg" alt="Entrega de una llave entre dos personas">
+    <div class="acceso-kick">Acceso seguro</div>
+    <div class="acceso-lamina"></div>
+  </div>
+  <img class="acceso-marca" src="marca-nexo.svg" alt="Nexo QR">
+  <div class="acceso-cuerpo">
     <h2 id="tituloAcceso">Tu jornada empieza aquí.</h2>
-    <p>Escanea, registra y consulta cada movimiento de llaves desde un único lugar.</p>
+    <p class="acceso-lema">Escanea, registra y consulta cada movimiento de llaves desde un único lugar.</p>
     <div class="acceso-beneficios"><span>Registro al instante</span><span>Datos protegidos</span></div>
-  </section>
-  <section class="acceso-card" aria-label="Acceso con cuenta de trabajo">
-    <p class="eyebrow">CUENTA DE TRABAJO</p>
-    <h3>Continúa con Google</h3>
-    <p>Usa la cuenta autorizada por tu administración.</p>
-    <div class="google-marco"><div id="botonGoogle"></div></div>
-  </section>
-  <button class="b cuenta-secundaria" onclick="mostrarSolicitudAcceso()" id="btnMostrarSolicitud">¿Aún no tienes acceso? Solicitar cuenta</button>
-  <p class="legal-acceso">Al continuar, accedes únicamente a la información asignada a tu cuenta.</p>
+    <section class="acceso-card" aria-label="Acceso con cuenta de trabajo">
+      <p class="eyebrow">CUENTA DE TRABAJO</p>
+      <h3>Continúa con Google</h3>
+      <p>Usa la cuenta autorizada por tu administración.</p>
+      <div class="google-marco"><div id="botonGoogle"></div></div>
+    </section>
+    <button class="b cuenta-secundaria" onclick="mostrarSolicitudAcceso()" id="btnMostrarSolicitud">¿Aún no tienes acceso? Solicitar cuenta</button>
+    <p class="legal-acceso">Al continuar, accedes únicamente a la información asignada a tu cuenta.</p>
 
   <div class="tarjeta" id="cajaSolicitud" style="display:none">
     <label>Tu correo de Google</label>
@@ -324,6 +335,7 @@
   </div>
 
   <div id="accEstado"></div>
+  </div>
 </div>
 
 <!-- ============ SOLICITUDES (admin) ============ -->
@@ -434,7 +446,7 @@
   <button data-nav="fuera" onclick="verFuera()" aria-label="Actividad"><svg class="nav-icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7v5l3.5 2"/></svg><span class="nav-label">Actividad</span></button>
   <button class="nav-escaneo" onclick="abrirCamara()" aria-label="Escanear una llave"><svg class="nav-icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M21 16v3a2 2 0 0 1-2 2h-3M3 16v3a2 2 0 0 0 2 2h3"/><path d="M8 9h8M8 12h8M8 15h8"/></svg><span class="nav-label">Escanear</span></button>
   <button data-nav="herramientas" onclick="ir('herramientas')" aria-label="Herramientas"><svg class="nav-icono" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><rect x="14" y="14" width="6" height="6" rx="1"/></svg><span class="nav-label">Herramientas</span></button>
-  <button data-nav="ajustes" onclick="ir('ajustes')" aria-label="Perfil"><svg class="nav-icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21c.8-4 3.1-6 7-6s6.2 2 7 6"/></svg><span class="nav-label">Perfil</span></button>
+  <button data-nav="ajustes" onclick="ir('ajustes')" aria-label="Perfil"><svg class="nav-icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7.5" r="4"/><path d="M4 20.5a8 8 0 0 1 16 0"/></svg><span class="nav-label">Perfil</span></button>
 </nav>
 
 <script src="jsQR.js"></script>
