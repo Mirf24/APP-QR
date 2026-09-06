@@ -275,7 +275,14 @@
   .acceso-beneficios span{padding:8px 13px;border-radius:99px;background:rgba(85,70,232,.08);border:1px solid rgba(85,70,232,.16);color:var(--primary-deep);font-size:11.5px;font-weight:750;display:inline-flex;align-items:center;gap:6px}
   .acceso-beneficios span:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--mint)}
   .acceso-card{background:var(--surface);border:1px solid var(--line);border-radius:24px;padding:22px 20px;box-shadow:var(--shadow);text-align:center}.acceso-card .eyebrow{margin:0 0 6px;color:var(--primary);font-size:10px;font-weight:800;letter-spacing:.12em}.acceso-card h3{margin:0;font-size:20px;letter-spacing:-.4px}.acceso-card > p{margin:6px 0 16px;color:var(--ink-soft);font-size:13px;line-height:1.45}
-  .google-marco{min-height:52px;display:flex;align-items:center;justify-content:center;padding:5px;border-radius:16px;background:#f8f9ff;border:1px solid var(--line)}
+  /* Botón de Google con el estilo de la app: se ve el nuestro y el de Google (real,
+     invisible) queda encima recibiendo el clic, para no perder el token de identidad. */
+  .google-boton{position:relative;width:100%;height:54px;border-radius:16px;overflow:hidden;margin-top:4px}
+  .gbtn{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:11px;border:0;border-radius:16px;background:linear-gradient(145deg,#6152ee,#4a39d6);color:#fff;font:700 15px/1 inherit;letter-spacing:-.1px;box-shadow:0 12px 24px rgba(85,70,232,.28);pointer-events:none;z-index:1}
+  .gbtn:before{content:"";position:absolute;left:0;right:0;top:0;height:50%;border-radius:16px 16px 0 0;background:linear-gradient(180deg,rgba(255,255,255,.16),transparent)}
+  .gbtn .gicon{position:relative;width:28px;height:28px;border-radius:8px;background:#fff;display:grid;place-items:center;flex:none;font:800 16px/1 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:#4285f4;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+  #botonGoogle{position:absolute;inset:0;z-index:2;opacity:0;display:flex;align-items:center;justify-content:center}
+  #botonGoogle iframe{transform:scale(1.45,1.9)!important;transform-origin:center}
   .cuenta-secundaria{margin:14px 0 0!important;background:transparent!important;border:0!important;box-shadow:none!important;color:var(--primary)!important;font-size:14px!important}.legal-acceso{margin:12px auto 0;max-width:320px;text-align:center;color:var(--ink-soft);font-size:11px;line-height:1.45}
   #cajaSolicitud{text-align:left;margin-top:14px}
   .sin-sesion .barra button[onclick="verFuera()"],.sin-sesion #btnSolicitudes{display:none!important}
@@ -320,7 +327,10 @@
       <p class="eyebrow">CUENTA DE TRABAJO</p>
       <h3>Continúa con Google</h3>
       <p>Usa la cuenta autorizada por tu administración.</p>
-      <div class="google-marco"><div id="botonGoogle"></div></div>
+      <div class="google-boton">
+        <button type="button" class="gbtn" aria-hidden="true" tabindex="-1"><span class="gicon">G</span>Continuar con Google</button>
+        <div id="botonGoogle"></div>
+      </div>
     </section>
     <button class="b cuenta-secundaria" onclick="mostrarSolicitudAcceso()" id="btnMostrarSolicitud">¿Aún no tienes acceso? Solicitar cuenta</button>
     <p class="legal-acceso">Al continuar, accedes únicamente a la información asignada a tu cuenta.</p>
@@ -604,8 +614,14 @@ function actualizarBotonSolicitudes(){
 function iniciarGoogle(intentos){
   if (window.google && google.accounts && google.accounts.id){
     google.accounts.id.initialize({ client_id: CLIENTE_ID_WEB, callback: alRecibirCredencialGoogle });
-    google.accounts.id.renderButton(document.getElementById('botonGoogle'),
-      { theme:'filled_blue', size:'large', text:'signin_with', locale:'es' });
+    var cont = document.getElementById('botonGoogle');
+    var anchoCaja = cont && cont.parentNode ? cont.parentNode.offsetWidth : 300;
+    var ancho = Math.max(200, Math.min(400, Math.round(anchoCaja || 300)));
+    // El botón real de Google se dibuja aquí pero queda invisible encima del nuestro
+    // (ver .google-boton en el CSS): así conservamos el token de identidad para el Portero.
+    google.accounts.id.renderButton(cont,
+      { type:'standard', theme:'filled_blue', size:'large', text:'continue_with',
+        shape:'rectangular', logo_alignment:'center', width:ancho });
     return;
   }
   if ((intentos||0) < 40){ setTimeout(function(){ iniciarGoogle((intentos||0)+1); }, 250); return; }
