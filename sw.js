@@ -1,11 +1,12 @@
 /* Guarda la app en el móvil para que abra al instante y funcione sin cobertura. */
-const CACHE = 'nexo-qr-v1';
+const CACHE = 'nexo-qr-v2';
 const ARCHIVOS = [
   './',
   './index.html',
   './jsQR.js',
   './manifest.webmanifest',
-  './marca-nexo.svg'
+  './marca-nexo.svg',
+  './recursos/entrega-llaves.png'
 ];
 
 self.addEventListener('install', e => {
