@@ -179,7 +179,7 @@ function tipoIcon(t){ if(t==='documento'||t==='doc') return {i:IC.doc,bg:'rgba(2
 var sb = null;
 var S = { me:null, empresa:null, viewEmpresaId:null, tab:'home',
   recursos:[], tareas:[], equipo:[], solicitudes:[], historial:[], empresas:[],
-  seg:'Todos', query:'', settings:false, scan:false, scanRecurso:null };
+  seg:'Todos', query:'', settings:false, scan:false, scanRecurso:null, empresasOpen:false };
 
 function empresaActivaId(){ return S.viewEmpresaId || (S.me && S.me.empresa_id) || null; }
 function esSuper(){ return S.me && S.me.rol_plataforma === 'superadmin'; }
@@ -202,11 +202,16 @@ async function boot(session){
     if(!session){ S.me=null; render(); return; }
     S.me = await cargarPerfil(session.user);
     if(!S.me){ render(); return; }
-    if(esSuper() && !S.viewEmpresaId){ await cargarEmpresas(); render(); return; }
+    if(esSuper()){
+      await cargarEmpresas();
+      if(!S.viewEmpresaId && S.empresas.length) S.viewEmpresaId = S.empresas[0].id;
+      if(S.viewEmpresaId){ await cargarEmpresa(S.viewEmpresaId); await cargarDatosEmpresa(S.viewEmpresaId); }
+      render(); return;
+    }
     var eid = empresaActivaId();
     if(!eid){ render(); return; }              /* usuario sin empresa -> unirse */
     await cargarEmpresa(eid);
-    if(!esSuper() && S.empresa && S.empresa.estado_suscripcion === 'standby'){ render(); return; }
+    if(S.empresa && S.empresa.estado_suscripcion === 'standby'){ render(); return; }
     await cargarDatosEmpresa(eid);
     render();
   }catch(err){ console.error(err); flash('Error: '+(err.message||err)); render(); }
@@ -301,8 +306,8 @@ async function boot_current(){ var s=await sb.auth.getSession(); boot(s.data.ses
 function render(){
   var app=$('app');
   if(!S.me){ app.innerHTML = vLogin(); wireLogin(); return; }
-  if(esSuper() && !S.viewEmpresaId){ app.innerHTML = vSuper(); return; }
-  if(!empresaActivaId()){ app.innerHTML = vUnirse(); cargarEmpresas().then(pintarEmpresas); return; }
+  if(esSuper() && !empresaActivaId()){ app.innerHTML = vSuperVacio(); return; }
+  if(!esSuper() && !empresaActivaId()){ app.innerHTML = vUnirse(); cargarEmpresas().then(pintarEmpresas); return; }
   if(!esSuper() && S.empresa && S.empresa.estado_suscripcion==='standby'){ app.innerHTML = vStandby(); return; }
   app.innerHTML = vApp();
   wireApp();
@@ -356,32 +361,68 @@ function vStandby(){
     '<button class="btn btn-ghost" style="width:auto;padding:13px 24px;margin-top:8px" onclick="salir()">Cerrar sesión</button></div>';
 }
 
-/* ---- SUPERADMIN ---- */
-function vSuper(){
-  var rows=(S.empresas||[]).map(function(e){
-    var sb_=e.estado_suscripcion||'activa';
-    var col = sb_==='standby'?'#FF3B30':(sb_==='activa'?'#34C759':'var(--muted)');
-    return '<div class="row" onclick="verEmpresa(\''+e.id+'\')" style="cursor:pointer">'+
-      '<span class="avatar" style="width:38px;height:38px;font-size:14px">'+esc(iniciales(e.nombre))+'</span>'+
-      '<div style="flex:1;min-width:0"><div style="font-size:16px;letter-spacing:-.25px">'+esc(e.nombre)+'</div>'+
-      '<div class="muted" style="font-size:13px;margin-top:1px">'+esc(sb_)+'</div></div>'+
-      '<span class="pill" style="color:'+col+';background:rgba(120,120,128,.12)">●</span></div>';
-  }).join('');
+/* ---- SUPERADMIN: sin empresas todavía ---- */
+function vSuperVacio(){
   return '<div class="scroll topfade" style="padding-bottom:40px">'+
     '<div class="home-head"><div><div class="brandmini">'+isotipo(19)+'<span style="font-size:13px;font-weight:600">Avanza</span></div>'+
-      '<div class="muted" style="font-size:15px">Panel de control</div>'+
-      '<div class="h1" style="margin-top:2px">Superadmin</div></div>'+
+      '<div class="muted" style="font-size:15px">Superadmin</div>'+
+      '<div class="h1" style="margin-top:2px">Empresas</div></div>'+
       '<button class="avatar" style="width:38px;height:38px;font-size:14px;border:none;margin-top:6px" onclick="salir()">'+esc(iniciales(S.me.email))+'</button></div>'+
-    '<div class="over-label" style="padding:26px 20px 8px">Empresas ('+(S.empresas||[]).length+')</div>'+
-    '<div class="card" style="margin:0 20px">'+(rows||'<div class="row muted" style="justify-content:center">Aún no hay empresas</div>')+'</div>'+
-    '<div class="muted" style="font-size:13px;padding:14px 24px">Acceso total: entra en cualquier empresa para ver y gestionar sus tareas y activos.</div></div>';
+    '<div class="card" style="margin:20px 20px 0;padding:18px">'+
+      '<div style="font-size:17px;font-weight:700">Crea tu primera empresa</div>'+
+      '<div class="muted" style="font-size:14px;margin:4px 0 14px">Se creará con unos recursos de ejemplo para que puedas probar la app al momento.</div>'+
+      '<input id="nuevaEmpresa" placeholder="Nombre de la empresa" style="width:100%;border:1px solid var(--sep);border-radius:12px;padding:13px;font-size:16px;outline:none">'+
+      '<button class="btn btn-dark" style="margin-top:10px" onclick="crearEmpresaDemo()">Crear empresa</button></div></div>';
 }
+
+/* ---- SUPERADMIN: hoja de gestión de empresas (cambiar / crear) ---- */
+function abrirEmpresas(){ S.empresasOpen=true; render(); }
+function vEmpresas(){
+  var rows=(S.empresas||[]).map(function(e){
+    var actual=e.id===S.viewEmpresaId; var st=e.estado_suscripcion||'activa';
+    return '<div class="row" onclick="cambiarEmpresa(\''+e.id+'\')" style="cursor:pointer">'+
+      '<span class="avatar" style="width:36px;height:36px;font-size:13px">'+esc(iniciales(e.nombre))+'</span>'+
+      '<div style="flex:1;min-width:0"><div style="font-size:16px;letter-spacing:-.25px">'+esc(e.nombre)+'</div>'+
+      '<div class="muted" style="font-size:13px">'+esc(st)+'</div></div>'+
+      (actual?'<span style="color:var(--amber);font-size:17px">✓</span>':'')+'</div>';
+  }).join('');
+  return '<div class="overlay" style="background:var(--bg)">'+
+    '<div style="flex:none;padding:calc(var(--safe-t) + 12px) 20px 10px;background:rgba(249,249,249,.9);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border-bottom:1px solid var(--sep);display:flex;align-items:center;justify-content:space-between">'+
+      '<span style="font-size:17px;font-weight:600">Empresas</span>'+
+      '<button onclick="S.empresasOpen=false;render()" style="border:none;background:none;font-size:17px;color:var(--amber)">Listo</button></div>'+
+    '<div class="scroll" style="position:relative;flex:1;padding:16px 0 40px">'+
+      '<div class="over-label" style="padding:6px 20px 8px">Cambiar de empresa ('+(S.empresas||[]).length+')</div>'+
+      '<div class="card" style="margin:0 20px">'+(rows||'<div class="row muted" style="justify-content:center">Sin empresas</div>')+'</div>'+
+      '<div class="over-label" style="padding:26px 20px 8px">Nueva empresa</div>'+
+      '<div class="card" style="margin:0 20px;padding:16px">'+
+        '<input id="nuevaEmpresa" placeholder="Nombre de la empresa" style="width:100%;border:1px solid var(--sep);border-radius:12px;padding:13px;font-size:16px;outline:none">'+
+        '<button class="btn btn-dark" style="margin-top:10px" onclick="crearEmpresaDemo()">Crear (con recursos demo)</button></div>'+
+      '<div class="muted" style="font-size:13px;padding:14px 24px">Solo tú (superadmin) ves esta pantalla. Entra en cualquier empresa para gestionar sus tareas y activos como un usuario normal.</div>'+
+    '</div></div>';
+}
+window.cambiarEmpresa=function(eid){ S.viewEmpresaId=eid; S.empresasOpen=false; S.tab='home'; boot_current(); };
+window.crearEmpresaDemo=async function(){
+  var el=$('nuevaEmpresa'); var nom=el?(el.value||'').trim():'';
+  if(!nom){ flash('Escribe un nombre para la empresa'); return; }
+  cargando(true);
+  var ins=await sb.from('empresas').insert({ nombre:nom, estado_suscripcion:'activa' }).select().maybeSingle();
+  if(!ins.data){ cargando(false); flash('No se pudo crear: '+((ins.error&&ins.error.message)||'')); return; }
+  var eid=ins.data.id;
+  await sb.from('recursos').insert([
+    {empresa_id:eid,tipo:'llave',nombre:'Llave · Almacén 3'},
+    {empresa_id:eid,tipo:'llave',nombre:'Llave · Furgoneta 2'},
+    {empresa_id:eid,tipo:'material',nombre:'Taladro percutor'},
+    {empresa_id:eid,tipo:'documento',nombre:'Contrato obra Sur'}]);
+  S.viewEmpresaId=eid; S.empresasOpen=false; S.tab='home';
+  flash('Empresa "'+nom+'" creada');
+  boot_current();
+};
 
 /* ---- APP (con pestañas) ---- */
 function vApp(){
   var body = S.tab==='home'?vHome():S.tab==='tasks'?vTasks():S.tab==='assets'?vAssets():vTeam();
   return '<div class="scroll" style="padding:calc(var(--safe-t) + 8px) 0 118px">'+body+'</div>'+ vTabbar()+
-    (S.settings?vSettings():'')+(S.scan?vScan():'');
+    (S.settings?vSettings():'')+(S.scan?vScan():'')+(S.empresasOpen?vEmpresas():'');
 }
 function vTabbar(){
   function tb(key,ic,lab){ return '<button class="'+(S.tab===key?'on':'')+'" onclick="S.tab=\''+key+'\';S.settings=false;render()">'+ic+'<span class="lab">'+lab+'</span></button>'; }
@@ -406,8 +447,11 @@ function vHome(){
   return '<div class="home-head"><div>'+
       '<div class="brandmini">'+isotipo(19)+'<span style="font-size:13px;font-weight:600">Avanza</span></div>'+
       '<div class="muted" style="font-size:15px">Hola, '+esc(nombre)+'</div>'+
-      '<div class="h1" style="margin-top:2px">'+esc(S.empresa?S.empresa.nombre:'')+'</div></div>'+
-      '<button class="avatar" style="width:38px;height:38px;font-size:14px;border:none;margin-top:6px" onclick="S.settings=true;render()">'+esc(iniciales(S.me.email))+'</button></div>'+
+      '<div class="h1" style="margin-top:2px">'+esc(S.empresa?S.empresa.nombre:'')+'</div>'+
+      (esSuper()?'<div class="muted" style="font-size:12.5px;margin-top:2px">Superadmin · toca 🏢 para cambiar o crear empresa</div>':'')+'</div>'+
+      '<div style="display:flex;gap:8px;margin-top:6px">'+
+        (esSuper()?'<button aria-label="Empresas" style="width:38px;height:38px;border:1px solid var(--sep);border-radius:19px;background:#fff;font-size:17px" onclick="abrirEmpresas()">🏢</button>':'')+
+        '<button class="avatar" style="width:38px;height:38px;font-size:14px;border:none" onclick="S.settings=true;render()">'+esc(iniciales(S.me.email))+'</button></div></div>'+
     '<div class="kpis">'+
       '<div class="kpi"><b>'+st.pend+'</b><span>Tareas hoy</span></div>'+
       '<div class="kpi"><b style="color:var(--green)">'+st.hechas+'</b><span>Completadas</span></div>'+
@@ -534,7 +578,7 @@ function vSettings(){
           '<div class="muted" style="font-size:14px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(S.me.email)+'</div></div></div>'+
         '<span class="pill" style="display:inline-block;margin-top:12px;color:var(--ink);background:rgba(23,24,26,.1)">'+rol+(S.empresa?' · '+esc(S.empresa.nombre):'')+'</span></div>'+
       adminBlock+
-      (esSuper()?'<div style="padding:26px 20px 0"><button class="btn btn-ghost" onclick="volverPanel()">← Volver al panel de empresas</button></div>':'')+
+      (esSuper()?'<div style="padding:26px 20px 0"><button class="btn btn-ghost" onclick="S.settings=false;abrirEmpresas()">🏢 Gestionar empresas</button></div>':'')+
       '<div class="card" style="margin:26px 20px 0"><button onclick="salir()" style="width:100%;border:none;background:none;padding:15px;display:flex;flex-direction:column;align-items:center;gap:2px">'+
         '<span style="font-size:17px;font-weight:600;color:#FF3B30">Cerrar sesión</span><span class="muted" style="font-size:13px">'+esc(S.me.email)+'</span></button></div>'+
     '</div></div>';

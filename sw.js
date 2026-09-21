@@ -1,43 +1,34 @@
-/* Guarda la app en el móvil para que abra al instante y funcione sin cobertura. */
-const CACHE = 'nexo-qr-v6';
-const ARCHIVOS = [
-  './',
-  './index.html',
-  './jsQR.js',
-  './manifest.webmanifest',
-  './marca-nexo.svg',
-  './recursos/acceso-llaves.jpg'
-];
+/* Avanza — service worker.
+   Borra la caché de la app anterior (Nexo QR / Control de Llaves) y sirve
+   siempre la versión más reciente (network-first). Solo gestiona los archivos
+   propios del sitio; no intercepta Supabase ni los CDN. */
+const CACHE = 'avanza-v1';
 
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ARCHIVOS)).then(() => self.skipWaiting()));
+self.addEventListener('install', function (e) { self.skipWaiting(); });
+
+self.addEventListener('activate', function (e) {
+  e.waitUntil((async function () {
+    var keys = await caches.keys();
+    await Promise.all(keys.map(function (k) { return caches.delete(k); })); // limpia TODO lo viejo
+    await self.clients.claim();
+  })());
 });
 
-self.addEventListener('activate', e => {
-  e.waitUntil(
-    caches.keys()
-      .then(ns => Promise.all(ns.filter(n => n !== CACHE).map(n => caches.delete(n))))
-      .then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', e => {
-  const url = new URL(e.request.url);
-
-  // Las llamadas a la hoja de cálculo nunca se guardan: siempre datos frescos.
-  if (url.hostname.indexOf('google.com') !== -1) return;
-  if (e.request.method !== 'GET') return;
-
-  e.respondWith(
-    caches.match(e.request).then(guardado => {
-      const red = fetch(e.request).then(resp => {
-        if (resp && resp.status === 200 && resp.type === 'basic'){
-          const copia = resp.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copia));
-        }
-        return resp;
-      }).catch(() => guardado);
-      return guardado || red;
-    })
-  );
+self.addEventListener('fetch', function (e) {
+  var url;
+  try { url = new URL(e.request.url); } catch (err) { return; }
+  if (e.request.method !== 'GET' || url.origin !== self.location.origin) return; // deja pasar CDN y Supabase
+  e.respondWith((async function () {
+    try {
+      var fresh = await fetch(e.request);
+      if (fresh && fresh.status === 200) {
+        var c = await caches.open(CACHE);
+        c.put(e.request, fresh.clone());
+      }
+      return fresh;
+    } catch (err) {
+      var cached = await caches.match(e.request);
+      return cached || new Response('', { status: 504 });
+    }
+  })());
 });
